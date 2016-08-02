@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Init</title>
+
+    <script>
+         function dbInsert(){
+            alert("11111111");
+            EminBridge.executePlugin("DatabasePlugin");
+         }
+
+         function helloBridge(){
+            var result = EminBridge.helloBridge();
+            alert("result:" + result);
+         }
+
+         function next(){
+            window.open();
+         }
+
+      </script>
+</head>
+
+<body>
+<button type="button" id="button1" onclick="dbInsert()">DbPlugin insert</button>
+<br/>
+<br/>
+<button type="button" id="button2" onclick="helloBridge()">helloBridge</button>
+<br/>
+<br/>
+<button type="button" id="button3" onclick="next()">next</button>
+</body>
+
+</html>

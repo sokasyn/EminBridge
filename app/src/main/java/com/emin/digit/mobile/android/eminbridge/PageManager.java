@@ -32,8 +32,8 @@ public class PageManager {
     }
 
     // web层javascript调用到这个方法就成功了！
-    public static void invokePlugin(){
-        BridgeManager.executePlugin();
+    public static void invokePlugin(String pluginName){
+        EminBridge.executePlugin(pluginName);
     }
 
 }

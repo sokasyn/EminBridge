@@ -1,5 +1,7 @@
 package com.emin.digit.mobile.android.eminbridge.plugin;
 
+import android.webkit.JavascriptInterface;
+
 import com.emin.digit.mobile.android.eminbridge.framework.EmDatabase;
 
 /**
@@ -7,8 +9,9 @@ import com.emin.digit.mobile.android.eminbridge.framework.EmDatabase;
  */
 public class DatabasePlugin {
 
-    public static void insert(){
-        System.out.println("DatabasePlugin insert called..");
+    @JavascriptInterface
+    public static void insert(String arg){
+        System.out.println("DatabasePlugin insert called..arg" + arg);
         EmDatabase.insert();
     }
 }
