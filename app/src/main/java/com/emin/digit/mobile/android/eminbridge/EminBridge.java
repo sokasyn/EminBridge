@@ -96,12 +96,21 @@ public class EminBridge {
     public static DatabasePlugin dbPlugin = new DatabasePlugin();
     public GPSPlugin GPSPlugin = new GPSPlugin();
 
-    public class CameraPlugin{
+    @JavascriptInterface
+    public static DatabasePlugin getDbPlugin() {
+        return dbPlugin;
+    }
 
-        @JavascriptInterface
-        public void takePhoto(){
-            debugLog("take photo..");
-        }
+    public static void setDbPlugin(DatabasePlugin dbPlugin) {
+        EminBridge.dbPlugin = dbPlugin;
+    }
+
+    public com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin getGPSPlugin() {
+        return GPSPlugin;
+    }
+
+    public void setGPSPlugin(com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin GPSPlugin) {
+        this.GPSPlugin = GPSPlugin;
     }
 
     private static void debugLog(String info){
