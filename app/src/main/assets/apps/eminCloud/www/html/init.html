@@ -3,33 +3,74 @@
 <head>
     <meta charset="utf-8">
     <title>Init</title>
-
+    <!--<script type="text/javascript" charset="utf-8" src="../js/dbPlugin.js"></script>-->
     <script>
-         function dbInsert(){
-            alert("11111111");
-            EminBridge.executePlugin("DatabasePlugin");
+         function insertData(){
+            alert("name333:" + name);
+
+            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin";
+            var methodName = "insert";
+            var argument = "insert into t_user values(1,'a')";
+
+            //EminBridge.execSyncPlugin(pluginName,methodName,argument);
+
+            //EminBridge.dp.insert("666666");
+            /*
+            for (var obj in window) {
+                console.log(obj);
+                if(obj == "EminBridge"){
+                    console.log("Find EminBridge object");
+
+                    for(var o in obj){
+                        console.log(o);
+                    }
+                    break;
+                }
+            }*/
+
+            for(var object in window.EminBridge){
+                console.log(object);
+            }
+
          }
 
-         function helloBridge(){
-            var result = EminBridge.helloBridge();
+         function startGps(){
+            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+            var methodName = "startGPS";
+            var arg = "delay 2s";
+            //EminBridge.execSyncPlugin(pluginName,methodName,arg);
+
+            cameraPlugin.takePhoto();
+
+         }
+
+
+         function getLocation(){
+            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+            var methodName = "getLocation";
+            var arg = "Chengdu";
+            var timestamp1 =new Date().getTime();
+
+            var result = EminBridge.execPlugin(pluginName,methodName,arg);
+
+            var timestamp2 = new Date().getTime();
+
+            alert("时间差:" + (timestamp2 - timestamp1));
+
             alert("result:" + result);
-         }
-
-         function next(){
-            window.open();
          }
 
       </script>
 </head>
 
 <body>
-<button type="button" id="button1" onclick="dbInsert()">DbPlugin insert</button>
+<button type="button" id="button1" onclick="insertData()">数据库插件:插入数据</button>
 <br/>
 <br/>
-<button type="button" id="button2" onclick="helloBridge()">helloBridge</button>
+<button type="button" id="button2" onclick="startGps()">GPS插件:开启GPS</button>
 <br/>
 <br/>
-<button type="button" id="button3" onclick="next()">next</button>
+<button type="button" id="button3" onclick="getLocation()">测试返回值:获取当前位置</button>
 </body>
 
 </html>

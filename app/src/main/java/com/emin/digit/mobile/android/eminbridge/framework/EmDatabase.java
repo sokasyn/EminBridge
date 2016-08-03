@@ -5,7 +5,7 @@ package com.emin.digit.mobile.android.eminbridge.framework;
  */
 public class EmDatabase {
 
-    public static void insert(){
-        System.out.println("Emin Framework EmDatabse insert called...");
+    public static void insert(String sqlString){
+        System.out.println("[Emin Framework] EmDatabse insert called...sqlString:" + sqlString);
     }
 }

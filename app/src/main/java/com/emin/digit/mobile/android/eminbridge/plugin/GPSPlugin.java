@@ -7,10 +7,17 @@ import android.webkit.JavascriptInterface;
  */
 public class GPSPlugin {
 
-    @JavascriptInterface
-    public void getLocation(String arg){
+    public String getLocation(String arg){
         debugLog("GPSPlugin getLocation called.." + arg);
+        String result = "111.01,222.23";
+        return result;
     }
+
+    public void startGPS(String arg){
+        debugLog("GPSPlugin startGPS called..");
+    }
+
+
 
     private void debugLog(String info){
         System.out.println(info);
