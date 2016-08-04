@@ -10,8 +10,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.emin.digit.android.eminbridge.eminbridge.R;
-import com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin;
-import com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin;
+
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -102,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
         });
         */
     }
+
+    /*
+    public static void(WebView web view, JSONObject jsonObj, Callback callback){
+
+    }*/
+
 
     private void testExecJavascript(){
 

@@ -3,8 +3,6 @@ package com.emin.digit.mobile.android.eminbridge;
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 
-import com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin;
-import com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin;
 import com.emin.digit.mobile.android.eminbridge.plugin.UIAlert;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,6 +26,7 @@ public class EminBridge {
     // - - - - - - - - - - - - - - 通过反射机制调用Plugin(原生JAVA类)
     /**
      * 同步执行plugin
+     * 
      *
      * @param pluginName
      * @param methodName
@@ -35,6 +34,10 @@ public class EminBridge {
      */
     @JavascriptInterface
     public static String execSyncPlugin(String pluginName, String methodName, String arg){
+        // TODO: 16/8/4 传入参数的设计,可以采用JSONArray来储存 
+        // TODO: 16/8/4 返回值的设计,可以采用JSON封装的形式
+        // TODO: 16/8/4 回调函数的设计,在入参的时候,将JS的回调保存起来,通过WebView的loadUrl()执行该js函数！ 
+        
         System.out.println("[EminBridge] 同步调用 pluginName:" + pluginName + " methodName:" + methodName + " arg:" + arg);
 
         Object rtnObj = null;
