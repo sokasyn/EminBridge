@@ -1,24 +1,32 @@
 package com.emin.digit.mobile.android.eminbridge;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.emin.digit.android.eminbridge.eminbridge.R;
+import com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin;
 import com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WebView webview;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("= = = = = = = = 111");
+        System.out.println("= = = = = = = = 2222");
+
+        // 当前的线程id
+        long threadId = Thread.currentThread().getId();
+        debugLog("[Thread id] onCreate:" + threadId);
+
         // 取消标题
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏
@@ -53,30 +61,33 @@ public class MainActivity extends AppCompatActivity {
 
     // 通过PageManager加载web层的初始化页面
     private void loadInitPage(){
-        debugLog("locad init local page called 5..");
         // 加载本地的Html资源
         loadLocalPage();
     }
 
     private void loadLocalPage(){
-        debugLog("loadLocalPage 7");
-
-        webview = (WebView)findViewById(R.id.webView);
+        webView = (WebView)findViewById(R.id.webView);
         String url = "file:///android_asset/apps/eminCloud/www/html/init.html";
-        webview.loadUrl(url);
+        webView.loadUrl(url);
 
-        WebSettings webSettings = webview.getSettings();
+        WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // 添加Javascript接口,相当于一个JAVA类的别名
-        webview.addJavascriptInterface(new EminBridge(),"EminBridge");
-//        webview.addJavascriptInterface(new DatabasePlugin(),"EminBridge.dbplugin");
-//        webview.addJavascriptInterface(new EminBridge().DBPlugin,"DBPlugin");
-
-        webview.addJavascriptInterface(new EminBridge().dbPlugin,"EminBridge.dp");
+        // 添加Javascript接口,相当于一个JAVA类的别名,在Javascript中采用该名称调用EminBridge对象中的方法
+        webView.addJavascriptInterface(new EminBridge(this),"EminBridge");
+//        webview.addJavascriptInterface(new DatabasePlugin(),"EminBridge.databasePlugin"); //NG
+//        webview.addJavascriptInterface(new DatabasePlugin(),"databasePlugin"); // 将Plugin直接注入,但是脱离了EminBridge
+//        webview.addJavascriptInterface(new EminBridge().DBPlugin,"DBPlugin"); // NG,入住的JAVA对象的属性不能为被访问,只有public和添加注解的方法可被访问
+//        webview.addJavascriptInterface(new EminBridge().dbPlugin,"EminBridge.dp"); // NG
 
         // 在涉及到弹窗,如JS中的alert("message"),需要用到WebChromeClient
-        webview.setWebChromeClient(new EminChromeClient());
+        webView.setWebChromeClient(new EminChromeClient());
+
+        // 在涉及到页面的跳转,默认是通过系统的浏览器加载,如果向在webview中实现,则需要配置WebViewClient
+        webView.setWebViewClient(new EminWebViewClient());
+
+        // webView 执行js代码
+        webView.loadUrl("javascript:console.log('execute javascript directly in native webview')");
 
         /*
         // WebViewClient
@@ -90,6 +101,46 @@ public class MainActivity extends AppCompatActivity {
 
         });
         */
+    }
+
+    private void testExecJavascript(){
+
+        // 简单的执行提示弹框
+//        webview.loadUrl("javascript:alert('execute javascript directly in native webView')");
+//        webview.loadUrl("javascript:alert('"+ alertMsg +"')"); // 注意alert()中的string要加引号'',或者转义的""
+
+        String prefix_execJs = "javascript:";
+        String alertMsg = "execute javascript directly in native webview";
+        String str_execJs = prefix_execJs + "alert('" + alertMsg + "')";
+        webView.loadUrl(str_execJs);
+    }
+
+    // 测试调用js函数
+    private void testExecJavascriptFunction(){
+
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                debugLog("onPageStarted");
+                super.onPageStarted(view, url, favicon);
+            }
+
+            /*
+             * 如果Javascript函数还没有加载出来时,那么执行的WebView的loadUrl()会报函数is not defined异常
+             */
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                debugLog("onPageFinished");
+                super.onPageFinished(view, url);
+                webView.loadUrl("javascript:functionInJs()");
+            }
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                debugLog("onLoadResource");
+                super.onLoadResource(view, url);
+            }
+        });
     }
 
     /*

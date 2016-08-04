@@ -33,8 +33,8 @@ public class EminChromeClient extends WebChromeClient {
     /**
      * 覆盖默认的window.alert展示界面，避免title里显示为“：来自file:////”
      */
-    public boolean onJsAlert(WebView view, String url, String message,
-                             JsResult result) {
+    public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+        System.out.println("[EminChromeClient] onJsAlert");
         final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
         builder.setTitle("提示").setMessage(message).setPositiveButton("好的", null);
@@ -147,6 +147,10 @@ public class EminChromeClient extends WebChromeClient {
 
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
+//        System.out.println("load progress:" + newProgress );
+        if(newProgress == 100){
+            System.out.println("[EminChromeClient] 页面加载完成 100% in webView:" + view);
+        }
         super.onProgressChanged(view, newProgress);
     }
 

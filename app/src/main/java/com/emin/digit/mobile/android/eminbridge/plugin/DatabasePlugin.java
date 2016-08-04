@@ -10,9 +10,10 @@ import com.emin.digit.mobile.android.eminbridge.framework.EmDatabase;
  */
 public class DatabasePlugin {
 
-    @JavascriptInterface
     public static void insert(String arg){
         System.out.println("[DatabasePlugin] insert called..arg:" + arg);
+        System.out.println("[DatabasePlugin] insert Thread id :" + Thread.currentThread().getId());
+
         EmDatabase.insert(arg);
     }
 

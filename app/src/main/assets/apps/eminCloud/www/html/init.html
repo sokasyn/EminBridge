@@ -3,47 +3,32 @@
 <head>
     <meta charset="utf-8">
     <title>Init</title>
-    <!--<script type="text/javascript" charset="utf-8" src="../js/dbPlugin.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
     <script>
+         var debug = false;
+
          function insertData(){
-            alert("name333:" + name);
 
-            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin";
-            var methodName = "insert";
-            var argument = "insert into t_user values(1,'a')";
+            EminBridge.dbPlugin.insert("insert into t_user values(1,'a')");
+            //printChildren(window);
+         }
 
-            //EminBridge.execSyncPlugin(pluginName,methodName,argument);
-
-            //EminBridge.dp.insert("666666");
-            /*
-            for (var obj in window) {
-                console.log(obj);
-                if(obj == "EminBridge"){
-                    console.log("Find EminBridge object");
-
-                    for(var o in obj){
-                        console.log(o);
-                    }
-                    break;
+         function printChildren(obj){
+            if(debug){
+                for(var o in obj){
+                    console.log(o);
                 }
-            }*/
-
-            for(var object in window.EminBridge){
-                console.log(object);
             }
-
          }
 
          function startGps(){
+
             var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
             var methodName = "startGPS";
             var arg = "delay 2s";
             //EminBridge.execSyncPlugin(pluginName,methodName,arg);
 
-            cameraPlugin.takePhoto();
-
          }
-
 
          function getLocation(){
             var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
@@ -51,13 +36,27 @@
             var arg = "Chengdu";
             var timestamp1 =new Date().getTime();
 
-            var result = EminBridge.execPlugin(pluginName,methodName,arg);
+            var result = EminBridge.execSyncPlugin(pluginName,methodName,arg);
 
             var timestamp2 = new Date().getTime();
 
-            alert("时间差:" + (timestamp2 - timestamp1));
+            console.log("时间差:" + (timestamp2 - timestamp1));
 
-            alert("result:" + result);
+            console.log("return location:" + result);
+         }
+
+         function functionInJs(){
+            console.log("Function in JavaScript called");
+         }
+
+         function toast(){
+            EminBridge.UIAlert.toast("this is a toast message!");
+         }
+
+         // 页面跳转测试
+         function toUserPage(){
+            console.log("Will go to user page");
+            window.location.href='userPage.html';
          }
 
       </script>
@@ -71,6 +70,14 @@
 <br/>
 <br/>
 <button type="button" id="button3" onclick="getLocation()">测试返回值:获取当前位置</button>
+<br/>
+<br/>
+<button type="button" id="btnToast" onclick="toast()">测试调用原生的提示toast</button>
+
+<br/>
+<br/>
+<button type="button" id="btnToUser" onclick="toUserPage()">用户界面</button>
+
 </body>
 
 </html>

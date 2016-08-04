@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Home Page</title>
+    <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
+    <script type="text/javascript">
+         function getLocation(){
+            var result = EminBridge.GPSPlugin.getLocation("成都");
+            console.log("[HTML JS]return location:" + result);
+         }
+    </script>
+</head>
+<body>
+<button type="button" onclick="getLocation()">获取当前位置</button>
+<br/>
+<br/>
+
+</body>
+</html>
