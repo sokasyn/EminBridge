@@ -1,5 +1,7 @@
 (function(){
 
+    // Web前端的javascript通过该JS提供的方法调用,实现通过反射机制执行Java原生层的方法
+
     // - - - - - - - - DatabasePlugin - - - - - - - -
     var dbPluginName = "com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin";
     var dbPluginObj = {
@@ -38,7 +40,4 @@
     function debug(info){
         console.log(info);
     }
-
-
-
-}())
+})()

@@ -1,6 +1,7 @@
 package com.emin.digit.mobile.android.eminbridge;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -12,6 +13,8 @@ import android.webkit.WebViewClient;
 import com.emin.digit.android.eminbridge.eminbridge.R;
 
 import org.json.JSONObject;
+
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadLocalPage(){
         webView = (WebView)findViewById(R.id.webView);
         String url = "file:///android_asset/apps/eminCloud/www/html/init.html";
+//        String url = "http://www.baidu.com";
         webView.loadUrl(url);
 
         WebSettings webSettings = webView.getSettings();
@@ -84,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebChromeClient(new EminChromeClient());
 
         // 在涉及到页面的跳转,默认是通过系统的浏览器加载,如果向在webview中实现,则需要配置WebViewClient
-        webView.setWebViewClient(new EminWebViewClient());
+        webView.setWebViewClient(new CustomWebViewClient());
 
         // webView 执行js代码
-        webView.loadUrl("javascript:console.log('execute javascript directly in native webview')");
+//        webView.loadUrl("javascript:console.log('execute javascript directly in native webview')");
 
         /*
         // WebViewClient
@@ -102,6 +106,46 @@ public class MainActivity extends AppCompatActivity {
         });
         */
     }
+
+    class CustomWebViewClient extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            debugLog("shouldOverrideUrlLoading : url:" + url);
+            /*
+             * webView自己跳转,我们可以不做处理,如不需要加上view.loadUrl(url)
+             * 另外,Android API中该方法默认也是return false的,不用重载也没问题
+             * 但是在做一个特殊的,比如发送邮件,短信,打电话等,这种必须要特殊处理
+             */
+            return false;
+
+//            view.loadUrl(url);
+            // return true; // true,跳转失效,这种情况下需要自己去处理,如,得加上view.loadUrl(url)才会跳转
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            debugLog("onPageStarted");
+            super.onPageStarted(view, url, favicon);
+        }
+
+        /*
+         * 如果Javascript函数还没有加载出来时,那么执行的WebView的loadUrl()会报函数is not defined异常
+         */
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            debugLog("onPageFinished");
+            super.onPageFinished(view, url);
+            webView.loadUrl("javascript:functionInJs()");
+        }
+
+        @Override
+        public void onLoadResource(WebView view, String url) {
+            debugLog("onLoadResource");
+            super.onLoadResource(view, url);
+        }
+    }
+
 
     /*
     public static void(WebView web view, JSONObject jsonObj, Callback callback){
@@ -175,6 +219,13 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(info);
     }
 
-
+    private void sleepForSeconds(int seconds){
+        debugLog("will sleep for " + seconds + " seconds..");
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
