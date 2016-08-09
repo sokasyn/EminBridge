@@ -22,6 +22,7 @@ public class ActivityEntry extends ListActivity {
         super.onCreate(savedInstanceState);
         setListAdapter(new MyListViewAdapter());
         getListView().setTextFilterEnabled(true);
+        System.out.println("1111");
     }
 
     @Override
