@@ -3,34 +3,67 @@ package com.emin.digit.mobile.android.eminbridge;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.emin.digit.android.eminbridge.eminbridge.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private LinearLayout rootView;
+
     private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         // 当前的线程id
         long threadId = Thread.currentThread().getId();
         debugLog("[Thread id] onCreate:" + threadId);
 
+        /*
         // 取消标题
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        */
 
-        setContentView(R.layout.activity_main);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        rootView = (LinearLayout) inflater.inflate(R.layout.activity_main, null);
+        setContentView(rootView);
+
+//        setContentView(R.layout.activity_main);
+
+        // 继承自AppCompatActivity
+        getSupportActionBar().hide();
         setup();
+    }
+
+    // - - - - - - - - - - - 基本配置 - - - - - - - - - - -
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        debugLog("onKeyDown :" + keyCode);
+
+        // 重写该方法,当点了设备的返回键,是返回上一个页面(如果有的话),而不是直接退出应用
+        if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()){
+            webView.goBack();
+            return true;
+        } else{
+            return super.onKeyDown(keyCode,event);
+        }
     }
 
     // - - - - - - - - - - - 初始化 Start - - - - - - - - - - -
@@ -71,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+//        webSettings.setCacheMode();
+
         // 添加Javascript接口,相当于一个JAVA类的别名,在Javascript中采用该名称调用EminBridge对象中的方法
         webView.addJavascriptInterface(new EminBridge(this),"EminBridge");
 
@@ -102,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             debugLog("onPageFinished");
             super.onPageFinished(view, url);
-//            webView.loadUrl("javascript:functionInJs()");
+            webView.loadUrl("javascript:functionInJs()");
         }
 
         @Override
@@ -114,8 +149,100 @@ public class MainActivity extends AppCompatActivity {
 
     class CustomChromeClient extends WebChromeClient{
 
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+
+        System.out.println("load progress:" + newProgress );
+            if(newProgress == 100){
+                System.out.println("[EminChromeClient] 页面加载完成 100% in webView:" + view);
+                // 加载完成之后,加入动画效果实现页面的切换
+                transitionView(view);
+
+            }
+//            super.onProgressChanged(view, newProgress);
+        }
+    }
+
+
+    // 页面在加载完成通过动画切换页面
+    private void transitionView(WebView view) {
+        startAnimation(view);
+    }
+
+    // TODO: 16/8/10 The specified child already has a parent. You must call removeView() on the child's parent first.
+
+
+    private ImageView imageView = null;
+    private void startAnimation(WebView view){
+        debugLog("startAnimation 1111");
+        if (imageView == null) {
+            debugLog("11111 - 1111 imageView is null");
+            imageView = new ImageView(MainActivity.this);
+        }
+
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = view.getDrawingCache();
+        if (bitmap != null) {
+            Bitmap b = Bitmap.createBitmap(bitmap);
+            imageView.setImageBitmap(b);
+        }
+
+        debugLog("2222");
+        // 当前布局载入当前页面的截图
+        if(imageView.getParent() == null){
+            rootView.addView(imageView);
+        }
+
+        Animation translate_in = AnimationUtils.loadAnimation(MainActivity.this, R.anim.transition_in);
+        translate_in.setFillAfter(true);
+        translate_in.setDuration(500);
+        translate_in.setDetachWallpaper(true);
+        view.setAnimation(translate_in);
+
+
+        debugLog("33333");
+
+        Animation translate_out=AnimationUtils.loadAnimation(MainActivity.this, R.anim.tansition_out);
+        translate_out.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+                // TODO Auto-generated method stub
+                debugLog("33333-1111");
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                // TODO Auto-generated method stub
+                debugLog("33333-22222");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                debugLog("33333-33333");
+                if(null!=imageView){
+                    MainActivity.this.rootView.removeView(imageView);
+                    imageView=null;
+                }
+            }
+        });
+        translate_out.setFillAfter(true);
+        translate_out.setDuration(500);
+        translate_out.setDetachWallpaper(true);
+
+        debugLog("44444");
+        if(null != imageView) {
+            debugLog("imageView not null");
+            imageView.setAnimation(translate_out);
+        }
+
 
     }
+
+
+
+
+
 
 
     /*

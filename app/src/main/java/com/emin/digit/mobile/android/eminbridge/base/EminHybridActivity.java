@@ -1,4 +1,4 @@
-package com.emin.digit.mobile.android.eminbridge;
+package com.emin.digit.mobile.android.eminbridge.base;
 
 import android.app.Activity;
 
