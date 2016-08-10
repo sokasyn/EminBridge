@@ -129,35 +129,44 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            debugLog("onPageStarted");
+            debugLog("onPageStarted :" + url);
             super.onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            debugLog("onPageFinished");
+            debugLog("onPageFinished :" + url);
+            hasAnimated = false;
             super.onPageFinished(view, url);
-            webView.loadUrl("javascript:functionInJs()");
+//            webView.loadUrl("javascript:functionInJs()");
         }
 
         @Override
         public void onLoadResource(WebView view, String url) {
-            debugLog("onLoadResource");
+            debugLog("onLoadResource :" + url);
             super.onLoadResource(view, url);
         }
     }
 
+
+    private boolean hasAnimated = false;
     class CustomChromeClient extends WebChromeClient{
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
 
-        System.out.println("load progress:" + newProgress );
+            System.out.println("load progress:" + newProgress );
             if(newProgress == 100){
-                System.out.println("[EminChromeClient] 页面加载完成 100% in webView:" + view);
-                // 加载完成之后,加入动画效果实现页面的切换
-                transitionView(view);
+                System.out.println("[EminChromeClient] 页面加载完成 100%");
 
+                // 由于 onProgressChanged 会重复调用(2次),所以会导致动画效果重复执行了两次,如果动画完成,则屏蔽动画切换
+                if(!hasAnimated){
+                    System.out.println("= = = = = = = = =[EminChromeClient] 页面加载完成 will transition view :" + hasAnimated);
+                    // 加载完成之后,加入动画效果实现页面的切换
+                    transitionView(view);
+                }else{
+                    System.out.println("= = = = = = = = = [EminChromeClient] 页面加载完成 will not transition view:" + hasAnimated);
+                }
             }
 //            super.onProgressChanged(view, newProgress);
         }
@@ -166,7 +175,11 @@ public class MainActivity extends AppCompatActivity {
 
     // 页面在加载完成通过动画切换页面
     private void transitionView(WebView view) {
+        debugLog("transitionView before animation :" + hasAnimated);
         startAnimation(view);
+        hasAnimated = true;
+        debugLog("transitionView after finished animation :" + hasAnimated);
+
     }
 
     // TODO: 16/8/10 The specified child already has a parent. You must call removeView() on the child's parent first.
@@ -202,24 +215,24 @@ public class MainActivity extends AppCompatActivity {
 
         debugLog("33333");
 
-        Animation translate_out=AnimationUtils.loadAnimation(MainActivity.this, R.anim.tansition_out);
+        Animation translate_out = AnimationUtils.loadAnimation(MainActivity.this, R.anim.tansition_out);
         translate_out.setAnimationListener(new Animation.AnimationListener() {
 
             @Override
             public void onAnimationStart(Animation animation) {
                 // TODO Auto-generated method stub
-                debugLog("33333-1111");
+                debugLog("translate_out 33333-1111");
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
                 // TODO Auto-generated method stub
-                debugLog("33333-22222");
+                debugLog("translate_out 33333-22222");
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                debugLog("33333-33333");
+                debugLog("translate_out 33333-33333");
                 if(null!=imageView){
                     MainActivity.this.rootView.removeView(imageView);
                     imageView=null;
@@ -235,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
             debugLog("imageView not null");
             imageView.setAnimation(translate_out);
         }
+
 
 
     }
