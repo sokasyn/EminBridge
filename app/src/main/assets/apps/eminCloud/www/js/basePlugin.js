@@ -6,7 +6,7 @@
     var dbPluginName = "com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin";
     var dbPluginObj = {
         insert : function(sqlString){
-            alert("[Custom Js Object] dbPlugin");
+            alert("[Custom Js Object] database plugin");
             var methodName = "insert";
             EminBridge.execSyncPlugin(dbPluginName,methodName,sqlString);
         }

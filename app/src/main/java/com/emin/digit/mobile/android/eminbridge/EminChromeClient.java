@@ -56,16 +56,14 @@ public class EminChromeClient extends WebChromeClient {
         // return super.onJsAlert(view, url, message, result);
     }
 
-    public boolean onJsBeforeUnload(WebView view, String url,
-                                    String message, JsResult result) {
+    public boolean onJsBeforeUnload(WebView view, String url, String message, JsResult result) {
         return super.onJsBeforeUnload(view, url, message, result);
     }
 
     /**
      * 覆盖默认的window.confirm展示界面，避免title里显示为“：来自file:////”
      */
-    public boolean onJsConfirm(WebView view, String url, String message,
-                               final JsResult result) {
+    public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle("对话框")
                 .setMessage(message)

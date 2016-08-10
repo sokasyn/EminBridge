@@ -45,10 +45,12 @@
             console.log("return location:" + result);
          }
 
+         // 原生层调用该Html中的js 方法测试
          function functionInJs(){
             console.log("Function in JavaScript called");
          }
 
+         // 弹框类测试
          function toast(){
             EminBridge.UIAlert.toast("this is a toast message!");
          }
@@ -56,8 +58,8 @@
          // 页面跳转测试
          function toUserPage(){
             console.log("Will go to user page");
-            //window.location.href='userPage.html';
-            window.location.href='http://www.baidu.com';
+            window.location.href='userPage.html';
+            //window.location.href='http://www.baidu.com';
          }
 
       </script>
