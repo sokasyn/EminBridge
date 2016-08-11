@@ -10,6 +10,9 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 /**
+ *
+ * 混合开发WebView封装
+ *
  * Created by Samson on 16/8/5.
  */
 public class EMHybridWebView extends WebView {
@@ -51,9 +54,10 @@ public class EMHybridWebView extends WebView {
 
     // 私有初始化方法,内部进行WebView各种配置
     private void init(Context context){
+        Log.d(TAG,"init");
         mContext = context;
         mLayout = new FrameLayout(context);
-        this.setWebViewClient(new EMHybridWebViewClient()); // 设置WebViewClient
+        this.setWebViewClient(new EMHybridWebViewClient());     // 设置WebViewClient
         this.setWebChromeClient(new EMHybridWebChromeClient()); // 设置WebChromeClient
         settingWebView(); // WebView其它配置
     }

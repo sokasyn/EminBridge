@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>发货选择</title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/mui.picker.all.css"/>
+    <link rel="stylesheet" href="css/mui.picker.css" />
+    <script type="text/javascript" charset="utf-8">
+    mui.init();
+    </script>
+</head>
+<style>
+body{
+	font-family: "微软雅黑";
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+}
+.mui-header-nav h1{
+	color: #fff;
+}
+a{
+	color: #333333;
+}
+.mui-fanhui{
+	padding-top:11px;
+	color: #fff;
+}
+.mui-header-nav{
+	background-color:#389FE4;
+}
+.search_list{
+	padding: 0;
+}
+
+.mui_main ul li{
+	list-style: none;
+}
+.mui_main{
+	margin-top: 20%;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.search_height{
+	padding: 20px 0 20px 0;
+}
+.Btn_top_one{
+	width:65%;
+	height:40px;
+	display: block;
+	font-size: 16px;
+	float: right;
+	 white-space:nowrap;
+	 overflow:hidden;
+	 text-overflow:ellipsis;
+}
+.search_height{
+	margin-top:3%;
+	height: 60px;
+}
+.Customer_address{
+	width: 65% !important;
+	float: right;
+	border: none !important;
+}
+.Next_btn{
+	width: 100%;
+	height: 45px;
+	font-weight: 700;
+	background-color: #389FE4;
+	border: 1px solid #389FE4;
+	color: #fff;
+	}
+	.Information_list{
+		line-height:40px;
+	}
+	.Foot_div{
+		height: 50px;
+		width: 100%;
+	}
+</style>
+<body>
+			<header class="mui-bar mui-bar-nav mui-header-nav">
+			    <a class="mui-action-back mui-pull-left mui-fanhui mui-icon mui-icon-arrowleft"></a>
+			    <h1 class="mui-title">发货</h1>
+			</header>
+	        <!--头部导航-->
+	            <div class="mui_main">
+	            	    <div class="Customer search_height">
+                        <span style="color: red;" class="Information_list">*</span>&nbsp;<span class="Information_list">选择仓库</span>
+	            		<button id='showUserPicker' class="Btn_top_one" type='button'>选择仓库按时打算大神的</button>
+	            		
+	            		</div>
+	            		<div class="target search_height">
+	            		<span style="color: red;"class="Information_list">*</span class="Information_list">&nbsp;<span>目标客户</span>
+	            		<button id='showCustomerPicker' class="Btn_top_one" type='button'>选择客户</button>
+	            		</div>
+	            		<div class="Customer search_height">
+	            		<span class="Information_list">&nbsp;</span>&nbsp;<span class="Information_list">客户地址</span>
+	            		<input type="text" class="Customer_address" />
+	            		</div>
+	            		<div class="logistics search_height">
+	            		<span class="Information_list">&nbsp;</span>&nbsp;<span class="Information_list">物流公司</span>
+	            	    <button id='showLgcompanyPicker' class="Btn_top_one " type='button'>选择物流</button>
+	            		<div id='userResultl' class="ui-alert"></div>
+	            		</div>
+	            		<div class="Customer search_height">
+	            		<span class="Information_list">&nbsp;</span>&nbsp;<span class="Information_list">车辆信息</span>
+	            		<input type="text" class="Customer_address" />
+	            		</div>
+	            		<div class="Customer search_height">
+	            		<span class="Information_list">&nbsp;</span>&nbsp;<span class="Information_list">司机</span>
+	            		<input type="text" class="Customer_address" />
+	            		</div>
+	            		<div class="Customer search_height">
+	            			<button type="button" class="Next_btn" value="下一步">下一步</button>
+	            	    </div>
+	            	    <div class="Foot_div"></div>
+	            </div>
+	            <script type="text/javascript" src="js/city.data-3.js" ></script>
+	            <script type="text/javascript" src="js/city.data.js" ></script>
+	            <script type="text/javascript" src="js/mui.picker.all.js" ></script>
+	            <script type="text/javascript" src="js/mui.picker.js" ></script>
+	            <script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					//普通示例
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{
+						value: 'ywj',
+						text: '董事长 叶文洁'
+					}, {
+						value: 'aaa',
+						text: '总经理 艾AA'
+					}, {
+						value: 'lj',
+						text: '罗辑'
+					}, {
+						value: 'ymt',
+						text: '云天明'
+					}, {
+						value: 'shq',
+						text: '史强'
+					}, {
+						value: 'zhbh',
+						text: '章北海'
+					}, {
+						value: 'zhy',
+						text: '庄颜'
+					}, {
+						value: 'gyf',
+						text: '你就是一个傻子哈瓜二货豆逼奇葩女'
+					}, {
+						value: 'zhz',
+						text: '智子'
+					}, {
+						value: 'gezh', 
+						text: '歌者'
+					}]);
+					var showUserPickerButton = doc.getElementById('showUserPicker');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							showUserPicker.innerText = items[0].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui, document);
+		</script>
+		<!--选择仓库-->
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					//普通示例
+					var CustomerPicker = new $.PopPicker();
+					CustomerPicker.setData([{
+						value: 'ywj',
+						text: '董事长 叶文洁'
+					}, {
+						value: 'aaa',
+						text: '总经理 艾AA'
+					}, {
+						value: 'lj',
+						text: '罗辑'
+					}, {
+						value: 'ymt',
+						text: '云天明'
+					}, {
+						value: 'shq',
+						text: '史强'
+					}, {
+						value: 'zhbh',
+						text: '章北海'
+					}, {
+						value: 'zhy',
+						text: '庄颜'
+					}, {
+						value: 'gyf',
+						text: '关一帆'
+					}, {
+						value: 'zhz',
+						text: '智子'
+					}, {
+						value: 'gezh', 
+						text: '歌者'
+					}]);
+					var showCustomerPickerButton = doc.getElementById('showCustomerPicker');
+					showCustomerPickerButton.addEventListener('tap', function(event) {
+						CustomerPicker.show(function(items) {
+							showCustomerPicker.innerText = items[0].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui, document);
+		</script>
+		<!--选择用户-->
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					//普通示例
+					var LgcompanyPicker = new $.PopPicker();
+					LgcompanyPicker.setData([{
+						value: 'ywj',
+						text: '董事长 叶文洁'
+					}, {
+						value: 'aaa',
+						text: '总经理 艾AA'
+					}, {
+						value: 'lj',
+						text: '罗辑'
+					}, {
+						value: 'ymt',
+						text: '云天明'
+					}, {
+						value: 'shq',
+						text: '史强'
+					}, {
+						value: 'zhbh',
+						text: '章北海'
+					}, {
+						value: 'zhy',
+						text: '庄颜'
+					}, {
+						value: 'gyf',
+						text: '关一帆'
+					}, {
+						value: 'zhz',
+						text: '智子'
+					}, {
+						value: 'gezh', 
+						text: '歌者'
+					}]);
+					var showLgcompanyPickerButton = doc.getElementById('showLgcompanyPicker');
+					showLgcompanyPickerButton.addEventListener('tap', function(event) {
+					LgcompanyPicker.show(function(items) {
+							showLgcompanyPicker.innerText = items[0].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui, document);
+		</script>
+		<!--选择物流-->
+</body>
+</html>

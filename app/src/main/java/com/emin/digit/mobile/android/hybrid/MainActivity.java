@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.emin.digit.android.eminbridge.eminbridge.R;
+import com.emin.digit.mobile.android.hybrid.base.EMBridge;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("= = = = = = = = 5555");
 
         webView = (WebView)findViewById(R.id.webView);
-        String url = "file:///android_asset/apps/eminCloud/www/html/init.html";
+//        String url = "file:///android_asset/apps/eminCloud/www/html/init.html";
+        String url = "file:///android_asset/apps/scan/www/Scan_file.html";
         webView.loadUrl(url);
 
         WebSettings webSettings = webView.getSettings();
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 //        webSettings.setCacheMode();
 
         // 添加Javascript接口,相当于一个JAVA类的别名,在Javascript中采用该名称调用EminBridge对象中的方法
-        webView.addJavascriptInterface(new EminBridge(this),"EminBridge");
+        webView.addJavascriptInterface(new EMBridge(this),"EminBridge");
 
         // 在涉及到弹窗,如JS中的alert("message"),需要用到WebChromeClient
 //        webView.setWebChromeClient(new EminChromeClient());

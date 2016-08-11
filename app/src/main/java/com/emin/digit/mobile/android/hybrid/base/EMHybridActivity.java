@@ -1,6 +1,7 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * 以HTML5为前端的混合开发中,原生层总控Activity
@@ -31,6 +32,7 @@ public class EMHybridActivity extends EMBaseActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,"onCreate");
         super.onCreate(savedInstanceState);
         setup();
     }
@@ -42,7 +44,9 @@ public class EMHybridActivity extends EMBaseActivity {
 
     // WebView的初始化
     private void setupWebView(){
-        mWebView = new EMHybridWebView(this,EMHybridActivity.this, mIndexUrl);
+//        mWebView = new EMHybridWebView(this,EMHybridActivity.this, mIndexUrl);
+        mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
+        mWebView = new EMHybridWebView(this,EMHybridActivity.this,mIndexUrl);
 
         EMBridge injectedObject = new EMBridge();   // 注入的对象
         String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
