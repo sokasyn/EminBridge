@@ -3,7 +3,7 @@
     // Web前端的javascript通过该JS提供的方法调用,实现通过反射机制执行Java原生层的方法
 
     // - - - - - - - - DatabasePlugin - - - - - - - -
-    var dbPluginName = "com.emin.digit.mobile.android.eminbridge.plugin.DatabasePlugin";
+    var dbPluginName = "com.emin.digit.mobile.android.hybrid.plugin.DatabasePlugin";
     var dbPluginObj = {
         insert : function(sqlString){
             alert("[Custom Js Object] database plugin");
@@ -14,7 +14,7 @@
     window.EminBridge.dbPlugin = dbPluginObj;
 
     // - - - - - - - -  GPSPlugin - - - - - - - -
-    var pgsPluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+    var pgsPluginName = "com.emin.digit.mobile.android.hybrid.plugin.GPSPlugin";
     var gpsPluginObj = {
         getLocation : function(args){
             var methodName = "getLocation";
@@ -26,7 +26,7 @@
     window.EminBridge.GPSPlugin = gpsPluginObj;
 
     // - - - - - - - -  UIAlert - - - - - - - -
-    var alertPluginName = "com.emin.digit.mobile.android.eminbridge.plugin.UIAlert";
+    var alertPluginName = "com.emin.digit.mobile.android.hybrid.plugin.UIAlert";
     var alertPluginObj = {
         toast : function(showText){
             debug("[Custom Js Object alertPluginObj] toast argument length" + arguments.length);

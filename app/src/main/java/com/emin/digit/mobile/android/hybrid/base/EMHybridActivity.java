@@ -1,7 +1,10 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 /**
  * 以HTML5为前端的混合开发中,原生层总控Activity
@@ -55,7 +58,8 @@ public class EMHybridActivity extends EMBaseActivity {
         if(mIndexUrl != null){
             mWebView.loadUrl(mIndexUrl);
         }
-        setContentView(mWebView.getLayout());
+//        setContentView(mWebView.getLayout);
+        setContentView(mWebView);
     }
 
     // - - - - - - - - - - Activity的生命周期各个阶段涉及的WebView处理
@@ -92,6 +96,44 @@ public class EMHybridActivity extends EMBaseActivity {
         super.onDestroy();
         if(mWebView != null){
             mWebView.destroy();
+        }
+    }
+
+    /**
+     * 监听设备返回按键事件
+     * 如果存在历史记录,即可以返回(canGoBack)则返回上一个页面;
+     * 如果不处理,则WebView直接就退出了
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            // 如果有历史记录,在返回上一个页面
+            if(mWebView.canGoBack()){
+                mWebView.goBack();
+            }else {
+                // 没有历史记录,则提示用户是否期望退出应用
+                exitAppWhenDoublePressed();
+            }
+            return true;
+        }else{
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    private long firstTimePressed = 0;
+    private void exitAppWhenDoublePressed(){
+        // 2秒之内按两次,则退出应用
+        long nextTimePressed = System.currentTimeMillis();
+        if( (nextTimePressed - firstTimePressed) > 2 *1000){
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+            firstTimePressed = nextTimePressed;
+        }else {
+            finish();
+            System.exit(0);
         }
     }
 

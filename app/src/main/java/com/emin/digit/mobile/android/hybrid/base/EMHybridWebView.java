@@ -27,6 +27,8 @@ public class EMHybridWebView extends WebView {
 
     private FrameLayout mLayout;
 
+    private boolean webPageAnimated = false;
+
     // - - - - - - - - - - - 构造方法 - - - - - - - - - - -
 
     public EMHybridWebView(Context context, AttributeSet attrs) {
@@ -78,5 +80,17 @@ public class EMHybridWebView extends WebView {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.d(TAG,"onKeyDown keyCode:" + keyCode + "KeyEvent:" + event);
         return super.onKeyDown(keyCode, event);
+    }
+
+    public Activity getActivity() {
+        return mActivity;
+    }
+
+    public boolean isWebPageAnimated(){
+        return webPageAnimated;
+    }
+
+    public void setWebPageAnimated(boolean animated) {
+        this.webPageAnimated = animated;
     }
 }

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 继承自AppCompatActivity
 
-        setup();
+//        setup();
     }
 
     // - - - - - - - - - - - 基本配置 - - - - - - - - - - -
