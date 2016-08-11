@@ -1,12 +1,10 @@
-package com.emin.digit.mobile.android.eminbridge;
+package com.emin.digit.mobile.android.hybrid;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -28,26 +26,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // 当前的线程id
-        long threadId = Thread.currentThread().getId();
-        debugLog("[Thread id] onCreate:" + threadId);
-
-        /*
-        // 取消标题
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // 全屏
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        */
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        rootView = (LinearLayout) inflater.inflate(R.layout.activity_main, null);
-        setContentView(rootView);
-
 //        setContentView(R.layout.activity_main);
 
+        // 取消标题
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 全屏
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         // 继承自AppCompatActivity
-        getSupportActionBar().hide();
+
         setup();
     }
 
@@ -55,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        debugLog("onKeyDown :" + keyCode);
+        debugLog("MainActivity onKeyDown :" + keyCode);
 
         // 重写该方法,当点了设备的返回键,是返回上一个页面(如果有的话),而不是直接退出应用
         if(keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()){
@@ -68,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
     // - - - - - - - - - - - 初始化 Start - - - - - - - - - - -
     private void setup(){
+        // 隐藏默认标题栏
+        getSupportActionBar().hide();
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        rootView = (LinearLayout) inflater.inflate(R.layout.activity_main, null);
+        setContentView(rootView);
+
         debugLog("setup...");
         // 配置PageManager
         setupPageManager();
@@ -181,9 +175,6 @@ public class MainActivity extends AppCompatActivity {
         debugLog("transitionView after finished animation :" + hasAnimated);
 
     }
-
-    // TODO: 16/8/10 The specified child already has a parent. You must call removeView() on the child's parent first.
-
 
     private ImageView imageView = null;
     private void startAnimation(WebView view){

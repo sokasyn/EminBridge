@@ -1,4 +1,4 @@
-package com.emin.digit.mobile.android.eminbridge;
+package com.emin.digit.mobile.android.hybrid;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

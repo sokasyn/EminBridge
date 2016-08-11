@@ -1,4 +1,4 @@
-package com.emin.digit.mobile.android.eminbridge;
+package com.emin.digit.mobile.android.hybrid;
 
 /**
  * Created by Samson on 16/8/1.

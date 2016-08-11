@@ -1,9 +1,9 @@
-package com.emin.digit.mobile.android.eminbridge;
+package com.emin.digit.mobile.android.hybrid;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 
-import com.emin.digit.mobile.android.eminbridge.plugin.UIAlert;
+import com.emin.digit.mobile.android.hybrid.plugin.UIAlert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
