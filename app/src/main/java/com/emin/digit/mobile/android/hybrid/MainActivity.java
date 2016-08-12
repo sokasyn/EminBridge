@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
@@ -27,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+
 
         // 取消标题
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         // 继承自AppCompatActivity
 
 //        setup();
+    }
+
+    private void getRootView(){
+//        findViewById(android.R.)
     }
 
     // - - - - - - - - - - - 基本配置 - - - - - - - - - - -

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/idLayoutSecond" >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Layout:TextView"/>
+
+    <Button
+        android:id="@+id/btnChangeColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change backgroud color"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/btnSettingText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Setting TextView"
+        android:textAllCaps="false"/>
+
+</LinearLayout>
