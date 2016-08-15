@@ -8,39 +8,29 @@
          var debug = false;
 
          function insertData(){
-
             EminBridge.dbPlugin.insert("insert into t_user values(1,'a')");
-            //printChildren(window);
-         }
-
-         function printChildren(obj){
-            if(debug){
-                for(var o in obj){
-                    console.log(o);
-                }
-            }
          }
 
          function startGps(){
-
-            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
-            var methodName = "startGPS";
-            var arg = "delay 2s";
+            //var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+            //var methodName = "startGPS";
+            //var arg = "delay 2s";
             //EminBridge.execSyncPlugin(pluginName,methodName,arg);
 
+            EminBridge.GPSPlugin.startGPS();
          }
 
          function getLocation(){
             var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
             var methodName = "getLocation";
             var arg = "Chengdu";
-            var timestamp1 =new Date().getTime();
+            var start =new Date().getTime();
 
             var result = EminBridge.execSyncPlugin(pluginName,methodName,arg);
 
-            var timestamp2 = new Date().getTime();
+            var end = new Date().getTime();
 
-            console.log("时间差:" + (timestamp2 - timestamp1));
+            console.log("时间差:" + (end - start));
 
             console.log("return location:" + result);
             alert("return location:" + result);
@@ -56,12 +46,43 @@
             EminBridge.UIAlert.toast("this is a toast message!");
          }
 
+
+         // 测试二维码扫描
+         function startBarcode(){
+            var type = "barcode";
+            // 回调测试
+            EminBridge.barcode.start(type,function(result){
+                    console.log(result);
+                 });
+         }
+
          // 页面跳转测试
          function toUserPage(){
             console.log("Will go to user page");
             //window.location.href='userPage.html';
             window.location.href='http://www.baidu.com';
          }
+
+         // = = = = = = = = = = = 辅助测试方法
+         function printChildren(obj){
+            if(debug){
+                for(var o in obj){
+                    console.log(o);
+                }
+            }
+         }
+
+         function calculateTimeMills(){
+            var start =new Date().getTime();
+
+            // function invoke
+
+            var end = new Date().getTime();
+
+            console.log("时间差:" + (end - start));
+
+         }
+
 
       </script>
 </head>
@@ -78,6 +99,9 @@
 <br/>
 <button type="button" id="btnToast" onclick="toast()">测试调用原生的提示toast</button>
 
+<br/>
+<br/>
+<button type="button" id="btnBarcode" onclick="startBarcode()">测试二维码扫描</button>
 <br/>
 <br/>
 <button type="button" id="btnToUser" onclick="toUserPage()">用户界面</button>

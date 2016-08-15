@@ -30,14 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         // 取消标题
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏
         //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // 继承自AppCompatActivity
+//        getSupportActionBar().hide();
 
 //        setup();
     }
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     // - - - - - - - - - - - 初始化 Start - - - - - - - - - - -
     private void setup(){
         // 隐藏默认标题栏
-        getSupportActionBar().hide();
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         rootView = (LinearLayout) inflater.inflate(R.layout.activity_main, null);
@@ -110,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 //        webSettings.setCacheMode();
 
         // 添加Javascript接口,相当于一个JAVA类的别名,在Javascript中采用该名称调用EminBridge对象中的方法
-        webView.addJavascriptInterface(new EMBridge(this),"EminBridge");
+//        webView.addJavascriptInterface(new EMBridge(this),"EminBridge");
+        webView.addJavascriptInterface(new EMBridge(this,webView),"EminBridge");
 
         // 在涉及到弹窗,如JS中的alert("message"),需要用到WebChromeClient
 //        webView.setWebChromeClient(new EminChromeClient());

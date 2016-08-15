@@ -16,14 +16,10 @@ import android.widget.Toast;
  */
 public class EMHybridActivity extends EMBaseActivity {
 
-    // 日志标志
-    private static final String TAG = EMHybridActivity.class.getSimpleName();
 
-    // 加载HTML页面的WebView
-    private EMHybridWebView mWebView;
-
-    // HTML加载首页Url,通过该Url,配置Hybrid部分的启动页面
-    private String mIndexUrl;
+    private static final String TAG = EMHybridActivity.class.getSimpleName(); // 日志标志
+    private EMHybridWebView mWebView; // 加载HTML页面的WebView
+    private String mIndexUrl; // HTML加载首页Url,通过该Url,配置Hybrid部分的启动页面
 
     // WebView注入的对象暴露给javascript的名称
     private static final String INJECTED_BRIDGE_NAME = "EminBridge";
@@ -51,7 +47,7 @@ public class EMHybridActivity extends EMBaseActivity {
         mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
         mWebView = new EMHybridWebView(this,EMHybridActivity.this,mIndexUrl);
 
-        EMBridge injectedObject = new EMBridge();   // 注入的对象
+        EMBridge injectedObject = new EMBridge(this, mWebView);   // 注入的对象
         String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
         mWebView.addJavascriptInterface(injectedObject, nameUsedInJs);
 
