@@ -1,12 +1,16 @@
-(function(){
+
+
+//document.addEventListener('EminBridgeReady',function(){
+//(function(){
 
     // Web前端的javascript通过该JS提供的方法调用,实现通过反射机制执行Java原生层的方法
+    var successCallback = function(){};
 
     // - - - - - - - - DatabasePlugin - - - - - - - -
     var dbPluginName = "com.emin.digit.mobile.android.hybrid.plugin.DatabasePlugin";
     var dbPluginObj = {
         insert : function(sqlString){
-            //alert("[Custom Js Object] database plugin");
+            alert("[Custom Js Object] database plugin");
             var methodName = "insert";
             EminBridge.execSyncPlugin(dbPluginName,methodName,[sqlString]);
         }
@@ -26,14 +30,14 @@
             var methodName = "startGPS";
             EminBridge.execSyncPlugin(pgsPluginName,methodName);
         }
-    }
+    };
     window.EminBridge.GPSPlugin = gpsPlugin;
 
     // - - - - - - - -  UIAlert - - - - - - - -
     var alertPluginName = "com.emin.digit.mobile.android.hybrid.plugin.UIAlert";
     var alertPlugin = {
         toast : function(showText){
-            debug("[Custom Js Object alertPluginObj] toast argument length" + arguments.length);
+            console.log("[Custom Js Object alertPluginObj] toast argument length" + arguments.length);
             var methodName = "toast";
             EminBridge.toast(showText);
         }
@@ -44,22 +48,31 @@
     var barcodePluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
     var barcodePlugin = {
         start:function(type, callback){
-            debug("[Custom Js Object barcodePluginObject] arguments length:" + arguments.length);
+            console.log("[Custom Js Object barcodePluginObject] arguments length:" + arguments.length);
             var methodName = "startBarcode";
             console.log("callback:" + callback);
-            if(callback typeof "function"){
-                console.log("is function");
-            }else{
-                console.log("is not a function");
+
+
+            var type_fn_callback = typeof(successCallback);
+            console.log("type of fn_callback:" + type_fn_callback);
+
+            if(typeof(callback) == 'function'){
+                console.log("callback is function");
+                successCallback = callback;
             }
 
-            EminBridge.execSyncPlugin(barcodePluginName,methodName,[type,callback]);
+            //var type_fn_callback = typeof(fn_callback);
+            //console.log("type of fn_callback:" + type_fn_callback);
+
+            //else{
+            //    console.log("callback is not function");
+            //    successCallback = null;
+            //}
+            console.log(5556666);
+            EminBridge.execSyncPlugin(barcodePluginName,methodName,[type,"successCallback"]);
         }
-    }
+    };
     window.EminBridge.barcode = barcodePlugin;
 
-
-    function debug(info){
-        console.log(info);
-    }
-})()
+//})()
+//},true);

@@ -5,9 +5,17 @@
     <title>Init</title>
     <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
     <script>
+
+        //if(window.EminBridge){
+        //}else{
+        //    document.addEventListener('EminBridgeReady',function(){},false);
+        //}
+
          var debug = false;
+         var fn_callback = function(){};
 
          function insertData(){
+            alert(111111);
             EminBridge.dbPlugin.insert("insert into t_user values(1,'a')");
          }
 
@@ -36,6 +44,19 @@
             alert("return location:" + result);
          }
 
+         function testCallback(){
+            var pluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
+            var methodName = "testCallbackFun";
+            var arg1 = "arg1";
+
+            fn_callback = function(){
+                console.log("Function callback in JavaScript called");
+            };
+
+            EminBridge.execSyncPlugin(pluginName,methodName,[arg1,"fn_callback"]);
+         }
+
+
          // 原生层调用该Html中的js 方法测试
          function functionInJs(){
             console.log("Function in JavaScript called");
@@ -52,7 +73,7 @@
             var type = "barcode";
             // 回调测试
             EminBridge.barcode.start(type,function(result){
-                    console.log(result);
+                    console.log("barcode callback");
                  });
          }
 
@@ -85,6 +106,7 @@
 
 
       </script>
+
 </head>
 
 <body>
@@ -95,6 +117,10 @@
 <br/>
 <br/>
 <button type="button" id="button3" onclick="getLocation()">测试返回值:获取当前位置</button>
+<br/>
+<br/>
+<button type="button" id="btnCallback" onclick="testCallback()">测试JS回调</button>
+
 <br/>
 <br/>
 <button type="button" id="btnToast" onclick="toast()">测试调用原生的提示toast</button>

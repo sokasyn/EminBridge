@@ -1,5 +1,6 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -47,15 +48,24 @@ public class EMHybridActivity extends EMBaseActivity {
         mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
         mWebView = new EMHybridWebView(this,EMHybridActivity.this,mIndexUrl);
 
-        EMBridge injectedObject = new EMBridge(this, mWebView);   // 注入的对象
-        String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
-        mWebView.addJavascriptInterface(injectedObject, nameUsedInJs);
+        configJavascriptInterface();
 
         if(mIndexUrl != null){
             mWebView.loadUrl(mIndexUrl);
         }
 //        setContentView(mWebView.getLayout);
         setContentView(mWebView);
+    }
+
+    // 注入EminBridge对象
+    private void configJavascriptInterface(){
+        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+            Log.i(TAG, "Disabled addJavascriptInterface() bridge since Android version is old.");
+            return;
+        }
+        EMBridge injectedObject = new EMBridge(this, mWebView);   // 注入的对象
+        String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
+        mWebView.addJavascriptInterface(injectedObject, nameUsedInJs);
     }
 
     // - - - - - - - - - - Activity的生命周期各个阶段涉及的WebView处理
