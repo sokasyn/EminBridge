@@ -1,12 +1,11 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
-import com.emin.digit.mobile.android.hybrid.plugin.UIAlert;
+import com.emin.digit.mobile.android.hybrid.plugin.PluginAlert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -76,7 +75,9 @@ public class EMBridge {
 
             PluginParams params = new PluginParams();
             params.setWebView(mWebView);
-            params.setArguments(args);
+            if(args != null){
+                params.setArguments(args);
+            }
             rtnObj = method.invoke(pluginClass.newInstance(),params);
 
             if(rtnObj != null){
@@ -148,7 +149,7 @@ public class EMBridge {
     // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计
     @JavascriptInterface
     public void toast(String text){
-        new UIAlert().toast(mContext,text);
+        new PluginAlert().toast(mContext,text);
     }
 
     public Context getContext() {

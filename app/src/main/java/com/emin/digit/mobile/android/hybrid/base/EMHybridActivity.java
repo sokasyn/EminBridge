@@ -1,10 +1,13 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 /**
@@ -20,7 +23,7 @@ public class EMHybridActivity extends EMBaseActivity {
 
     private static final String TAG = EMHybridActivity.class.getSimpleName(); // 日志标志
     private EMHybridWebView mWebView; // 加载HTML页面的WebView
-    private String mIndexUrl; // HTML加载首页Url,通过该Url,配置Hybrid部分的启动页面
+    private String mIndexUrl;         // HTML加载首页Url,通过该Url,配置Hybrid部分的启动页面
 
     // WebView注入的对象暴露给javascript的名称
     private static final String INJECTED_BRIDGE_NAME = "EminBridge";
@@ -39,21 +42,31 @@ public class EMHybridActivity extends EMBaseActivity {
 
     // 各种初始化
     private void setup(){
+        Log.d(TAG,"= = = = = = = = = = 1");
+
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE); // 取消默认的标题栏以及全屏
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setupWebView();
     }
 
     // WebView的初始化
     private void setupWebView(){
-//        mWebView = new EMHybridWebView(this,EMHybridActivity.this, mIndexUrl);
-        mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
-        mWebView = new EMHybridWebView(this,EMHybridActivity.this,mIndexUrl);
+//        mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
+        mIndexUrl = "file:///android_asset/apps/AppPage/index.html";
+
+        mWebView = new EMHybridWebView(this, EMHybridActivity.this, mIndexUrl);
+        Log.d(TAG,"= = = = = = EMHybridActivity:" + this);
+        Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
+        Log.d(TAG,"= = = = = = webView in Activity initialize:" + mWebView);
+        Log.d(TAG,"= = = = = = WebView getContext:" + mWebView.getContext());
 
         configJavascriptInterface();
 
         if(mIndexUrl != null){
             mWebView.loadUrl(mIndexUrl);
         }
-//        setContentView(mWebView.getLayout);
         setContentView(mWebView);
     }
 

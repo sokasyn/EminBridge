@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,9 +14,10 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.emin.digit.android.eminbridge.eminbridge.R;
+//import com.emin.digit.mobile.android.hybrid.EminBridge;
+import com.emin.digit.mobile.android.hybrid.EminBridge.R;
+
 
 /**
  * Created by Samson on 16/8/11.
@@ -33,8 +33,15 @@ public class EMHybridWebChromeClient extends WebChromeClient{
     public void onProgressChanged(WebView view, int newProgress) {
          final EMHybridWebView rootView = (EMHybridWebView)view;
         boolean webPageAnimated = rootView.isWebPageAnimated();
-        Log.d(TAG,"hasAnimated :"+hasAnimated + " webPageAnimated:"+webPageAnimated);
+//        Log.d(TAG,"hasAnimated :"+hasAnimated + " webPageAnimated:"+webPageAnimated);
+        Log.d(TAG,"newProgress :" + newProgress);
 
+        if(newProgress == 100){
+
+        }
+
+        ((EMHybridActivity)view.getContext()).setProgress(newProgress * 1000);
+        /*
         if(newProgress == 100){
             Log.d(TAG,"= = = = = = = 页面加载完成 100%");
             if(webPageAnimated || (!hasAnimated )){
@@ -44,8 +51,8 @@ public class EMHybridWebChromeClient extends WebChromeClient{
             }else{
                 Log.d(TAG,"页面加载100% will not transition view");
             }
-        }
-//        super.onProgressChanged(view, newProgress);
+        }*/
+        super.onProgressChanged(view, newProgress);
     }
 
     @Override
@@ -130,6 +137,7 @@ public class EMHybridWebChromeClient extends WebChromeClient{
         if(imageView.getParent() == null){
             rootView.addView(imageView);
         }
+
 
         Animation translate_in = AnimationUtils.loadAnimation(view.getContext(), R.anim.transition_in);
         translate_in.setFillAfter(true);

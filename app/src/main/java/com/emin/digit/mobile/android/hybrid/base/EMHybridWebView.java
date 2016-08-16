@@ -5,9 +5,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 /**
  *
@@ -24,6 +26,8 @@ public class EMHybridWebView extends WebView {
     private EMHybridWebViewClient mWebViewClient;         // WebViewClient
     private EMHybridWebChromeClient mWebViewChromeClient; // WebChromeClient
     private String mUrl; // 加载的资源地址
+
+    private ProgressBar mProgressBar;   // 网页加载的进度条
 
     private FrameLayout mLayout;
 
@@ -61,7 +65,8 @@ public class EMHybridWebView extends WebView {
         mLayout = new FrameLayout(context);
         this.setWebViewClient(new EMHybridWebViewClient());     // 设置WebViewClient
         this.setWebChromeClient(new EMHybridWebChromeClient()); // 设置WebChromeClient
-        settingWebView(); // WebView其它配置
+        settingWebView();     // WebView其它配置
+        settingProgressBar(); // 加载进度条配置
     }
 
     // WebView配置
@@ -70,6 +75,22 @@ public class EMHybridWebView extends WebView {
         settings.setJavaScriptEnabled(true); // 支持Javascript
         String encodingName = "UTF-8";
         settings.setDefaultTextEncodingName(encodingName); // 配置字符编码
+
+        // 屏蔽长按事件。默认情况下长按,会出现全选,复制等小功能
+        setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(TAG,"LongClick view:" + v);
+                return true;
+            }
+        });
+    }
+
+    // 网页加载进度条配置
+    private void settingProgressBar(){
+        mProgressBar = new ProgressBar(mContext, null, android.R.attr.progressBarStyleHorizontal);
+        mProgressBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 3, 0, 0));
+        this.addView(mProgressBar);
     }
 
     public FrameLayout getLayout(){
@@ -84,6 +105,10 @@ public class EMHybridWebView extends WebView {
 
     public Activity getActivity() {
         return mActivity;
+    }
+
+    public ProgressBar getProgressBar() {
+        return mProgressBar;
     }
 
     public boolean isWebPageAnimated(){

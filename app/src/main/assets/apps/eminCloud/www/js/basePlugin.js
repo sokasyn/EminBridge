@@ -5,9 +5,10 @@
 
     // Web前端的javascript通过该JS提供的方法调用,实现通过反射机制执行Java原生层的方法
     var successCallback = function(){};
+    var failCallback = function(){};
 
     // - - - - - - - - DatabasePlugin - - - - - - - -
-    var dbPluginName = "com.emin.digit.mobile.android.hybrid.plugin.DatabasePlugin";
+    var dbPluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginDatabase";
     var dbPluginObj = {
         insert : function(sqlString){
             alert("[Custom Js Object] database plugin");
@@ -18,7 +19,7 @@
     window.EminBridge.dbPlugin = dbPluginObj;
 
     // - - - - - - - -  GPSPlugin - - - - - - - -
-    var pgsPluginName = "com.emin.digit.mobile.android.hybrid.plugin.GPSPlugin";
+    var pgsPluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginGPS";
     var gpsPlugin = {
         getLocation : function(args){
             var methodName = "getLocation";
@@ -34,7 +35,7 @@
     window.EminBridge.GPSPlugin = gpsPlugin;
 
     // - - - - - - - -  UIAlert - - - - - - - -
-    var alertPluginName = "com.emin.digit.mobile.android.hybrid.plugin.UIAlert";
+    var alertPluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginAlert";
     var alertPlugin = {
         toast : function(showText){
             console.log("[Custom Js Object alertPluginObj] toast argument length" + arguments.length);
@@ -47,29 +48,23 @@
     // - - - - - - - -  Barcode Plugin - - - - - - - -
     var barcodePluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
     var barcodePlugin = {
-        start:function(type, callback){
-            console.log("[Custom Js Object barcodePluginObject] arguments length:" + arguments.length);
+        start:function(type){
+            console.log("[Custom Js Object barcodePlugin] arguments length:" + arguments.length);
             var methodName = "startBarcode";
+            EminBridge.execSyncPlugin(barcodePluginName,methodName,[type]);
+        },
+        testCallback : function(codeType,callback){
+            console.log("[Custom Js Object barcodePlugin] testCallback arguments length:" + arguments.length);
             console.log("callback:" + callback);
+            var methodName = "testCallbackFun";
 
-
-            var type_fn_callback = typeof(successCallback);
+            var type_fn_callback = typeof(callback);
             console.log("type of fn_callback:" + type_fn_callback);
-
             if(typeof(callback) == 'function'){
                 console.log("callback is function");
                 successCallback = callback;
             }
-
-            //var type_fn_callback = typeof(fn_callback);
-            //console.log("type of fn_callback:" + type_fn_callback);
-
-            //else{
-            //    console.log("callback is not function");
-            //    successCallback = null;
-            //}
-            console.log(5556666);
-            EminBridge.execSyncPlugin(barcodePluginName,methodName,[type,"successCallback"]);
+            EminBridge.execSyncPlugin(barcodePluginName,methodName,[codeType,"successCallback"]);
         }
     };
     window.EminBridge.barcode = barcodePlugin;

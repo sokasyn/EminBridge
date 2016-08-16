@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.emin.digit.android.eminbridge.eminbridge.R;
-
+import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 /**
  * Created by Samson on 16/8/12.
  *

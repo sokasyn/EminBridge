@@ -17,6 +17,8 @@ public class TestBarcode extends Activity {
 
     private void setup(){
 //        startActivityForResult();
+        Intent intent = new Intent();
+        this.startActivity(intent);
 
     }
 

@@ -3,7 +3,7 @@ package com.emin.digit.mobile.android.hybrid;
 import android.content.Context;
 import android.webkit.JavascriptInterface;
 
-import com.emin.digit.mobile.android.hybrid.plugin.UIAlert;
+import com.emin.digit.mobile.android.hybrid.plugin.PluginAlert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Created by Samson on 16/8/1.
  */
-public class EminBridge {
+public class EminBridgeV1 {
 
     private Context mContext;
 
@@ -19,7 +19,7 @@ public class EminBridge {
 //
 //    }
 
-    public EminBridge(Context context){
+    public EminBridgeV1(Context context){
         this.mContext = context;
     }
 
@@ -108,7 +108,7 @@ public class EminBridge {
     // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计
     @JavascriptInterface
     public void toast(String text){
-        new UIAlert().toast(mContext,text);
+        new PluginAlert().toast(mContext,text);
     }
 
     // 检查插件是否存在

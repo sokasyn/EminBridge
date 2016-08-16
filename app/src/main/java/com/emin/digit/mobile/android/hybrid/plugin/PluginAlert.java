@@ -6,7 +6,7 @@ import android.widget.Toast;
 /**
  * Created by Samson on 16/8/4.
  */
-public class UIAlert {
+public class PluginAlert {
 
 //    Context mContext;
 

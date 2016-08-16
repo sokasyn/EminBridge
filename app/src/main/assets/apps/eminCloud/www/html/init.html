@@ -15,12 +15,11 @@
          var fn_callback = function(){};
 
          function insertData(){
-            alert(111111);
             EminBridge.dbPlugin.insert("insert into t_user values(1,'a')");
          }
 
          function startGps(){
-            //var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+            //var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.PluginGPS";
             //var methodName = "startGPS";
             //var arg = "delay 2s";
             //EminBridge.execSyncPlugin(pluginName,methodName,arg);
@@ -29,7 +28,7 @@
          }
 
          function getLocation(){
-            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.GPSPlugin";
+            var pluginName = "com.emin.digit.mobile.android.eminbridge.plugin.PluginGPS";
             var methodName = "getLocation";
             var arg = "Chengdu";
             var start =new Date().getTime();
@@ -44,44 +43,47 @@
             alert("return location:" + result);
          }
 
+         // 弹框类测试
+         function toast(){
+            EminBridge.UIAlert.toast("this is a toast message!");
+         }
+
+         // 测试二维码扫描
+         function startBarcode(){
+            console.log("startBarcode");
+            EminBridge.barcode.start("barcode 2D");
+         }
+
+         // 回调测试
          function testCallback(){
+            /*
             var pluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
             var methodName = "testCallbackFun";
             var arg1 = "arg1";
-
             fn_callback = function(){
                 console.log("Function callback in JavaScript called");
             };
-
             EminBridge.execSyncPlugin(pluginName,methodName,[arg1,"fn_callback"]);
-         }
+            */
 
+            var type = "barcode";
+
+            EminBridge.barcode.testCallback(type,function(result){
+                    console.log("barcode callback result:" + result);
+                 });
+         }
 
          // 原生层调用该Html中的js 方法测试
          function functionInJs(){
             console.log("Function in JavaScript called");
          }
 
-         // 弹框类测试
-         function toast(){
-            EminBridge.UIAlert.toast("this is a toast message!");
-         }
-
-
-         // 测试二维码扫描
-         function startBarcode(){
-            var type = "barcode";
-            // 回调测试
-            EminBridge.barcode.start(type,function(result){
-                    console.log("barcode callback");
-                 });
-         }
-
          // 页面跳转测试
          function toUserPage(){
             console.log("Will go to user page");
             //window.location.href='userPage.html';
-            window.location.href='http://www.baidu.com';
+            var url = 'http://developer.android.com/';
+            window.location.href='userPage.html';
          }
 
          // = = = = = = = = = = = 辅助测试方法
