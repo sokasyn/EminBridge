@@ -145,6 +145,22 @@ public class EMBridge {
         }
     }
 
+    @JavascriptInterface
+    public void pageLocation(final String url){
+        Log.d(TAG,"= = = = = = =location url:" + url);
+        final EMHybridActivity activity = (EMHybridActivity)mContext;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG,"loadUrl runOnUiThread:" + Thread.currentThread().getId());
+                activity.loadPage(url);
+            }
+        });
+
+
+    }
+
+
     // 测试需要Android context的功能,
     // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计
     @JavascriptInterface

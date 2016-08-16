@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Toast;
+
+import java.util.LinkedList;
 
 /**
  * 以HTML5为前端的混合开发中,原生层总控Activity
@@ -20,19 +23,12 @@ import android.widget.Toast;
  */
 public class EMHybridActivity extends EMBaseActivity {
 
-
     private static final String TAG = EMHybridActivity.class.getSimpleName(); // 日志标志
     private EMHybridWebView mWebView; // 加载HTML页面的WebView
-    private String mIndexUrl;         // HTML加载首页Url,通过该Url,配置Hybrid部分的启动页面
+    private String mUrl;              // HTML加载页面Url
 
-    // WebView注入的对象暴露给javascript的名称
-    private static final String INJECTED_BRIDGE_NAME = "EminBridge";
+    private static LinkedList<EMHybridWebView> webViewList = new LinkedList<EMHybridWebView>();
 
-    /**
-     * 复写onCreate方法,初始化mWebView,注入Java接口对象
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG,"onCreate");
@@ -40,45 +36,58 @@ public class EMHybridActivity extends EMBaseActivity {
         setup();
     }
 
-    // 各种初始化
+    // 初始化
     private void setup(){
         Log.d(TAG,"= = = = = = = = = = 1");
-
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE); // 取消默认的标题栏以及全屏
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE); // 取消默认的标题栏以及全屏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        setupWebView();
-    }
 
-    // WebView的初始化
-    private void setupWebView(){
-//        mIndexUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
-        mIndexUrl = "file:///android_asset/apps/AppPage/index.html";
+        // Activity初始化加载webApp的首页地址
+        // TODO: 16/8/17 改善:通过读取配置文件获取
+        mUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
+//        loadPage(mUrl);
+         mWebView = new EMHybridWebView(this, EMHybridActivity.this, mUrl);
+//        mWebView.loadUrl(mUrl);
 
-        mWebView = new EMHybridWebView(this, EMHybridActivity.this, mIndexUrl);
-        Log.d(TAG,"= = = = = = EMHybridActivity:" + this);
-        Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
-        Log.d(TAG,"= = = = = = webView in Activity initialize:" + mWebView);
-        Log.d(TAG,"= = = = = = WebView getContext:" + mWebView.getContext());
-
-        configJavascriptInterface();
-
-        if(mIndexUrl != null){
-            mWebView.loadUrl(mIndexUrl);
-        }
         setContentView(mWebView);
     }
 
-    // 注入EminBridge对象
-    private void configJavascriptInterface(){
-        if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-            Log.i(TAG, "Disabled addJavascriptInterface() bridge since Android version is old.");
-            return;
-        }
-        EMBridge injectedObject = new EMBridge(this, mWebView);   // 注入的对象
-        String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
-        mWebView.addJavascriptInterface(injectedObject, nameUsedInJs);
+
+    /**
+     * 加载新的web页面
+     *
+     * @param url
+     */
+    public void loadPage(String url){
+//        EMHybridWebView webView = createWebView(url);
+//        webViewList.add(webView);
+//        mWebView = webView;
+//        setContentView(webView);
+
+//        mWebView = createWebView(url);
+//        Log.d(TAG,"loadPage:" + mWebView);
+//        setContentView(mWebView);
+        mWebView.loadUrl(url);
+        setContentView(mWebView);
+    }
+
+    /**
+     * 创建WebView
+     *
+     * @param url 页面url
+     *
+     * @return EMHybridWebView
+     */
+    public EMHybridWebView createWebView(String url){
+        Log.d(TAG,"createWebView:" + url);
+        Log.d(TAG,"= = = = = = this:" + this);
+        Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
+        return new EMHybridWebView(EMHybridActivity.this, this, url);
+    }
+
+    public void preloadWebViews(String[] urlArray){
+
     }
 
     // - - - - - - - - - - Activity的生命周期各个阶段涉及的WebView处理
@@ -156,11 +165,19 @@ public class EMHybridActivity extends EMBaseActivity {
         }
     }
 
-    public String getIndexUrl() {
-        return mIndexUrl;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setIndexUrl(String indexUrl) {
-        this.mIndexUrl = indexUrl;
+    public void setUrl(String url) {
+        this.mUrl = url;
     }
+
+    private void showInfo(){
+        Log.d(TAG,"= = = = = = EMHybridActivity:" + this);
+        Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
+        Log.d(TAG,"= = = = = = webView in Activity initialize:" + mWebView);
+        Log.d(TAG,"= = = = = = WebView getContext:" + mWebView.getContext());
+    }
+
 }

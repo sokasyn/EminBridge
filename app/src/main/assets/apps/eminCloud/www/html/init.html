@@ -12,6 +12,7 @@
         //}
 
          var debug = false;
+
          var fn_callback = function(){};
 
          function insertData(){
@@ -81,9 +82,14 @@
          // 页面跳转测试
          function toUserPage(){
             console.log("Will go to user page");
-            //window.location.href='userPage.html';
-            var url = 'http://developer.android.com/';
-            window.location.href='userPage.html';
+            //var url = 'http://developer.android.com/';
+            //window.location.href=url;
+
+            var localUrl = 'userPage.html';
+            window.location.href=localUrl;
+            //EminBridge.pageLocation(localUrl);
+
+
          }
 
          // = = = = = = = = = = = 辅助测试方法
