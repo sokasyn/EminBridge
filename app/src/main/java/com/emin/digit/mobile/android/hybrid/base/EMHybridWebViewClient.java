@@ -28,14 +28,12 @@ public class EMHybridWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         Log.d(TAG,"onPageStarted :" + url);
-//        super.onPageStarted(view, url, favicon);
+        super.onPageStarted(view, url, favicon);
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        Log.d(TAG,"onPageFinished :" + url);
-
-        ((EMHybridWebView)view).setWebPageAnimated(false);
+        Log.d(TAG,"view :" + view + "onPageFinished url:" + url);
         super.onPageFinished(view, url);
     }
 

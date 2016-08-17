@@ -1,15 +1,17 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 
 import java.util.LinkedList;
 
@@ -24,6 +26,12 @@ import java.util.LinkedList;
 public class EMHybridActivity extends EMBaseActivity {
 
     private static final String TAG = EMHybridActivity.class.getSimpleName(); // 日志标志
+
+    private static final String sBaseWebPageUrl = "file:///android_asset/apps/test/www/html/";
+
+//    private FrameLayout rootLayout;
+    private FrameLayout containerView;
+
     private EMHybridWebView mWebView; // 加载HTML页面的WebView
     private String mUrl;              // HTML加载页面Url
 
@@ -31,8 +39,8 @@ public class EMHybridActivity extends EMBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,"onCreate");
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreate");
         setup();
     }
 
@@ -43,33 +51,36 @@ public class EMHybridActivity extends EMBaseActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
 
+        setContentView(R.layout.bridge_activity);
+//        rootLayout = (FrameLayout) findViewById(R.id.idActivityHybrid);
+        containerView = (FrameLayout)findViewById(R.id.idContainerView);
+
         // Activity初始化加载webApp的首页地址
         // TODO: 16/8/17 改善:通过读取配置文件获取
-        mUrl = "file:///android_asset/apps/eminCloud/www/html/init.html";
-//        loadPage(mUrl);
-         mWebView = new EMHybridWebView(this, EMHybridActivity.this, mUrl);
-//        mWebView.loadUrl(mUrl);
-
-        setContentView(mWebView);
+        //mUrl = "file:///android_asset/apps/test/www/html/init.html";
+        mUrl = "init.html";
+        loadPage(mUrl);
     }
-
 
     /**
      * 加载新的web页面
+     * Web前端传入的是相对路劲,需要
      *
      * @param url
      */
     public void loadPage(String url){
-//        EMHybridWebView webView = createWebView(url);
-//        webViewList.add(webView);
-//        mWebView = webView;
-//        setContentView(webView);
-
-//        mWebView = createWebView(url);
-//        Log.d(TAG,"loadPage:" + mWebView);
-//        setContentView(mWebView);
+        url = getFullPathForFile(url);
+        mWebView = createWebView(url);
+        webViewList.add(mWebView);
         mWebView.loadUrl(url);
-        setContentView(mWebView);
+        containerView.addView(mWebView);
+
+        // 切换动画
+        Animation translate_in = AnimationUtils.loadAnimation(mWebView.getContext(), R.anim.transition_push_in);
+        translate_in.setFillAfter(true);
+//        translate_in.setDuration(300); // 持续时间在res/anim 相关xml文件中配置
+        translate_in.setDetachWallpaper(true);
+        mWebView.setAnimation(translate_in);
     }
 
     /**
@@ -83,11 +94,16 @@ public class EMHybridActivity extends EMBaseActivity {
         Log.d(TAG,"createWebView:" + url);
         Log.d(TAG,"= = = = = = this:" + this);
         Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
-        return new EMHybridWebView(EMHybridActivity.this, this, url);
+        return new EMHybridWebView(this, EMHybridActivity.this, url);
     }
 
     public void preloadWebViews(String[] urlArray){
 
+    }
+
+    // web前端页面跳转传的是相对路劲,必须拼接成android 资源目录下的全路劲
+    private String getFullPathForFile(String url){
+        return sBaseWebPageUrl + url;
     }
 
     // - - - - - - - - - - Activity的生命周期各个阶段涉及的WebView处理
@@ -122,8 +138,17 @@ public class EMHybridActivity extends EMBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mWebView != null){
-            mWebView.destroy();
+        destroyAllWebViews();
+    }
+
+    private void destroyWebView(){
+
+    }
+
+    // 销毁所有的webView
+    private void destroyAllWebViews(){
+        for(WebView webView : webViewList){
+            webView.destroy();
         }
     }
 
@@ -139,6 +164,7 @@ public class EMHybridActivity extends EMBaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
+            /*
             // 如果有历史记录,在返回上一个页面
             if(mWebView.canGoBack()){
                 mWebView.goBack();
@@ -146,6 +172,34 @@ public class EMHybridActivity extends EMBaseActivity {
                 // 没有历史记录,则提示用户是否期望退出应用
                 exitAppWhenDoublePressed();
             }
+            */
+            // 每个webView对应一个页面
+            int count = webViewList.size();
+            Log.d(TAG,"webViewList.size():" + count);
+            for(int i = 0; i < count; i++){
+                Log.d(TAG,"webView in list[:" + i + "]:" + (EMHybridWebView)webViewList.get(i));
+            }
+            if(webViewList.size() <= 1){
+                exitAppWhenDoublePressed();
+            }else {
+                //Toast.makeText(this, "前面还加载这web view", Toast.LENGTH_SHORT).show();
+                int childViewCount = containerView.getChildCount();
+                Log.d(TAG,"childViewCount:" + childViewCount);
+                containerView.removeViewAt(childViewCount - 1);
+
+                mWebView = webViewList.getLast();
+                containerView.removeView(mWebView);
+                Animation translate_out = AnimationUtils.loadAnimation(mWebView.getContext(), R.anim.tansition_pop_out);
+                translate_out.setFillAfter(true);
+//                translate_out.setDuration(300);
+                translate_out.setDetachWallpaper(true);
+                mWebView.setAnimation(translate_out);
+
+
+                webViewList.removeLast();
+                mWebView = webViewList.getLast();
+            }
+
             return true;
         }else{
             return super.onKeyDown(keyCode, event);

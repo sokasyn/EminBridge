@@ -24,7 +24,7 @@
         </activity>
 
         <!-- 二维码扫描Activity -->
-        <activity android:name="com.emin.digit.mobile.android.framework.zxing.android.CaptureActivity"
+        <activity android:name="com.emin.digit.test.zxing.android.CaptureActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>

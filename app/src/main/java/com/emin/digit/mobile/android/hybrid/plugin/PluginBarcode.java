@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.webkit.WebView;
 
-import com.emin.digit.mobile.android.framework.zxing.android.CaptureActivity;
+import com.emin.digit.test.zxing.android.CaptureActivity;
 import com.emin.digit.mobile.android.hybrid.base.PluginParams;
 
 /**
@@ -59,7 +59,7 @@ public class PluginBarcode {
 //                webView.loadUrl("javascript:foo()");
 //                webView.loadUrl("javascript:functionInJs()");
 //                webView.loadUrl("javascript:functionInJs()");
-                String result = "return values";
+                String result = "Good luck!";
                 webView.loadUrl("javascript:" + callBackName +"('" + result + "')");
 //                webView.loadUrl("javascript:" + "alert()");
             }

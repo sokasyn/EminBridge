@@ -5,12 +5,17 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+
+import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 
 /**
  *
@@ -33,12 +38,13 @@ public class EMHybridWebView extends WebView {
 
     private ProgressBar mProgressBar;   // 网页加载的进度条
 
+    // - - - - - - - - - 界面相关
     private FrameLayout mLayout;
+    private FrameLayout mBrowserFrameLayout; // root view
+    private FrameLayout mContentView;        // 内容显示区域
 
-    private boolean webPageAnimated = false;
 
     // - - - - - - - - - - - 构造方法 - - - - - - - - - - -
-
     public EMHybridWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -69,17 +75,33 @@ public class EMHybridWebView extends WebView {
     private void init(Context context){
         Log.d(TAG,"init");
         mContext = context;
-        mLayout = new FrameLayout(context);
-        this.setWebViewClient(new EMHybridWebViewClient());     // 设置WebViewClient
-        this.setWebChromeClient(new EMHybridWebChromeClient()); // 设置WebChromeClient
-        settingWebView();     // WebView其它配置
+        //settingLayout(context);  // 布局的设置
+
+        EMHybridWebViewClient viewClient = new EMHybridWebViewClient();
+        Log.d(TAG,"view Client:" + viewClient);
+        this.setWebViewClient(viewClient);     // 设置WebViewClient
+
+        EMHybridWebChromeClient chromeClient = new EMHybridWebChromeClient();
+        Log.d(TAG,"chromClient:" +chromeClient);
+        this.setWebChromeClient(chromeClient); // 设置WebChromeClient
+        settingWebView();       // WebView其它配置
         //settingProgressBar(); // 加载进度条配置
-
         configJavascriptInterface();
+    }
 
-        if(mUrl != null){
-            loadUrl(mUrl);
-        }
+    private void settingLayout(Context context){
+        mLayout = new FrameLayout(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        mBrowserFrameLayout = (FrameLayout)inflater.inflate(R.layout.bridge_webview,null);
+
+        mContentView = (FrameLayout)mBrowserFrameLayout.findViewById(R.id.main_content);
+        final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.CENTER);
+        mLayout.addView(mBrowserFrameLayout,COVER_SCREEN_PARAMS);
+
+        mContentView.addView(this);
     }
 
     // WebView配置
@@ -106,7 +128,7 @@ public class EMHybridWebView extends WebView {
             return;
         }
         EMBridge injectedObject = new EMBridge(mActivity, this);   // 注入的对象
-        String nameUsedInJs = INJECTED_BRIDGE_NAME; // javascript通过该名字调用注入对象的方法
+        String nameUsedInJs = INJECTED_BRIDGE_NAME;          // javascript通过该名字调用注入对象的方法
         this.addJavascriptInterface(injectedObject, nameUsedInJs);
     }
 
@@ -135,11 +157,8 @@ public class EMHybridWebView extends WebView {
         return mProgressBar;
     }
 
-    public boolean isWebPageAnimated(){
-        return webPageAnimated;
-    }
 
-    public void setWebPageAnimated(boolean animated) {
-        this.webPageAnimated = animated;
+    public String getUrl() {
+        return mUrl;
     }
 }

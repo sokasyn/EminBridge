@@ -2,6 +2,7 @@ package com.emin.digit.mobile.android.hybrid.base;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -49,7 +50,6 @@ public class EMBridge {
     /**
      * 同步执行plugin
      *
-     *
      * @param pluginName
      * @param methodName
      * @param args
@@ -61,8 +61,10 @@ public class EMBridge {
         // TODO: 16/8/4 回调函数的设计,在入参的时候,将JS的回调保存起来,通过WebView的loadUrl()执行该js函数！
         System.out.println("[EminBridge] 同步调用 pluginName:" + pluginName + " methodName:" + methodName + " args:" + args);
 
-        for(int i = 0 ; i < args.length; i++){
-            Log.d(TAG,"execSyncPlugin args[" + i + "] :" + args[i]);
+        if(args != null){
+            for(int i = 0 ; i < args.length; i++){
+                Log.d(TAG,"execSyncPlugin args[" + i + "] :" + args[i]);
+            }
         }
 
         Object rtnObj = null;
@@ -71,7 +73,7 @@ public class EMBridge {
             Class pluginClass = Class.forName(pluginName);
             Method method = pluginClass.getDeclaredMethod(methodName,PluginParams.class);
 
-            Log.d(TAG,"[EminBridge] execSyncPlugin to invoke:当前线程 id:" + Thread.currentThread().getId());
+            Log.d(TAG,"[EminBridge] execSyncPlugin invoked:当前线程 id:" + Thread.currentThread().getId());
 
             PluginParams params = new PluginParams();
             params.setWebView(mWebView);
@@ -110,25 +112,29 @@ public class EMBridge {
      *
      * @param pluginName
      * @param methodName
-     * @param arg
+     * @param args
      */
     @JavascriptInterface
-    public void execPlugin(String pluginName, String methodName, String arg){
-        System.out.println("[EminBridge] execPlugin pluginName:" + pluginName + " methodName:" + methodName + " arg:" + arg);
-
+    public void execPlugin(String pluginName, String methodName, String[] args){
         Object rtnObj = null;
         // 通过pluginName找到JAVA类,并执行method
         try{
             final Class pluginClass = Class.forName(pluginName);
             final Method method = pluginClass.getDeclaredMethod(methodName,String.class);
-            final String argument = arg;
+            final String[] arguments = args;
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     // TODO: 16/8/3 异步调用的多线程交互问题,可以封装Handler
                     try{
-                        method.invoke(pluginClass.newInstance(),argument);
+
+                        PluginParams params = new PluginParams();
+                        params.setWebView(mWebView);
+                        if(arguments != null){
+                            params.setArguments(arguments);
+                        }
+                        method.invoke(pluginClass.newInstance(),params);
                     }catch (InstantiationException e){
                         e.printStackTrace();
                     }catch (IllegalAccessException e){
@@ -145,21 +151,37 @@ public class EMBridge {
         }
     }
 
+    /**
+     * javascript的页面跳转事件
+     *
+     * @param url
+     */
     @JavascriptInterface
-    public void pageLocation(final String url){
-        Log.d(TAG,"= = = = = = =location url:" + url);
+    public void loadWebPage(final String url){
         final EMHybridActivity activity = (EMHybridActivity)mContext;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG,"loadUrl runOnUiThread:" + Thread.currentThread().getId());
                 activity.loadPage(url);
             }
         });
-
-
     }
 
+    /**
+     * javascript的页面返回上一页事件
+     */
+    @JavascriptInterface
+    public void lastWebPage(){
+
+        final EMHybridActivity activity = (EMHybridActivity)mContext;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK));
+            }
+        });
+
+    }
 
     // 测试需要Android context的功能,
     // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计

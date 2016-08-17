@@ -43,7 +43,7 @@ public class TestActivityLayout extends Activity {
 
     // 静态xml文件加载
     private void setupViewStatic(){
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.test_activity_second);
     }
 
     // 动态获取生成布局文件对应的view加载
@@ -56,7 +56,7 @@ public class TestActivityLayout extends Activity {
         Log.d(TAG,"setupViewDynamic textView0:" + textView0);  // null,没加载
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.activity_second,null);
+        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.test_activity_second,null);
         Log.d(TAG,"setupViewDynamic inflated layout:" + layout); // not null,通过inflater的方式,找到布局文件,然后创建view对象(LinearLayout也是view）
         setContentView(layout);
 
@@ -137,7 +137,7 @@ public class TestActivityLayout extends Activity {
         // 通过inflater的方式,找到布局文件,然后创建view对象,所以跟初始创建的是不一样的。
         // 当界面控件被更改时,所新创建的这个对象是不受影响的,跟布局里设置的一致,如TextView的text等
 //        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.acivity_second,null);
-        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.activity_second,null);
+        LinearLayout layout = (LinearLayout)inflater.inflate(R.layout.test_activity_second,null);
         Log.d(TAG,"settingWidgetDynamic inflated layout:" + layout);
 
 

@@ -5,7 +5,7 @@ import android.webkit.WebView;
 /**
  * 对Plugin方法参数的封装
  * 保证通过反射机制调用Plugin方法的时候,参数的统一
- * Javascript在传入参数可能是多个,通过数组的形式,调用EminBridge的exec方法时,
+ * Javascript在传入参数可能是多个,通过数组的形式,调用EminBridge的执行方法时,
  * 这个参数数组对象对应,PluginParams的arguments
  *
  *

@@ -1,5 +1,6 @@
 package com.emin.digit.test;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,15 +39,10 @@ public class ActivityEntry extends ListActivity {
         this.startActivity(intent);
     }
 
-
-
-
     AcitivtyInfo[] acts = new AcitivtyInfo[]{
-            /*
-            new AcitivtyInfo("runtime集成方式", SDK_Runtime.class),
-            new AcitivtyInfo("webapp集成方式", SDK_WebApp.class),
-            new AcitivtyInfo("webview集成方式", SDK_WebView.class)
-            */
+            new AcitivtyInfo("Activity1", Activity.class),
+            new AcitivtyInfo("Activity2", Activity.class),
+            new AcitivtyInfo("Activity3", Activity.class)
     };
 
     class AcitivtyInfo{

@@ -9,10 +9,10 @@
         android:layout_height="200dp" />
 
     <!-- 扫描取景框 -->
-    <com.emin.digit.mobile.android.framework.zxing.view.ViewfinderView
+    <com.emin.digit.test.zxing.view.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="fill_parent"
-        android:layout_height="200dp" />
+        android:layout_height="fill_parent" />
 
     <!--
     <RelativeLayout
