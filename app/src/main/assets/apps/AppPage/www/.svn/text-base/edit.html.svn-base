@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>发货列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/delivery.css" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+	<style>
+		body {
+			font-family: "微软雅黑";
+			background-color: #F8F8F8;
+			margin: 0;
+			padding: 0;
+		}
+		ul li {
+			list-style: none;
+		}
+		.header_bg {
+			background-color: #389FE4;
+		}
+		.Main_nav {
+			width: 60%;
+			margin: 0 auto;
+			height: 40px;
+			margin-top: 5%;
+		}
+		.Nav_code {
+			color: #6b6b6b;
+		}
+		.Nav_Manual {
+			color: #6b6b6b;
+		}
+		.Search {
+			padding-top: 2%;
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		
+		.mui_bg {
+			background: #fff !important;
+		}
+		
+		.Search_input {
+			background: #fff !important;
+			border: 1px solid #E3E3E3 !important;
+		}
+		
+		.content_hidden {
+			background: #F8F8F8 !important;
+		}
+		
+		#segmentedControlContents {
+			padding-left: 2%;
+		}
+		
+		#ManualScan {
+			border-bottom: 2px solid #389FE4;
+			color: #389FE4;
+		}
+		
+		.mui-row.mui-fullscreen>[class*="mui-col-"] {
+			height: 100%;
+		}
+		
+		.mui-col-xs-3,
+		.mui-control-content {
+			overflow-y: auto;
+			height: 100%;
+		}
+		
+		.mui-segmented-control .mui-control-item {
+			line-height: 50px;
+			width: 100%;
+		}
+		
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			background-color: #fff;
+		}
+		
+		.mui_con {
+			padding-top: 0 !important;
+		}
+		
+		.mui-table-view-cell {
+			height: 100px;
+			border-left: 1px solid #E7E7E7;
+			border-top: 1px solid #e7e7e7;
+		}
+		
+		.mui-table-view-cell {
+			position: initial;
+		}
+		
+		.caption {
+			float: left;
+			padding-left: 20px;
+		}
+		
+		.caption_p {
+			color: #242424;
+		}
+		
+		.caption_span {
+			color: red;
+		}
+		
+		.mui-control-content {
+			background-color: #F8F8F8;
+		}
+		
+		.mui-content {
+			background-color: #F8F8F8;
+		}
+		
+		.mui-control-item {
+			border-right: #e6e6e6 !important;
+			background: #fff;
+		}
+		
+		.mui-segmented-control a {
+			background-color: #f8f8f8;
+		}
+		
+		.icon_right_color {
+			color: #fff;
+		}
+		
+		.List_of_pictures {
+			background: #fff;
+			margin-top: 3%;
+			width: 100%;
+		}
+		
+		.List_of_pictures ul li {
+			border-bottom: 1px solid #F3F3F3;
+			height: 130px;
+		}
+		
+		.List_of_pictures ul {
+			padding: 0 !important;
+		}
+		
+		.vbvb {
+			float: left;
+		}
+		
+		.Text_description {
+			font-size: 14px;
+			line-height: 20px;
+		}
+		
+		.Text_description a {
+			color: #393939;
+		}
+		
+		.Text_description p {
+			margin-top: 2%;
+		}
+		
+		.Edit_foot {
+			width: 100%;
+			height: 50px;
+			text-align: center;
+			background: #fff;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			line-height: 50px;
+		}
+		
+		.caption_right button {
+			border: none;
+		}
+		
+		.Li_list a img {
+			margin-right: 2%;
+			margin-left: 2%;
+			height: 90px;
+			width: 80px;
+			margin-top: 2%;
+		}
+		
+		.delete_right {
+			width: 70%;
+			height: 120px;
+			float: left;
+		}
+		
+		.dele_btn {
+			width: 20%;
+			height: 130px;
+			border-radius: 0;
+			background: #FC716E;
+			border: none;
+			color: #fff;
+			float: right;
+		}
+		.deit_mag{
+			margin-top:-15%;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header_bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left icon_color"></a>
+			<h1 class="mui-title">发货</h1>
+			<a><span class="mui-icon mui-pull-right mui-icon-list icon_right_color"></span></a>
+		</header>
+		<div class="mui-content mui_bg">
+			<div class="Main_nav">
+				<a class="Nav_code" id="autoScan">扫码发货</a>
+				<a class="Nav_Manual" id='ManualScan' style="float: right;">手动发货</a>
+			</div>
+		</div>
+		<!--发货按钮-->
+		<!--<div class="content_hidden">
+				<div class="Search">
+					<div class="mui-input-row mui-search">
+					    <input type="search" class="mui-input-clear Search_input" placeholder="搜索">
+					</div>
+				</div>
+			</div>
+			<!--中间-->
+		<div class="List_of_pictures">
+			<ul>
+				<li id="li_oon1">
+					<div style="width:30%;height:120px; float: left;text-align: center;line-height: 120px;" id="list_one_delete">
+						<img src="images/search1.png" style="width: 80px;height:90px; vertical-align:middle ">
+					</div>
+					<div style="width:70%;height:120px;float: left;" class="caption_right" id="caption_right">
+						<p style="margin-top: 5%;">LYN就是一个小逗比，有点傻傻的。还爱耍流氓.</p>
+						<p>cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						<p><span style="color: red;font-weight: bold;">￥：88.00</span>&nbsp;
+							<span>×1</span>
+						</p>
+						<button class="mui-pull-right deit_mag" id='edit-btn1' type="button" onclick="edit(this)">编辑</button>
+					</div>
+
+					<div class="delete_right1" id="delete_right1" style="display:none;">
+						<div style="width: 150px;float: left;margin-top:5%;">
+							<div class="mui-numbox" style="margin-top: 7%;width:150px !important;float:left;">
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+								<input style="height: 35px;" class="mui-input-numbox" type="number" />
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+							</div>
+							<p style="float: left;">cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						</div>
+						<button class="dele_btn" id="dele_btn1" type="button" value="删除" onclick="dele(this)">删除</button>
+					</div>
+				</li>
+
+				<li id="li_oon2">
+					<div style="width:30%;height:120px; float: left;text-align: center;line-height: 120px;" id="list_one_delete">
+						<img src="images/search1.png" style="width: 80px;height:90px; vertical-align:middle ">
+					</div>
+					<div style="width:70%;height:120px;float: left;" class="caption_right" id="caption_right">
+						<p style="margin-top: 5%;">LYN就是一个小逗比，有点傻傻的。还爱耍流氓.</p>
+						<p>cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						<p><span style="color: red;font-weight: bold;">￥：88.00</span>&nbsp;
+							<span>×1</span>
+						</p>
+						<button class="mui-pull-right deit_mag" id='edit-btn2' type="button" onclick="edit(this)">编辑</button>
+					</div>
+
+					<div class="delete_right1" id="delete_right2" style="display:none;">
+						<div style="width: 150px;float: left;margin-top:5%;">
+							<div class="mui-numbox" style="margin-top: 7%;width:150px !important;float:left;">
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+								<input style="height: 35px;" class="mui-input-numbox" type="number" />
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+							</div>
+							<p style="float: left;">cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						</div>
+						<button class="dele_btn" id="dele_btn2" type="button" value="删除" onclick="dele(this)">删除</button>
+					</div>
+				</li>
+                
+                <li id="li_oon3">
+					<div style="width:30%;height:120px; float: left;text-align: center;line-height: 120px;" id="list_one_delete">
+						<img src="images/search1.png" style="width: 80px;height:90px; vertical-align:middle ">
+					</div>
+					<div style="width:70%;height:120px;float: left;" class="caption_right" id="caption_right">
+						<p style="margin-top: 5%;">LYN就是一个小逗比，有点傻傻的。还爱耍流氓.</p>
+						<p>cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						<p><span style="color: red;font-weight: bold;">￥：88.00</span>&nbsp;
+							<span>×1</span>
+						</p>
+						<button class="mui-pull-right deit_mag" id='edit-btn2' type="button" onclick="edit(this)">编辑</button>
+					</div>
+
+					<div class="delete_right1" id="delete_right2" style="display:none;">
+						<div style="width: 150px;float: left;margin-top:5%;">
+							<div class="mui-numbox" style="margin-top: 7%;width:150px !important;float:left;">
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+								<input style="height: 35px;" class="mui-input-numbox" type="number" />
+								<button style="height: 35px;" class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+							</div>
+							<p style="float: left;">cater:<span>男人</span>；爱好：<span>XXL</span></p>
+						</div>
+						<button class="dele_btn" id="dele_btn2" type="button" value="删除" onclick="dele(this)">删除</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="Edit_foot">
+			<a>完成</a>
+		</div>
+		<div class="footer" style="height:30px;"></div>
+		<!--主体内容-->
+		<script>
+			function edit(obj) {
+				var id = obj.id.match(/\d+/ig)
+				var abc = String('#delete_right' + id);
+				$(obj).parent().css("display", "none");
+				$(obj).parent().parent().find(abc).css("display", "");
+			}
+
+			function dele(obj) {
+				var id = obj.id.match(/\d+/ig)
+				$(obj).parent().parent().remove();
+			}
+		</script>
+	</body>
+
+</html>

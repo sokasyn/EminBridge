@@ -1,4 +1,4 @@
-package com.emin.digit.mobile.android.framework;
+package com.emin.digit.test.framework;
 
 /**
  * Created by Samson on 16/8/1.
