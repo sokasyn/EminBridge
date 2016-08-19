@@ -34,6 +34,12 @@ public class EMHybridWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         Log.d(TAG,"view :" + view + "onPageFinished url:" + url);
+
+        EMHybridWebView v = (EMHybridWebView)view;
+
+        EMHybridActivity activity = (EMHybridActivity)v.getActivity();
+        activity.getProgressDialog().dismiss();
+
         super.onPageFinished(view, url);
     }
 

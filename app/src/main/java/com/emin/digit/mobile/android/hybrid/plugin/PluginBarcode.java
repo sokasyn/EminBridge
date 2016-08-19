@@ -1,12 +1,16 @@
 package com.emin.digit.mobile.android.hybrid.plugin;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.webkit.WebView;
 
+import com.emin.digit.mobile.android.hybrid.EminBridge.R;
+import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
 import com.emin.digit.test.zxing.android.CaptureActivity;
 import com.emin.digit.mobile.android.hybrid.base.PluginParams;
+import com.emin.digit.test.zxing.view.ViewfinderView;
 
 /**
  * Created by Samson on 16/8/15.
@@ -35,6 +39,10 @@ public class PluginBarcode {
                 Context context = webView.getContext();
                 Intent intent = new Intent(context, CaptureActivity.class);
                 context.startActivity(intent);
+
+                Activity activity = (EMHybridActivity)webView.getContext();
+
+                ViewfinderView view = (ViewfinderView) activity.findViewById(R.id.viewfinder_view);
             }
         });
 

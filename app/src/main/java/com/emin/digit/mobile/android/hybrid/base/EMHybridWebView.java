@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 
+import java.util.logging.Handler;
+
 /**
  *
  * 混合开发WebView封装
@@ -37,7 +39,6 @@ public class EMHybridWebView extends WebView {
     private static final String INJECTED_BRIDGE_NAME = "EminBridge";
 
     private ProgressBar mProgressBar;   // 网页加载的进度条
-
     // - - - - - - - - - 界面相关
     private FrameLayout mLayout;
     private FrameLayout mBrowserFrameLayout; // root view

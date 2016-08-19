@@ -1,5 +1,6 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,8 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
+import com.emin.digit.test.MainActivity;
 
 import java.util.LinkedList;
+import java.util.logging.Handler;
 
 /**
  * 以HTML5为前端的混合开发中,原生层总控Activity
@@ -34,6 +37,10 @@ public class EMHybridActivity extends EMBaseActivity {
 
     private EMHybridWebView mWebView; // 加载HTML页面的WebView
     private String mUrl;              // HTML加载页面Url
+
+
+    private Handler handler;
+    private ProgressDialog progressDialog;
 
     private static LinkedList<EMHybridWebView> webViewList = new LinkedList<EMHybridWebView>();
 
@@ -72,7 +79,13 @@ public class EMHybridActivity extends EMBaseActivity {
         url = getFullPathForFile(url);
         mWebView = createWebView(url);
         webViewList.add(mWebView);
+
+        progressDialog = ProgressDialog.show(this, "标题", "加载中，请稍后……");
+
+        Log.d(TAG,"11111");
         mWebView.loadUrl(url);
+
+        Log.d(TAG,"222222");
         containerView.addView(mWebView);
 
         // 切换动画
@@ -225,6 +238,11 @@ public class EMHybridActivity extends EMBaseActivity {
 
     public void setUrl(String url) {
         this.mUrl = url;
+    }
+
+
+    public ProgressDialog getProgressDialog() {
+        return progressDialog;
     }
 
     private void showInfo(){
