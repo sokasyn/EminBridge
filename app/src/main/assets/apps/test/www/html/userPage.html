@@ -16,6 +16,18 @@
             EminBridge.lastWebPage();
          }
 
+         function loadBarcodeView(){
+            console.log(222222);
+            var position = "0,0,320,200";
+            EminBridge.barcode.loadBarcodeView(position);
+         }
+
+         function testSurface(){
+            var position = "0,0,320,300";
+            EminBridge.barcode.loadSurfaceView(position);
+
+         }
+
          // 睡眠,测试加载进度等
          function sleep(numberMillis) {
              var now = new Date();
@@ -48,6 +60,14 @@
 <br/>
 
 <button type="button" onclick="getLocation()">获取当前位置</button>
+<br/>
+<br/>
+
+<button type="button" onclick="loadBarcodeView()">加载barcodeView</button>
+<br/>
+<br/>
+
+<button type="button" onclick="testSurface()">测试Surface</button>
 <br/>
 <br/>
 

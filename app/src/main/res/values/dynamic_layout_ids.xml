@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="id_linearLayout" />
+    <item type="id" name="id_absoluteLayout" />
+    <item type="id" name="id_imageViewFrame" />
+    <item type="id" name="id_imageView"/>
+</resources>

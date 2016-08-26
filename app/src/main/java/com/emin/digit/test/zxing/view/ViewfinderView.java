@@ -88,6 +88,25 @@ public final class ViewfinderView extends View {
 		scanLight = BitmapFactory.decodeResource(resources, R.mipmap.barcode_scan_light);
 	}
 
+	public ViewfinderView(Context context) {
+		super(context);
+
+		// Initialize these once for performance rather than calling them every
+		// time in onDraw().
+		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		Resources resources = getResources();
+		maskColor = resources.getColor(R.color.viewfinder_mask);
+		resultColor = resources.getColor(R.color.result_view);
+		laserColor = resources.getColor(R.color.viewfinder_laser);
+		resultPointColor = resources.getColor(R.color.possible_result_points);
+		statusColor = resources.getColor(R.color.status_text);
+		scannerAlpha = 0;
+		possibleResultPoints = new ArrayList<ResultPoint>(5);
+		lastPossibleResultPoints = null;
+//		scanLight = BitmapFactory.decodeResource(resources, R.drawable.scan_light);
+		scanLight = BitmapFactory.decodeResource(resources, R.mipmap.barcode_scan_light);
+	}
+
 	public void setCameraManager(CameraManager cameraManager) {
 		this.cameraManager = cameraManager;
 	}

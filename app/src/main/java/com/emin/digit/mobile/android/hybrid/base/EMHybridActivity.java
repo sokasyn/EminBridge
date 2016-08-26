@@ -219,6 +219,11 @@ public class EMHybridActivity extends EMBaseActivity {
         }
     }
 
+
+    public FrameLayout getContainerView() {
+        return containerView;
+    }
+
     public String getUrl() {
         return mUrl;
     }
