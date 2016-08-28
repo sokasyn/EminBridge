@@ -1,7 +1,7 @@
 package com.emin.digit.mobile.android.hybrid.plugin;
 
 import com.emin.digit.mobile.android.hybrid.base.PluginParams;
-import com.emin.digit.mobile.android.framework.EmDatabase;
+import com.emin.digit.test.framework.EmDatabase;
 
 /**
  * Created by Samson on 16/8/1.

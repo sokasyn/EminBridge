@@ -60,6 +60,14 @@
                 successCallback = callback;
             }
             EminBridge.execSyncPlugin(barcodePluginName,methodName,[codeType,"successCallback"]);
+        },
+        loadBarcodeView : function(position){
+            var methodName = "loadBarcodeView";
+            EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
+        },
+        loadSurfaceView :function(position){
+            var methodName = "testSurface";
+            EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
         }
     };
     window.EminBridge.barcode = barcodePlugin;

@@ -13,9 +13,9 @@ import android.webkit.WebView;
  */
 public class PluginParams {
 
-    public WebView webView;
+    public WebView webView; // 加载网页的webView
 
-    public String[] arguments;
+    public String[] arguments; // js携带的参数
 
     public WebView getWebView() {
         return webView;

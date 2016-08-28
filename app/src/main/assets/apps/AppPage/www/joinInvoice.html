@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>货物信息</title>
+		 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" href="css/delivery.css" />
+        <link href="css/mui.min.css" rel="stylesheet"/>
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+        <script type="text/javascript" charset="utf-8">
+	    mui.init();
+	    </script>
+	</head>
+	<style>
+	 body{
+	 	font-family: "微软雅黑";
+		background-color:#F8F8F8;
+		margin: 0;
+		padding: 0;
+	 }
+	 ul li{
+	 	list-style: none;
+	 }
+		.header_bg{
+			background-color:#389FE4;
+		}
+		.Main_nav{
+			width:60%;
+			margin: 0 auto;
+			height:40px;
+			margin-top:5%;
+		}
+		.Nav_code{
+			color: #6b6b6b;
+		}
+		.Nav_Manual{
+		color: #6b6b6b;	
+		}
+		.Search{
+			padding-top: 2%;
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		.mui_bg{
+			background: #fff !important;
+		}
+		.content_hidden{
+			background: #F8F8F8 !important;
+		}
+        #segmentedControlContents{
+        	padding-left: 2%;
+        }
+		#ManualScan{
+			border-bottom: 2px solid #389FE4;
+			color:#389FE4 ;
+		}	
+        .caption_right button{
+        	border: none;
+        }
+        .icon_right_color{
+        color: #fff;
+        }
+
+        /*banner*/
+       .banner{
+       	width: 100%;
+       	background: #fff;
+       	border-bottom: 1px solid #E2E2E2;
+       	border-top: 1px solid #E2E2E2;
+       }
+       .banner img{
+       	padding: 20px 15px;
+       }
+       .introduce{
+       	padding: 20px 15px;
+       	background-color: #fff;
+       	margin-top: 5%;
+       	border-top: 1px solid #E2E2E2;
+       	border-bottom: 1px solid #E2E2E2;
+       	height: 154px;
+       }
+       .introduce p span{
+       	color: red;
+       }
+       .parameter{
+       	padding: 10px 15px;
+       	margin-top:5%;
+       	background: #fff;
+       	border-bottom: 1px solid #E2E2E2;
+       	border-top: 1px solid #E2E2E2;
+       }
+       .right_colo{
+       	color: #000000;
+       }
+       .parameter a{
+       	color: #686868;
+       }
+       .join_foot{
+       	width: 100%;
+       	line-height: 50px;
+       	background-color: #fff;
+       	margin-top:10%;
+       	border-top: 1px solid #E2E2E2;
+       	text-align: center;
+       }
+       .mui-right-right{
+       	color:#7B7B7B;
+       }
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav header_bg">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left icon_color mui-icon mui-icon-left-nav mui-pull-r"></a>
+		    <h1 class="mui-title">发货</h1>
+		    <a><span class="mui-icon mui-pull-right mui-icon-list icon_right_color"></span></a>
+		</header>
+		<!--header-->
+		<div class="mui-content mui_bg">
+			  <div class="Main_nav">
+				<a class="Nav_code" id="autoScan" >扫码发货</a>
+				<a class="Nav_Manual" id='ManualScan' style="float: right;">手动发货</a>
+			  </div>
+		</div>	  
+				<!--发货按钮-->
+		<div class="banner">
+			<img src="images/search1.png" style="width: 100%;height: 100%;padding-left: 15px;">
+		</div>
+		<!--banner-->
+		<div class="introduce">
+			<p style="color: #696969;font-size: 16px;">乐视TV letv s50 Air 50英寸液晶超级电视机智能网络平板彩电</p>
+			<p><span id="monly"></span></p>
+			<p  style="text-decoration:line-through;">价格3654</p>
+		</div>
+		<div class="parameter">
+		<a>产品参数</a><a href="http://192.168.0.73:8020/app/Product_%20parameters.html"><span class="mui-icon mui-icon-arrowright mui-pull-right mui-right-right"></span></a>
+		</div>
+    	<div class="join_foot">
+				<a>加入发货单</a>
+			</div>
+		<!--主体内容-->
+		<script>
+			mui(".Main_nav").on('tap','#autoScan',function(){
+				window.location.href="http://192.168.0.73:8020/app/Scan_file.html";
+				//document.getElementById("autoScan").style.borderBottom="2px solid #389FE4";
+				//document.getElementById("ManualScan").style.borderBottom="";
+			}) 
+			mui(".Main_nav").on('tap','#ManualScan',function(){
+				
+				window.location.href="http://192.168.0.73:8020/app/Manual_delivery.html";
+				//document.getElementById("ManualScan").style.borderBottom="2px solid #389FE4";
+				//document.getElementById("autoScan").style.borderBottom="";
+			}) 
+			
+		</script>
+		<script type="text/javascript">
+			var JSONobject={
+				"monly":"$2588"
+			};
+			document.getElementById("monly").innerHTML=JSONobject.monly
+		</script>
+	</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>  
+<html>  
+<head>  
+<meta charset="utf-8" />
+<title>MODEL PAGE</title> 
+<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>  
+	<script src="../js/mui.min.js"></script>
+<script type="text/javascript">  
+    
+        $.getJSON ("js/json.json", function (data)  
+        {  
+        	alert(JSON.stringify(data.电子产品))
+            $.each (data.电子产品, function (i, item)  
+            {  
+                $ ("#disp").append ("<h3>" + item.name + "</h3>");  
+                $ ("#disp").append ("<p>" + item.detail + "</p>");  
+                $ ("#disp").append ("<p>" + item.price+ "</p>");  
+            });  
+        });  
+</script>  
+</head>  
+<body>  
+    <input type="button" value="Ajax提交" onclick="Ajax();" />  
+    <div id="disp"></div>  
+</body>  
+</html> 

@@ -9,7 +9,6 @@ public class PluginGPS {
 
     public String getLocation(PluginParams params){
         debugLog("PluginGPS getLocation called.." + params);
-//        String result = "111.01,222.23";
         String result = "{经度:111.01,纬度:222.23}"; // 返回中文测试
         return result;
     }
