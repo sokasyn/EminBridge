@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AbsoluteLayout;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
@@ -128,7 +129,6 @@ public final class PluginBarcode implements SurfaceHolder.Callback {
         });*/
     }
 
-
     private void startSystemCameraOnly(Context context) {
         Log.d(TAG, "context:" + context);
         Log.d(TAG, "start camera thread id:" + Thread.currentThread().getId());
@@ -140,32 +140,15 @@ public final class PluginBarcode implements SurfaceHolder.Callback {
     }
 
 
-    // 相机控制
-    private CameraManager cameraManager;
-    private CaptureActivityHandler handler;
-    private ViewfinderView viewfinderView;
-    private boolean hasSurface;
-    private IntentSource source;
-    private Collection<BarcodeFormat> decodeFormats;
-
-    private Map<DecodeHintType, ?> decodeHints;
-    private String characterSet;
-    // 电量控制
-    private InactivityTimer inactivityTimer;
-    // 声音、震动控制
-    private BeepManager beepManager;
-
-
     public void loadBarcodeView(PluginParams params) {
         Log.d(TAG, "loadBarcodeView 1111");
 
         final EMHybridWebView webView = (EMHybridWebView) params.getWebView();
-
         Log.d(TAG, "- - - - - webView:" + webView);
         activity = (EMHybridActivity) webView.getActivity();
-
         String position = params.getArguments()[0];
 
+        /*
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -224,77 +207,102 @@ public final class PluginBarcode implements SurfaceHolder.Callback {
                         Gravity.CENTER);
                 webView.addView(viewfinderView, layoutParams);
             }
-        });
+        });*/
+
+    }
 
 
+    // 相机控制
+    private CameraManager cameraManager;
+    private CaptureActivityHandler handler;
+    private ViewfinderView viewfinderView;
+    private boolean hasSurface;
+    private IntentSource source;
+    private Collection<BarcodeFormat> decodeFormats;
+
+    private Map<DecodeHintType, ?> decodeHints;
+    private String characterSet;
+    // 电量控制
+    private InactivityTimer inactivityTimer;
+    // 声音、震动控制
+    private BeepManager beepManager;
 
 
-        /*
+    public void startBarcodeScan(PluginParams params){
+        final EMHybridWebView webView = (EMHybridWebView) params.getWebView();
+        final EMHybridActivity activity = (EMHybridActivity) webView.getActivity();
+
+        Log.d(TAG, "activity:" + activity);
+        Log.d(TAG, "webView:" + webView);
+        Log.d(TAG, "container view layout:" + activity.getContainerView());
+
         webView.post(new Runnable() {
             @Override
             public void run() {
+                Log.d(TAG, "webView:" + webView);
 
-                // CameraManager必须在这里初始化，而不是在onCreate()中。
-                // 这是必须的，因为当我们第一次进入时需要显示帮助页，我们并不想打开Camera,测量屏幕大小
-                // 当扫描框的尺寸不正确时会出现bug
-                cameraManager = new CameraManager(webView.getContext());
 
-                viewfinderView = (ViewfinderView) activity.findViewById(R.id.viewfinder_view);
-                viewfinderView.setCameraManager(cameraManager);
+                hasSurface = false;
+                inactivityTimer = new InactivityTimer(activity);
+                cameraManager = new CameraManager(activity.getApplication());
 
-                handler = null;
 
-                SurfaceView surfaceView = (SurfaceView) activity.findViewById(R.id.preview_view);
+                FrameLayout actFrameLayout = (FrameLayout) activity.findViewById(R.id.idActivityHybrid);
+
+                FrameLayout mainView = new FrameLayout(webView.getContext());
+
+
+                LayoutInflater inflater = LayoutInflater.from(webView.getContext());
+                FrameLayout barcodeLayout = (FrameLayout) inflater.inflate(R.layout.barcode_view,null);
+                // surfaceView
+                SurfaceView surfaceView = (SurfaceView) barcodeLayout.findViewById(R.id.preview_view_1);
                 SurfaceHolder surfaceHolder = surfaceView.getHolder();
+
+                barcodeLayout.removeView(surfaceView);
+                mainView.addView(surfaceView);
+
+                // viewFinderView
+
+                viewfinderView = (ViewfinderView)barcodeLayout.findViewById(R.id.viewfinder_view_1);
+                barcodeLayout.removeView(viewfinderView);
+                mainView.addView(viewfinderView);
+
+//                Button btnScan = (Button)barcodeLayout.findViewById(R.id.btnScan);
+//                barcodeLayout.removeView(btnScan);
+//                barcodeFrame.addView(btnScan);
+
+
+                // 将barcodeFrame 加载到activity的layout中
+                FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        500
+                );
+                bcLayoutParams.gravity = Gravity.LEFT|Gravity.TOP;
+                bcLayoutParams.leftMargin = 0;
+                bcLayoutParams.topMargin = 100;
+                actFrameLayout.addView(mainView,bcLayoutParams);
+
+
                 if (hasSurface) {
                     // activity在paused时但不会stopped,因此surface仍旧存在；
                     // surfaceCreated()不会调用，因此在这里初始化camera
+                    Log.d(TAG,"111 will initCamera");
                     initCamera(surfaceHolder);
                 } else {
                     // 重置callback，等待surfaceCreated()来初始化camera
-//                    surfaceHolder.addCallback(activity);
+                    Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
+                    surfaceHolder.addCallback(PluginBarcode.this);
                 }
-
-                beepManager.updatePrefs();
-                inactivityTimer.onResume();
-
-                source = IntentSource.NONE;
-                decodeFormats = null;
-                characterSet = null;
-
-                webView.addView(surfaceView);
-
-//                Log.d(TAG,"create custom view 1111");
-//                cameraManager = new CameraManager(webView.getContext());
-//                viewfinderView = new ViewfinderView(webView.getContext());
-//                viewfinderView.setCameraManager(cameraManager);
-//                Log.d(TAG,"- - - 2222222:" + viewfinderView);
-//                final FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-//                        ViewGroup.LayoutParams.MATCH_PARENT,
-//                        200,
-//                        Gravity.CENTER);
-//                layoutParams.setMargins(0,0,0,0);
-//                webView.addView(viewfinderView,layoutParams);
-//                Log.d(TAG,"333333");
-//
-//
-//
-//                Button button = new Button(webView.getContext());
-//                button.setText("这是个动态生成的按钮");
-//                final FrameLayout.LayoutParams btnLp = new FrameLayout.LayoutParams(
-//                        ViewGroup.LayoutParams.MATCH_PARENT,
-//                        200,
-//                        Gravity.CENTER);
-//                layoutParams.setMargins(0,0,0,0);
-//                webView.addView(button,btnLp);
-
             }
-        });*/
+        });
     }
+
+
 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(TAG,"surfaceCreated");
         if (!hasSurface) {
             hasSurface = true;
             initCamera(holder);
@@ -327,18 +335,14 @@ public final class PluginBarcode implements SurfaceHolder.Callback {
         //这里处理解码完成后的结果，此处将参数回传到Activity处理
         if (fromLiveScan) {
             beepManager.playBeepSoundAndVibrate();
-
             Log.d(TAG, "扫描成功");
-
 //            Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
-//
 //            Intent intent = getIntent();
 //            intent.putExtra("codedContent", rawResult.getText());
 //            intent.putExtra("codedBitmap", barcode);
 //            setResult(RESULT_OK, intent);
 //            finish();
         }
-
     }
 
     /**
@@ -358,7 +362,7 @@ public final class PluginBarcode implements SurfaceHolder.Callback {
             cameraManager.openDriver(surfaceHolder);
             // 创建一个handler来打开预览，并抛出一个运行时异常
             if (handler == null) {
-//                handler = new CaptureActivityHandler(activity, decodeFormats, decodeHints, characterSet, cameraManager);
+                handler = new CaptureActivityHandler(activity, decodeFormats, decodeHints, characterSet, cameraManager);
             }
         } catch (IOException ioe) {
             Log.w(TAG, ioe);

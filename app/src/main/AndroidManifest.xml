@@ -15,12 +15,12 @@
         android:theme="@style/AppTheme">
 
         <!-- 集成HTML5运行环境主Activity -->
-        <!--<activity android:name="com.emin.digit.mobile.android.hybrid.base.EMHybridActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <activity android:name="com.emin.digit.mobile.android.hybrid.base.EMHybridActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- 二维码扫描Activity -->
         <activity android:name="com.emin.digit.test.zxing.android.CaptureActivity"
@@ -46,10 +46,10 @@
         <!-- 测试动态布局,通过代码来构建test_dynamic_layout -->
         <activity android:name="com.emin.digit.test.TestDynamicLayout">
             <intent-filter>
-                <!--<action android:name="com.emin.digit.test.TestDynamicLayout" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="com.emin.digit.test.TestDynamicLayout" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
         </activity>
 

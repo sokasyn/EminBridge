@@ -68,6 +68,10 @@
         loadSurfaceView :function(position){
             var methodName = "testSurface";
             EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
+        },
+        startBarcodeScan:function(position){
+             var methodName = "startBarcodeScan";
+             EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
         }
     };
     window.EminBridge.barcode = barcodePlugin;

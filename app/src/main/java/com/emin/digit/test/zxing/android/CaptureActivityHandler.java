@@ -30,6 +30,7 @@ import android.os.Message;
 import android.provider.Browser;
 import android.util.Log;
 
+import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -52,6 +53,7 @@ public final class CaptureActivityHandler extends Handler {
 	private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
 	private final CaptureActivity activity;
+//    private final EMHybridActivity activity;
 	private final DecodeThread decodeThread;
 	private State state;
 	private final CameraManager cameraManager;
@@ -59,6 +61,7 @@ public final class CaptureActivityHandler extends Handler {
 	private enum State {
 		PREVIEW, SUCCESS, DONE
 	}
+
 
 	public CaptureActivityHandler(CaptureActivity activity,
 			Collection<BarcodeFormat> decodeFormats,
@@ -77,6 +80,25 @@ public final class CaptureActivityHandler extends Handler {
 		cameraManager.startPreview();
 		restartPreviewAndDecode();
 	}
+
+    /*
+	public CaptureActivityHandler(EMHybridActivity activity,
+								  Collection<BarcodeFormat> decodeFormats,
+								  Map<DecodeHintType, ?> baseHints, String characterSet,
+								  CameraManager cameraManager) {
+		this.activity = activity;
+		decodeThread = new DecodeThread(activity, decodeFormats, baseHints,
+				characterSet, new ViewfinderResultPointCallback(
+				activity.getViewfinderView()));
+		decodeThread.start();
+		state = State.SUCCESS;
+
+		// Start ourselves capturing previews and decoding.
+		// 开始拍摄预览和解码
+		this.cameraManager = cameraManager;
+		cameraManager.startPreview();
+		restartPreviewAndDecode();
+	}*/
 
 	@Override
 	public void handleMessage(Message message) {

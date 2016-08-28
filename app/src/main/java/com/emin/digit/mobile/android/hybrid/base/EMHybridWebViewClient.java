@@ -1,5 +1,6 @@
 package com.emin.digit.mobile.android.hybrid.base;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebResourceError;
@@ -38,8 +39,11 @@ public class EMHybridWebViewClient extends WebViewClient {
         EMHybridWebView v = (EMHybridWebView)view;
 
         EMHybridActivity activity = (EMHybridActivity)v.getActivity();
-        activity.getProgressDialog().dismiss();
 
+        ProgressDialog pd = activity.getProgressDialog();
+        if( pd != null && pd.isShowing()){
+            pd.dismiss();
+        }
         super.onPageFinished(view, url);
     }
 
