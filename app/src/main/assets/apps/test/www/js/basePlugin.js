@@ -42,6 +42,23 @@
     };
     window.EminBridge.UIAlert = alertPlugin;
 
+
+    // - - - - - - - -  Camera Plugin - - - - - - - -
+    var cameraPluginClass = "com.emin.digit.mobile.android.hybrid.plugin.PluginCamera";
+    var cameraPlugin = {
+        startCamera : function(){
+            console.log("startCamera");
+            var methodName = "startCamera";
+            EminBridge.execSyncPlugin(cameraPluginClass,methodName,[]);
+        },
+        startSurface : function(){
+            console.log("startSurface");
+            var methodName = "startSurface";
+            EminBridge.execSyncPlugin(cameraPluginClass,methodName,[]);
+        }
+    };
+    window.EminBridge.camera = cameraPlugin;
+
     // - - - - - - - -  Barcode Plugin - - - - - - - -
     var barcodePluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
     var barcodePlugin = {
@@ -68,6 +85,10 @@
         loadSurfaceView :function(position){
             var methodName = "testSurface";
             EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
+        },
+        startBarcodeScan:function(position){
+             var methodName = "startBarcodeScan";
+             EminBridge.execSyncPlugin(barcodePluginName,methodName,[position]);
         }
     };
     window.EminBridge.barcode = barcodePlugin;

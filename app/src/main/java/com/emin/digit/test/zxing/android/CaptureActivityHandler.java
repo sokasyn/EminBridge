@@ -60,6 +60,7 @@ public final class CaptureActivityHandler extends Handler {
 		PREVIEW, SUCCESS, DONE
 	}
 
+
 	public CaptureActivityHandler(CaptureActivity activity,
 			Collection<BarcodeFormat> decodeFormats,
 			Map<DecodeHintType, ?> baseHints, String characterSet,
@@ -78,10 +79,12 @@ public final class CaptureActivityHandler extends Handler {
 		restartPreviewAndDecode();
 	}
 
+
+
 	@Override
 	public void handleMessage(Message message) {
 
-		Log.d(TAG,"= = = = = = = = handleMessage:" + message.what);
+//		Log.d(TAG,"= = = = = = = = handleMessage:" + message.what);
 
 		switch (message.what) {
 		case R.id.restart_preview:

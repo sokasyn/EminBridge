@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Home Page</title>
+    <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
+    <script type="text/javascript">
+
+        (function(){
+                loadBarcodeView();
+        })();
+
+
+         function loadBarcodeView(){
+            console.log(222222);
+            var position = "0,0,320,200";
+            EminBridge.barcode.startBarcodeScan(position);
+         }
+
+         // 测试返回上一页,使用EminBridge的方法以便可以管理WebView的生命周期等
+         function back(){
+            EminBridge.lastWebPage();
+         }
+
+    </script>
+</head>
+<body>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<button type="button" onclick="back()">返回</button>
+<br/>
+<br/>
+
+</body>
+</html>

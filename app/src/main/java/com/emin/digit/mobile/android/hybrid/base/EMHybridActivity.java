@@ -80,7 +80,7 @@ public class EMHybridActivity extends EMBaseActivity {
         mWebView = createWebView(url);
         webViewList.add(mWebView);
 
-        progressDialog = ProgressDialog.show(this, "标题", "加载中，请稍后……");
+        //progressDialog = ProgressDialog.show(this, "标题", "加载中，请稍后……");
 
         Log.d(TAG,"11111");
         mWebView.loadUrl(url);

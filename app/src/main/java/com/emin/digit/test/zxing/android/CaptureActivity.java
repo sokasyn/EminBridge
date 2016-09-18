@@ -114,9 +114,11 @@ public final class CaptureActivity extends Activity implements
 		if (hasSurface) {
 			// activity在paused时但不会stopped,因此surface仍旧存在；
 			// surfaceCreated()不会调用，因此在这里初始化camera
+			Log.d(TAG,"111 initCamera()");
 			initCamera(surfaceHolder);
 		} else {
 			// 重置callback，等待surfaceCreated()来初始化camera
+			Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
 			surfaceHolder.addCallback(this);
 		}
 
@@ -153,6 +155,7 @@ public final class CaptureActivity extends Activity implements
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(TAG,"surfaceCreated");
 		if (!hasSurface) {
 			hasSurface = true;
 			initCamera(holder);

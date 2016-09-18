@@ -344,4 +344,27 @@ public final class CameraManager {
 				rect.top, rect.width(), rect.height(), false);
 	}
 
+	// * * * * * * * ADD FOR TEST * * * * * * * * * *
+	private static CameraManager cameraManager;
+
+	/**
+	 * Initializes this static object with the Context of the calling Activity.
+	 *
+	 * @param context The Activity which wants to use the camera.
+	 */
+	public static void init(Context context) {
+		if (cameraManager == null) {
+			cameraManager = new CameraManager(context);
+		}
+	}
+
+	/**
+	 * Gets the CameraManager singleton instance.
+	 *
+	 * @return A reference to the CameraManager singleton.
+	 */
+	public static CameraManager get() {
+		return cameraManager;
+	}
+
 }

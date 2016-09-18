@@ -37,9 +37,25 @@
             EminBridge.UIAlert.toast("This is a toast message!");
          }
 
+         // 测试Camera
+         function startCamera(){
+            EminBridge.camera.startCamera();
+         }
+
+         // 测试startSurface
+         function startSurface(){
+            EminBridge.camera.startSurface();
+         }
+
          // 测试二维码扫描
          function startBarcode(){
             EminBridge.barcode.start("barcode 2D");
+         }
+
+         // 测试二维码扫描View
+         function startBarcodeView(){
+            var position = "0.200,640,200";
+            EminBridge.barcode.loadBarcodeView(position);
          }
 
          // 回调测试
@@ -97,23 +113,39 @@
 <button type="button" id="button1" onclick="insertData()">数据库插件:插入数据</button>
 <br/>
 <br/>
+
 <button type="button" id="button2" onclick="startGps()">GPS插件:开启GPS</button>
 <br/>
 <br/>
+
 <button type="button" id="button3" onclick="getLocation()">测试返回值:获取当前位置</button>
 <br/>
 <br/>
+
 <button type="button" id="btnCallback" onclick="testCallback()">测试JS回调</button>
+<br/>
+<br/>
 
-<br/>
-<br/>
 <button type="button" id="btnToast" onclick="toast()">测试调用原生的提示toast</button>
+<br/>
+<br/>
 
+<button type="button" id="btnSurface" onclick="startSurface()">测试二Surface</button>
 <br/>
 <br/>
+
+<button type="button" id="btnCamera" onclick="startCamera()">测试二摄像头</button>
+<br/>
+<br/>
+
 <button type="button" id="btnBarcode" onclick="startBarcode()">测试二维码扫描</button>
 <br/>
 <br/>
+
+<button type="button" id="btnBarcodeView" onclick="startBarcodeView()">测试二维码扫描View</button>
+<br/>
+<br/>
+
 <button type="button" id="btnToUser" onclick="toUserPage()">用户界面</button>
 
 </body>

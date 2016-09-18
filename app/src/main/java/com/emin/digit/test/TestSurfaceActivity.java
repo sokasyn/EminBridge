@@ -12,6 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+
+import java.io.InterruptedIOException;
+import java.security.PublicKey;
+
 /**
  * Created by Samson on 16/8/26.
  */
@@ -22,9 +27,141 @@ public class TestSurfaceActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new MyView(this));
+//        setContentView(new MyView(this));
+//        setContentView(new DrawView(this));
+
+        View view = new DrawViewSurface(this);
+//        view.setBackgroundColor(Color.GREEN);
+        setContentView(view);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
+    }
+
+    // 测试1 普通的 view 的绘画 (不用surface)
+    class DrawView extends View  {
+
+        private final String DRAW_TAG = DrawView.class.getSimpleName();
+
+        Paint paint;
+        float radius = 10;
+
+        public DrawView(Context context){
+            super(context);
+            Log.d(DRAW_TAG,"DrawView Constructor");
+            paint = new Paint();
+            paint.setColor(Color.RED);
+            paint.setStyle(Paint.Style.STROKE);
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            Log.d(DRAW_TAG,"= = onDraw");
+            canvas.drawCircle(100, 100, radius++, paint);
+            if(radius > 100){
+                radius = 10;
+            }
+            invalidate(); // 刷新View
+
+        }
+    }
+
+    // 测试2 DrawView 的改进(用surface,继承surfaceView)
+    class DrawViewSurface extends SurfaceView implements SurfaceHolder.Callback{
+
+        private final String DRAW_SURFACE = DrawViewSurface.class.getSimpleName();
+
+        DrawThread drawThread;
+
+        public DrawViewSurface(Context context){
+            super(context);
+            init();
+        }
+
+        private void init(){
+            Log.d(DRAW_SURFACE,"init");
+            SurfaceHolder surfaceHolder = this.getHolder();
+            surfaceHolder.addCallback(this);
+
+            // 启动绘制线程开始绘画
+            drawThread = new DrawThread(surfaceHolder);
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            Log.d(DRAW_SURFACE,"surfaceCreated");
+            drawThread.stop = false;
+            drawThread.start();
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            Log.d(DRAW_SURFACE,"surfaceChanged");
+            Log.d(DRAW_SURFACE,"format:" + format + " width:" + width + " height:" + height);
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            Log.d(DRAW_SURFACE,"surfaceDestroyed");
+            drawThread.stop = true;
+        }
+
+        // 在surfaceView 上做的绘画线程
+        class DrawThread extends Thread{
+
+            boolean stop;
+            SurfaceHolder surHolder;
+            Paint paint;
+            float radius = 10;
+
+            public DrawThread(SurfaceHolder holder){
+                Log.d(DRAW_SURFACE,"DrawThread created");
+                surHolder = holder;
+                paint = new Paint();
+                paint.setColor(Color.RED);
+                paint.setStyle(Paint.Style.STROKE);
+            }
+
+            @Override
+            public void run() {
+                Log.d(DRAW_SURFACE,"== run");
+
+                while (!stop){
+
+                    Canvas canvas = null;
+                    try {
+                        synchronized (surHolder){
+                            canvas = surHolder.lockCanvas();
+                            doDraw(canvas);
+                            Thread.sleep(50);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if(canvas != null){
+                            surHolder.unlockCanvasAndPost(canvas);
+                        }
+                    }
+                }
+            }
+
+            public void doDraw(Canvas canvas){
+                Log.d(DRAW_SURFACE,"doDraw");
+                canvas.drawColor(Color.BLACK);
+                canvas.translate(200, 200);
+                canvas.drawCircle(100, 100, radius++, paint);
+                if(radius > 100){
+                    radius = 10;
+                }
+            }
+
+        }
+    }
+
+    // 测试3 通过surfaceView可以做其它复杂的绘画组合
     // 只要继承SurfaceView类并实现SurfaceHolder.Callback接口就可以实现一个自定义的SurfaceView了
     //视图内部类
     class MyView extends SurfaceView implements SurfaceHolder.Callback {
