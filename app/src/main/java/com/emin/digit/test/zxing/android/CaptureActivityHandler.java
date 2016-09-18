@@ -30,6 +30,7 @@ import android.os.Message;
 import android.provider.Browser;
 import android.util.Log;
 
+import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -52,6 +53,7 @@ public final class CaptureActivityHandler extends Handler {
 	private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
 	private final CaptureActivity activity;
+//    private final EMHybridActivity activity;
 	private final DecodeThread decodeThread;
 	private State state;
 	private final CameraManager cameraManager;
@@ -78,8 +80,6 @@ public final class CaptureActivityHandler extends Handler {
 		cameraManager.startPreview();
 		restartPreviewAndDecode();
 	}
-
-
 
 	@Override
 	public void handleMessage(Message message) {

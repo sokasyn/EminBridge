@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.webkit.WebView;
 
+import android.widget.AbsoluteLayout;
+import android.widget.Button;
+import android.widget.FrameLayout;
+
 import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
 import com.emin.digit.mobile.android.hybrid.base.EMHybridWebView;
 import com.emin.digit.mobile.android.hybrid.base.PluginParams;
@@ -84,32 +88,5 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
         }
     }
 
-    private void startSystemCameraOnly(Context context) {
-        Log.d(TAG, "context:" + context);
-        Log.d(TAG, "start camera thread id:" + Thread.currentThread().getId());
 
-        Intent intentCamera = new Intent();
-        String sysCameraAction = "android.media.action.STILL_IMAGE_CAMERA";
-        intentCamera.setAction(sysCameraAction);
-        context.startActivity(intentCamera);
-    }
-
-    public void loadBarcodeView(PluginParams params) {
-        final EMHybridWebView webView = (EMHybridWebView) params.getWebView();
-        activity = (EMHybridActivity) webView.getActivity();
-        String position = params.getArguments()[0];
-        Log.d(TAG, "- - - - - position:" + position);
-
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                // 构造二维码的view
-
-                // activity add 这个view
-
-
-
-            }
-        });
-    }
 }
