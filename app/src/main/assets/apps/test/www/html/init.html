@@ -47,15 +47,9 @@
             EminBridge.camera.startSurface();
          }
 
-         // 测试二维码扫描
+         // 测试二维码扫描(单独Activity方式)
          function startBarcode(){
             EminBridge.barcode.start("barcode 2D");
-         }
-
-         // 测试二维码扫描View
-         function startBarcodeView(){
-            var position = "0.200,640,200";
-            EminBridge.barcode.loadBarcodeView(position);
          }
 
          // 回调测试
@@ -130,19 +124,15 @@
 <br/>
 <br/>
 
-<button type="button" id="btnSurface" onclick="startSurface()">测试二Surface</button>
+<button type="button" id="btnSurface" onclick="startSurface()">测试Surface</button>
 <br/>
 <br/>
 
-<button type="button" id="btnCamera" onclick="startCamera()">测试二摄像头</button>
+<button type="button" id="btnCamera" onclick="startCamera()">测试摄像头</button>
 <br/>
 <br/>
 
 <button type="button" id="btnBarcode" onclick="startBarcode()">测试二维码扫描</button>
-<br/>
-<br/>
-
-<button type="button" id="btnBarcodeView" onclick="startBarcodeView()">测试二维码扫描View</button>
 <br/>
 <br/>
 

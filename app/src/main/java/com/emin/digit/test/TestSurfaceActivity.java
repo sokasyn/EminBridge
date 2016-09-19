@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -31,7 +32,6 @@ public class TestSurfaceActivity extends Activity {
 //        setContentView(new DrawView(this));
 
         View view = new DrawViewSurface(this);
-//        view.setBackgroundColor(Color.GREEN);
         setContentView(view);
     }
 

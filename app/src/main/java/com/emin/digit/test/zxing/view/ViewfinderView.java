@@ -25,7 +25,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
@@ -127,16 +129,23 @@ public final class ViewfinderView extends View {
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
 
-		// Draw the exterior (i.e. outside the framing rect) darkened
+
+        frame = new Rect(100,100,400,400);
+
+
+        // Draw the exterior (i.e. outside the framing rect) darkened
 		// 绘制取景框外的暗灰色的表面，分四个矩形绘制
 		paint.setColor(resultBitmap != null ? resultColor : maskColor);
 		canvas.drawRect(0, 0, width, frame.top, paint);// Rect_1
 		canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint); // Rect_2
-		canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1,
-				paint); // Rect_3
+		canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint); // Rect_3
 		canvas.drawRect(0, frame.bottom + 1, width, height, paint); // Rect_4
 
-		if (resultBitmap != null) {
+        Log.d("******zxing view","canvas.getWidth():" + width + " canvas.getHeight():"+ height);
+        Log.d("******zxing view","frame.top:" + frame.top + " frame.bottom:"+ frame.bottom + " frame.right:" + frame.right + " frame.left:" + frame.left);
+
+
+        if (resultBitmap != null) {
 			// Draw the opaque result bitmap over the scanning rectangle
 			// 如果有二维码结果的Bitmap，在扫取景框内绘制不透明的result Bitmap
 			paint.setAlpha(CURRENT_POINT_OPACITY);

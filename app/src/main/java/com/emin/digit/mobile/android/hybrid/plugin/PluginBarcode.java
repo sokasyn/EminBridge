@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
 import com.emin.digit.mobile.android.hybrid.base.EMHybridWebView;
 import com.emin.digit.mobile.android.hybrid.base.PluginParams;
+import com.emin.digit.test.zxing.BarcodeController;
 import com.emin.digit.test.zxing.android.CaptureActivity;
 //import com.google.zxing.BarcodeFormat;
 //import com.google.zxing.DecodeHintType;
@@ -29,6 +30,23 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
 
     final static int REQUEST_CODE_SCAN = 0x0000;
 
+
+    // 以单独 View的方式打开二维码扫描
+    public void loadBarcodeView(PluginParams params){
+        Log.d(TAG,"loadBarcodeView thread id:" + Thread.currentThread().getId());
+        final EMHybridWebView webView = (EMHybridWebView)params.webView;
+        final EMHybridActivity activity = (EMHybridActivity)webView.getActivity();
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                new BarcodeController().loadBarcodeView(activity);
+            }
+        });
+    }
+
+
+
+    // 单独Activity的方式打开二维码扫描
     public void startBarcode(PluginParams params) {
         Log.d(TAG, "startBarcode");
 

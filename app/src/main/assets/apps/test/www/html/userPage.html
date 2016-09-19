@@ -16,12 +16,12 @@
             EminBridge.lastWebPage();
          }
 
-         function loadBarcodeView(){
+         function toScanBarcode(){
             console.log(222222);
             //var position = "0,0,320,200";
-            //EminBridge.barcode.loadBarcodeView(position);
             EminBridge.loadWebPage("barcode_scan.html");
          }
+
 
          function testSurface(){
             var position = "0,0,320,300";
@@ -64,7 +64,7 @@
 <br/>
 <br/>
 
-<button type="button" onclick="loadBarcodeView()">加载barcodeView</button>
+<button type="button" onclick="toScanBarcode()">来扫一扫(View方式)</button>
 <br/>
 <br/>
 
