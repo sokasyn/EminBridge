@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.emin.digit.test.zxing.IBarHandler;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
@@ -41,11 +42,12 @@ public final class DecodeHandler extends Handler {
 
 	private static final String TAG = DecodeHandler.class.getSimpleName();
 
-	private final CaptureActivity activity;
+//	private final CaptureActivity activity;
+    private final IBarHandler activity;
 	private final MultiFormatReader multiFormatReader;
 	private boolean running = true;
 
-	DecodeHandler(CaptureActivity activity, Map<DecodeHintType, Object> hints) {
+	DecodeHandler(IBarHandler activity, Map<DecodeHintType, Object> hints) {
 		multiFormatReader = new MultiFormatReader();
 		multiFormatReader.setHints(hints);
 		this.activity = activity;

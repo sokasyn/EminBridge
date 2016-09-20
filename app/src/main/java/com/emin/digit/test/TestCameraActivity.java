@@ -2,15 +2,20 @@ package com.emin.digit.test;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 
@@ -31,6 +36,45 @@ public class TestCameraActivity extends Activity implements SurfaceHolder.Callba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setupWithCode();
+        setupWithXml();
+    }
+
+    // 通过代码方式设置
+    private void setupWithCode(){
+        Log.d(TAG,"setupWithCode");
+        // 1 主视图
+        FrameLayout mainLayout = new FrameLayout(this);
+        FrameLayout.LayoutParams mainParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        mainLayout.setLayoutParams(mainParams);
+        mainLayout.setBackgroundColor(Color.BLUE);
+        setContentView(mainLayout);
+
+        // 2 SurfaceView for Camera
+        SurfaceView cameraSurfaceView = new SurfaceView(this);
+
+        // 2.1 全屏
+        FrameLayout.LayoutParams cameraSurfaceViewLp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+        // 2.2 自定义区域
+        FrameLayout.LayoutParams cameraSurfaceViewLp1 = new FrameLayout.LayoutParams(500, 500); // 这里的数值相当与xml中的px,而不是dp
+
+        // 2.2.1 设置位置(坐标)
+//        cameraSurfaceViewLp1.gravity = Gravity.LEFT|Gravity.TOP;
+//        cameraSurfaceViewLp1.leftMargin = 100;
+//        cameraSurfaceViewLp1.topMargin  = 100;
+
+        // 2.2.2 设置位置(坐标) - setMargins方式
+        cameraSurfaceViewLp1.setMargins(100,100,0,0);
+        mainLayout.addView(cameraSurfaceView,cameraSurfaceViewLp1);
+
+        // - - - - - Hardware Camera
+        SurfaceHolder holder = cameraSurfaceView.getHolder();
+        holder.addCallback(this);
+    }
+
+    // 通过xml布局文件设置
+    private void setupWithXml(){
         setContentView(R.layout.test_activity_camera);
         surfaceView = (SurfaceView)findViewById(R.id.camera_preview_view);
         surfaceHolder = surfaceView.getHolder();
@@ -38,17 +82,25 @@ public class TestCameraActivity extends Activity implements SurfaceHolder.Callba
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
+
     // SurfaceHolder Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated");
-
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(TAG,"surfaceCreated width:" + width + " height:" + height); // 720 1280
-        initCamera();
+//        initCamera();
+        camera = Camera.open();
+        camera.setDisplayOrientation(90);
+        try {
+            camera.setPreviewDisplay(holder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        camera.startPreview();
     }
 
     @Override
@@ -62,7 +114,7 @@ public class TestCameraActivity extends Activity implements SurfaceHolder.Callba
     }
 
     private void initCamera(){
-        camera = camera.open();
+        camera = Camera.open();
 
         showCameraDefaultParams(camera);
 

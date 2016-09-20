@@ -33,7 +33,7 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
 
     // 以单独 View的方式打开二维码扫描
     public void loadBarcodeView(PluginParams params){
-        Log.d(TAG,"loadBarcodeView thread id:" + Thread.currentThread().getId());
+        Log.d(TAG,"###### loadBarcodeView thread id:" + Thread.currentThread().getId());
         final EMHybridWebView webView = (EMHybridWebView)params.webView;
         final EMHybridActivity activity = (EMHybridActivity)webView.getActivity();
         webView.post(new Runnable() {
@@ -48,7 +48,7 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
 
     // 单独Activity的方式打开二维码扫描
     public void startBarcode(PluginParams params) {
-        Log.d(TAG, "startBarcode");
+        Log.d(TAG, "startBarcode 单独Activity的方式打开二维码扫描");
 
         // 调用Camera
         // 测试通过回调的方式告知返回值
@@ -59,7 +59,7 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "webView:" + webView);
+                Log.d(TAG, "$$$$$$ webView:" + webView);
 //                startSystemCameraOnly(webView.getContext());
                 Context context = webView.getContext();
                 Intent intent = new Intent(context, CaptureActivity.class);

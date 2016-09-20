@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body >
+</body>
+<script type="text/javascript" src="js/pluginDb.js"></script>
+<script type="text/javascript" src="js/pluginFileIo.js"></script>
+<script type="text/javascript" src="js/mui.min.js"></script>
+<script type="text/javascript">
+
+var tables = {
+    logistics:"id,companyName,driver,phone",//物流公司表
+    warehouse:"id,name",//仓库表
+    product:"id,name,pid"//产品表
+};
+    success =  EminBridge.pluginDb.initDatabase(JSON.stringify(tables));
+    if(success == "true"){
+        alert(success)
+       EminBridge.loadWebPage("login.html");
+    }else{
+       mui.alert("","数据库初始化失败",function(){
+       return false;
+       })
+    }
+</script>
+</html>

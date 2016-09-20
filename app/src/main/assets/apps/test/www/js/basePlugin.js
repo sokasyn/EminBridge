@@ -63,6 +63,7 @@
     var barcodePluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginBarcode";
     var barcodePlugin = {
         start:function(type){
+            alert("activity barcode");
             var methodName = "startBarcode";
             EminBridge.execSyncPlugin(barcodePluginName,methodName,[type]);
         },

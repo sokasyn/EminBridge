@@ -132,7 +132,7 @@
 			<p  style="text-decoration:line-through;">价格3654</p>
 		</div>
 		<div class="parameter">
-		<a>产品参数</a><a href="http://192.168.0.73:8020/app/Product_%20parameters.html"><span class="mui-icon mui-icon-arrowright mui-pull-right mui-right-right"></span></a>
+		<a>产品参数</a><a onclick="myfunction()"><span class="mui-icon mui-icon-arrowright mui-pull-right mui-right-right"></span></a>
 		</div>
     	<div class="join_foot">
 				<a>加入发货单</a>
@@ -149,14 +149,21 @@
 				window.location.href="http://192.168.0.73:8020/app/Manual_delivery.html";
 				//document.getElementById("ManualScan").style.borderBottom="2px solid #389FE4";
 				//document.getElementById("autoScan").style.borderBottom="";
-			}) 
-			
+			}) ;
+			function myfunction(){
+			EminBridge.loadWebPage("productParameters.html");
+			}
+
+			 mui(".mui-bar").on('tap','.mui-action-back',function(){
+                     EminBridge.backWebPage()
+                    })
 		</script>
 		<script type="text/javascript">
 			var JSONobject={
 				"monly":"$2588"
 			};
-			document.getElementById("monly").innerHTML=JSONobject.monly
+			document.getElementById("monly").innerHTML=JSONobject.monly;
+
 		</script>
 	</body>
 </html>

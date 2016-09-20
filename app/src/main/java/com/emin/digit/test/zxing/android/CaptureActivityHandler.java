@@ -31,6 +31,7 @@ import android.provider.Browser;
 import android.util.Log;
 
 import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
+import com.emin.digit.test.zxing.IBarHandler;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -52,8 +53,8 @@ public final class CaptureActivityHandler extends Handler {
 
 	private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
-	private final CaptureActivity activity;
-//    private final EMHybridActivity activity;
+//	private final CaptureActivity activity;
+	private final IBarHandler activity;
 	private final DecodeThread decodeThread;
 	private State state;
 	private final CameraManager cameraManager;
@@ -62,8 +63,7 @@ public final class CaptureActivityHandler extends Handler {
 		PREVIEW, SUCCESS, DONE
 	}
 
-
-	public CaptureActivityHandler(CaptureActivity activity,
+	public CaptureActivityHandler(IBarHandler activity,
 			Collection<BarcodeFormat> decodeFormats,
 			Map<DecodeHintType, ?> baseHints, String characterSet,
 			CameraManager cameraManager) {
@@ -119,6 +119,7 @@ public final class CaptureActivityHandler extends Handler {
 			cameraManager.requestPreviewFrame(decodeThread.getHandler(),
 					R.id.decode);
 			break;
+		/*
 		case R.id.return_scan_result:
 			//扫描结果，返回CaptureActivity处理
 			activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
@@ -155,6 +156,7 @@ public final class CaptureActivityHandler extends Handler {
 				Log.w(TAG, "Can't find anything to handle VIEW of URI " + url);
 			}
 			break;
+			*/
 		}
 	}
 

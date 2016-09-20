@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.emin.digit.test.zxing.IBarHandler;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -31,7 +32,7 @@ import java.util.Map;
  * 
  */
 public final class CaptureActivity extends Activity implements
-		SurfaceHolder.Callback {
+		SurfaceHolder.Callback ,IBarHandler{
 
 	private static final String TAG = CaptureActivity.class.getSimpleName();
 
@@ -114,11 +115,11 @@ public final class CaptureActivity extends Activity implements
 		if (hasSurface) {
 			// activity在paused时但不会stopped,因此surface仍旧存在；
 			// surfaceCreated()不会调用，因此在这里初始化camera
-			Log.d(TAG,"111 initCamera()");
+			Log.d(TAG,"222222 initCamera()");
 			initCamera(surfaceHolder);
 		} else {
 			// 重置callback，等待surfaceCreated()来初始化camera
-			Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
+			Log.d(TAG,"33333 重置callback，等待surfaceCreated()来初始化camera");
 			surfaceHolder.addCallback(this);
 		}
 

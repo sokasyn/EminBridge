@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.emin.digit.test.zxing.IBarHandler;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
@@ -44,12 +45,13 @@ public final class DecodeThread extends Thread {
   public static final String BARCODE_BITMAP = "barcode_bitmap";
   public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 
-  private final CaptureActivity activity;
+//  private final CaptureActivity activity;
+  private final IBarHandler activity;
   private final Map<DecodeHintType,Object> hints;
   private Handler handler;
   private final CountDownLatch handlerInitLatch;
 
-  public DecodeThread(CaptureActivity activity,
+  public DecodeThread(IBarHandler activity,
                Collection<BarcodeFormat> decodeFormats,
                Map<DecodeHintType,?> baseHints,
                String characterSet,
@@ -63,6 +65,7 @@ public final class DecodeThread extends Thread {
       hints.putAll(baseHints);
     }
 
+    /*
     // The prefs can't change while the thread is running, so pick them up once here.
     if (decodeFormats == null || decodeFormats.isEmpty()) {
       SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -85,7 +88,7 @@ public final class DecodeThread extends Thread {
       if (prefs.getBoolean(PreferencesActivity.KEY_DECODE_PDF417, false)) {
         decodeFormats.addAll(DecodeFormatManager.PDF417_FORMATS);
       }
-    }
+    }*/
     hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
 
     if (characterSet != null) {

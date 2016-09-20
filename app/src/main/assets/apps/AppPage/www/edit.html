@@ -311,7 +311,7 @@
 			</ul>
 		</div>
 		<div class="Edit_foot">
-			<a>完成</a>
+			<a onclick="complete()">完成</a>
 		</div>
 		<div class="footer" style="height:30px;"></div>
 		<!--主体内容-->
@@ -326,7 +326,13 @@
 			function dele(obj) {
 				var id = obj.id.match(/\d+/ig)
 				$(obj).parent().parent().remove();
+			};
+			function complete(){
+			EminBridge.loadWebPage("joinInvoice.html");
 			}
+			 mui(".mui-bar").on('tap','.mui-action-back',function(){
+                     EminBridge.backWebPage()
+                    })
 		</script>
 	</body>
 

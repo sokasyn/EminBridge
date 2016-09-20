@@ -31,6 +31,7 @@ public class EMHybridActivity extends EMBaseActivity {
     private static final String TAG = EMHybridActivity.class.getSimpleName(); // 日志标志
 
     private static final String sBaseWebPageUrl = "file:///android_asset/apps/test/www/html/";
+//    private static final String sBaseWebPageUrl = "file:///android_asset/apps/AppPage/www/";
 
 //    private FrameLayout rootLayout;
     private FrameLayout containerView;

@@ -1,5 +1,7 @@
 package com.emin.digit.test.zxing;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,10 +13,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 import com.emin.digit.mobile.android.hybrid.base.EMBaseActivity;
 import com.emin.digit.test.zxing.android.BeepManager;
+import com.emin.digit.test.zxing.android.CaptureActivity;
 import com.emin.digit.test.zxing.android.CaptureActivityHandler;
 import com.emin.digit.test.zxing.android.InactivityTimer;
 import com.emin.digit.test.zxing.android.IntentSource;
@@ -22,6 +26,7 @@ import com.emin.digit.test.zxing.camera.CameraManager;
 import com.emin.digit.test.zxing.view.ViewfinderView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
+import com.google.zxing.Result;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -30,7 +35,7 @@ import java.util.Map;
 /**
  * Created by Samson on 16/9/19.
  */
-public class BarcodeController implements SurfaceHolder.Callback{
+public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
     private static final String TAG = BarcodeController.class.getSimpleName();
 
@@ -53,6 +58,8 @@ public class BarcodeController implements SurfaceHolder.Callback{
 
     private FrameLayout mainView;
 
+
+    // - - - - - - - - IBarHandler Interface Start - - - - - - - -
     public ViewfinderView getViewfinderView() {
         return viewfinderView;
     }
@@ -69,6 +76,36 @@ public class BarcodeController implements SurfaceHolder.Callback{
         viewfinderView.drawViewfinder();
     }
 
+
+    /**
+     * 扫描成功，处理反馈信息
+     *
+     * @param rawResult
+     * @param barcode
+     * @param scaleFactor
+     */
+    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+        Log.d(TAG,"handleDecode");
+        inactivityTimer.onActivity();
+
+        boolean fromLiveScan = barcode != null;
+        //这里处理解码完成后的结果，此处将参数回传到Activity处理
+        if (fromLiveScan) {
+            Log.d(TAG,"fromLiveScan");
+            beepManager.playBeepSoundAndVibrate();
+            Log.d(TAG,"扫描成功");
+//
+//            Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
+//
+//            Intent intent = getIntent();
+//            intent.putExtra("codedContent", rawResult.getText());
+//            intent.putExtra("codedBitmap", barcode);
+//            setResult(RESULT_OK, intent);
+//            finish();
+        }
+
+    }
+    // - - - - - - - - IBarHandler Interface End - - - - - - - -
 
     public void loadBarcodeView(EMBaseActivity act){
         Log.d(TAG,"&&&&&&& loadBarcodeView thread id:" + Thread.currentThread().getId());
@@ -180,9 +217,9 @@ public class BarcodeController implements SurfaceHolder.Callback{
             // 打开Camera硬件设备
             cameraManager.openDriver(surfaceHolder);
             // 创建一个handler来打开预览，并抛出一个运行时异常
-//            if (handler == null) {
-//                handler = new CaptureActivityHandler(this, decodeFormats, decodeHints, characterSet, cameraManager);
-//            }
+            if (handler == null) {
+                handler = new CaptureActivityHandler(this, decodeFormats, decodeHints, characterSet, cameraManager);
+            }
         } catch (IOException ioe) {
             Log.w(TAG, ioe);
 //            displayFrameworkBugMessageAndExit();

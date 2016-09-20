@@ -5,7 +5,9 @@
 
     <SurfaceView
         android:id="@+id/camera_preview_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_width="500px"
+        android:layout_height="500px"
+        android:layout_marginLeft="100px"
+        android:layout_marginTop="100px"/>
 
 </FrameLayout>

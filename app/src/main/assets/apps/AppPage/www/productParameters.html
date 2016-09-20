@@ -169,7 +169,7 @@
         	</ul>
          </div>
     	<div class="join_foot">
-				<a>完成</a>
+				<a onclick="myfunction()">完成</a>
 			</div>
 		<!--主体内容-->
         <script>
@@ -191,7 +191,13 @@
 			document.getElementById("jingzhong").innerHTML=JSONobject.Gross
 			document.getElementById("maozhong").innerHTML=JSONobject.Net
 			document.getElementById("biankuang").innerHTML=JSONobject.Frame
-			document.getElementById("baozhuang").innerHTML=JSONobject.Packing
+			document.getElementById("baozhuang").innerHTML=JSONobject.Packing;
+			function myfunction(){
+			EminBridge.loadWebPage("joinInvoice.html");
+			}
+			 mui(".mui-bar").on('tap','.mui-action-back',function(){
+                     EminBridge.backWebPage()
+                    })
 		</script>
 	</body>
 </html>

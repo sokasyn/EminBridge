@@ -130,7 +130,10 @@ public final class ViewfinderView extends View {
 		int height = canvas.getHeight();
 
 
-        frame = new Rect(100,100,400,400);
+        // Add by Samson:Test for resize (This should modify in CameraManager's getFramingRect())
+//        frame = new Rect(100,100,400,400);
+//        frame.top = 170;
+//        frame.bottom = 610;
 
 
         // Draw the exterior (i.e. outside the framing rect) darkened
@@ -141,9 +144,10 @@ public final class ViewfinderView extends View {
 		canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint); // Rect_3
 		canvas.drawRect(0, frame.bottom + 1, width, height, paint); // Rect_4
 
-        Log.d("******zxing view","canvas.getWidth():" + width + " canvas.getHeight():"+ height);
-        Log.d("******zxing view","frame.top:" + frame.top + " frame.bottom:"+ frame.bottom + " frame.right:" + frame.right + " frame.left:" + frame.left);
-
+        Log.d("#########zxing view","frame.left:" + frame.left + " frame.top:"+ frame.top + " frame.right:" + frame.right  + " frame.bottom:"+ frame.bottom);
+        Log.d("#########zxing view","frame.width:" + frame.width() + " frame.height:" + frame.height());
+        Log.d("#########zxing view","canvas.getWidth():" + width + " canvas.getHeight():"+ height);
+        Log.d("#########zxing view","previewFrame.getWidth():" + previewFrame.width() + " previewFrame.getHeight():"+ previewFrame.height());
 
         if (resultBitmap != null) {
 			// Draw the opaque result bitmap over the scanning rectangle

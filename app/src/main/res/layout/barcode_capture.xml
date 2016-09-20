@@ -5,8 +5,8 @@
     <!-- 整体透明画布 -->
     <SurfaceView
         android:id="@+id/preview_view"
-        android:layout_width="640dp"
-        android:layout_height="480dp" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
     <!-- 扫描取景框 -->
     <com.emin.digit.test.zxing.view.ViewfinderView

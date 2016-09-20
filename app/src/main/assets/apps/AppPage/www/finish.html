@@ -1,73 +1,90 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-	    <meta name="apple-mobile-web-app-capable" content="yes">
-	    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" href="css/space.css" />
-		<link href="css/mui.min.css" rel="stylesheet"/>
-		<script src="js/mui.min.js"></script>
-		<title></title>
-		<style type="text/css">
-			span{
-					font-family: "微软雅黑";
-					font-size: 4vw;
-					line-height: 4vw;
-					height: 4vh;
-				}
-				#toDetail, #toIndex{
-					width: 35vw;
-					height: 6vh;
-					font-family: "微软雅黑";
-					font-size: 4vw;
-					color: gray;
-					line-height: 4vw;
-					
-				}
-				#toIndex{
-					background-color: #389ee6;
-					color: white;
-				}
-				.mui-bar{
-					height: 15vh;
-					line-height: 15vh;
-				}
-		</style>
-	</head>
-	<body>
-		<div class="mui-content">
-			<ul class="mui-table-view mui-grid-view">
-				<div class="space-2"></div>
-				<li class="mui-table-view-cell mui-media mui-col-xs-12">
-					<span class="mui-pull-left">发货单号:</span>
-				</li>
+<head>
+	<meta charset="UTF-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/space.css" />
+	<link href="css/mui.min.css" rel="stylesheet"/>
+	<script src="js/mui.min.js"></script>
+	<title></title>
+	<style type="text/css">
+		span{
+		font-family: "微软雅黑";
+		font-size: 4vw;
+		line-height: 4vw;
+		height: 4vh;
+		}
+		#toDetail, #toIndex{
+		width: 35vw;
+		height: 6vh;
+		font-family: "微软雅黑";
+		font-size: 4vw;
+		color: gray;
+		line-height: 4vw;
+
+		}
+		#toIndex{
+		background-color: #389ee6;
+		color: white;
+		}
+		.mui-bar{
+		height: 15vh;
+		line-height: 15vh;
+		}
+		.mui-scroll-wrapper{
+		margin-top: 44vh;
+		height: 40vh;
+		}
+	</style>
+</head>
+<body>
+<div class="mui-content">
+	<ul class="mui-table-view mui-grid-view">
+		<div class="space-2"></div>
+		<li class="mui-table-view-cell mui-media mui-col-xs-12">
+			<span class="mui-pull-left">发货单号:</span>
+		</li>
+		<div class="space-1"></div>
+		<li class="mui-table-view-cell mui-media mui-col-xs-12">
+			<span class="mui-pull-left">目标客户:&nbsp;${address}</span>
+		</li>
+		<div class="space-1"></div>
+		<div class="  mui-col-xs-12 border"></div>
+		<li class="mui-table-view-cell  mui-col-xs-12 ">
+			<span class="mui-pull-left">客户地址:&nbsp; <strong style="color:red">${score}</strong>克</span>
+		</li>
+		<li class="mui-table-view-cell  mui-col-xs-12 ">
+			<span class="mui-pull-left">物流公司:&nbsp; <strong style="color:red">${score}</strong>克</span>
+		</li>
+		<li class="mui-table-view-cell  mui-col-xs-12 ">
+			<span class="mui-pull-left">车辆信息:&nbsp; <strong style="color:red">${score}</strong>克</span>
+		</li>
+		<li class="mui-table-view-cell  mui-col-xs-12 ">
+			<span class="mui-pull-left">联系人:&nbsp; <strong style="color:red">${score}</strong>克</span>
+		</li>
+		<div class="space-2"></div>
+		<div class="mui-table-view-divider"></div>
+		<li class="mui-table-view-cell  mui-col-xs-1 ">
+		</li>
+		<li class="mui-table-view-cell  mui-col-xs-10" style="height: 8vh;line-height: 8vh; border-bottom:1px solid black;">
+			<span >货品清单</span>
+		</li>
+		<div class="mui-scroll-wrapper" id="productList">
+			<div class="mui-scroll">
 				<div class="space-1"></div>
-				<li class="mui-table-view-cell mui-media mui-col-xs-12">
-					<span class="mui-pull-left">目标客户:&nbsp;${address}</span>
-				</li>
-				<div class="space-1"></div>
-				<div class="  mui-col-xs-12 border"></div>
-				<li class="mui-table-view-cell  mui-col-xs-12 ">
-					<span class="mui-pull-left">客户地址:&nbsp; <strong style="color:red">${score}</strong>克</span>
-				</li>
-				<li class="mui-table-view-cell  mui-col-xs-12 ">
-					<span class="mui-pull-left">物流公司:&nbsp; <strong style="color:red">${score}</strong>克</span>
-				</li>
-				<li class="mui-table-view-cell  mui-col-xs-12 ">
-					<span class="mui-pull-left">车辆信息:&nbsp; <strong style="color:red">${score}</strong>克</span>
-				</li>
-				<li class="mui-table-view-cell  mui-col-xs-12 ">
-					<span class="mui-pull-left">联系人:&nbsp; <strong style="color:red">${score}</strong>克</span>
-				</li>
-				<div class="space-2"></div>
-				<div class="mui-table-view-divider"></div>
 				<li class="mui-table-view-cell  mui-col-xs-1 ">
 				</li>
-				<li class="mui-table-view-cell  mui-col-xs-10" style="height: 8vh;line-height: 8vh; border-bottom:1px solid black;">
-					<span >货品清单</span>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
 				</li>
-				<div class="space-1"></div>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
 				<li class="mui-table-view-cell  mui-col-xs-1 ">
 				</li>
 				<li class="mui-table-view-cell  mui-col-xs-5 ">
@@ -90,18 +107,102 @@
 				<li class="mui-table-view-cell  mui-col-xs-3 ">
 					<span class="mui-pull-left">10箱</span>
 				</li>
-				 
-				 
-				<nav class="mui-bar mui-bar-tab">
-					<li class="mui-table-view-cell  mui-col-xs-6" style="height: 8vh;">
-							<button type="button" class="button" id='toDetail'>发货记录</button>
-						</li>
-						<li class="mui-table-view-cell  mui-col-xs-6 " style="height: 8vh;">
-							<button type="button" class="button" id='toIndex'>继续发货</button>
-						</li>
-				</nav>
-				
-			</ul>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-1 ">
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-5 ">
+					<span class="mui-pull-left">五粮醇酱香型酒</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">500ml</span>
+				</li>
+				<li class="mui-table-view-cell  mui-col-xs-3 ">
+					<span class="mui-pull-left">10箱</span>
+				</li>
+			</div>
 		</div>
-	</body>
+		<nav class="mui-bar mui-bar-tab">
+			<li class="mui-table-view-cell  mui-col-xs-6" style="height: 8vh;">
+				<button type="button" class="button" id='toDetail'>发货记录</button>
+			</li>
+			<li class="mui-table-view-cell  mui-col-xs-6 " style="height: 8vh;">
+				<button type="button" class="button" onclick="myfunction()" id='toIndex'>继续发货</button>
+			</li>
+		</nav>
+	</ul>
+</div>
+<script>
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			function myfunction(){
+			EminBridge.loadWebPage("index.html");
+			}
+		</script>
+</body>
 </html>

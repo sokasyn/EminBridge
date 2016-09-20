@@ -51,11 +51,9 @@ final class CameraConfigurationManager {
 	@SuppressLint("NewApi")
 	void initFromCameraParameters(Camera camera) {
 		Camera.Parameters parameters = camera.getParameters();
-		WindowManager manager = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
+		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
-		Point theScreenResolution = new Point(display.getWidth(),
-				display.getHeight());
+		Point theScreenResolution = new Point(display.getWidth(), display.getHeight());
 		screenResolution = theScreenResolution;
 		Log.i(TAG, "Screen resolution: " + screenResolution);
 
@@ -80,20 +78,17 @@ final class CameraConfigurationManager {
 		Camera.Parameters parameters = camera.getParameters();
 
 		if (parameters == null) {
-			Log.w(TAG,
-					"Device error: no camera parameters are available. Proceeding without configuration.");
+			Log.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
 			return;
 		}
 
 		Log.i(TAG, "Initial camera parameters: " + parameters.flatten());
 
 		if (safeMode) {
-			Log.w(TAG,
-					"In camera config safe mode -- most settings will not be honored");
+			Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
 		}
 
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		CameraConfigurationUtils.setFocus(parameters, prefs.getBoolean(
 				PreferencesActivity.KEY_AUTO_FOCUS, true), prefs.getBoolean(

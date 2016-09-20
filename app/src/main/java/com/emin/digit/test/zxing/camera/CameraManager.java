@@ -113,10 +113,8 @@ public final class CameraManager {
 			configManager.setDesiredCameraParameters(theCamera, false);
 		} catch (RuntimeException re) {
 			// Driver failed
-			Log.w(TAG,
-					"Camera rejected parameters. Setting only minimal safe-mode parameters");
-			Log.i(TAG, "Resetting to saved camera params: "
-					+ parametersFlattened);
+			Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
+			Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
 			// Reset:
 			if (parametersFlattened != null) {
 				parameters = theCamera.getParameters();
@@ -126,8 +124,7 @@ public final class CameraManager {
 					configManager.setDesiredCameraParameters(theCamera, true);
 				} catch (RuntimeException re2) {
 					// Well, darn. Give up
-					Log.w(TAG,
-							"Camera rejected even safe-mode parameters! No configuration");
+					Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
 				}
 			}
 		}
@@ -229,15 +226,50 @@ public final class CameraManager {
 
 			int leftOffset = (screenResolution.x - width) / 2;
 			int topOffset = (screenResolution.y - height) / 2;
-			framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
-					topOffset + height);
+			framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+
+            Log.d(TAG,"getFramingRect width:" + width);
+            Log.d(TAG,"getFramingRect height:" + height);
 			Log.d(TAG, "Calculated framing rect: " + framingRect);
 		}
+
+//        framingRect.top = 170;
+//        framingRect.bottom = 610;
 		return framingRect;
 	}
 
-	private static int findDesiredDimensionInRange(int resolution, int hardMin,
-			int hardMax) {
+
+
+    /*
+    public Rect getFramingRect() {
+        Point screenResolution = configManager.getScreenResolution();
+        if (framingRect == null) {
+            if (camera == null) {
+                return null;
+            }
+//      int width = screenResolution.x * 3 / 4;
+            int width = screenResolution.x * 8 / 10;
+            if (width < MIN_FRAME_WIDTH) {
+                width = MIN_FRAME_WIDTH;
+            } else if (width > MAX_FRAME_WIDTH) {
+                width = MAX_FRAME_WIDTH;
+            }
+            int height = screenResolution.y * 8 / 10;
+            if (height < MIN_FRAME_HEIGHT) {
+                height = MIN_FRAME_HEIGHT;
+            } else if (height > MAX_FRAME_HEIGHT) {
+                height = MAX_FRAME_HEIGHT;
+            }
+            width = height = Math.min(height, width);
+            int leftOffset = (screenResolution.x - width) / 2;
+            int topOffset = (screenResolution.y - height) / 2;
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+            Log.d(TAG, "Calculated framing rect: " + framingRect);
+        }
+        return framingRect;
+    }*/
+
+	private static int findDesiredDimensionInRange(int resolution, int hardMin, int hardMax) {
 		int dim = 5 * resolution / 8; // Target 5/8 of each dimension
 		if (dim < hardMin) {
 			return hardMin;
