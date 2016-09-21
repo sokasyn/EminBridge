@@ -3,25 +3,7 @@
 <head>
     <title>User Home Page</title>
     <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
-    <script type="text/javascript">
 
-        (function(){
-                loadBarcodeView();
-        })();
-
-
-         function loadBarcodeView(){
-            console.log(222222);
-            var position = "0,0,320,200";
-            EminBridge.barcode.loadBarcodeView(position);
-         }
-
-         // 测试返回上一页,使用EminBridge的方法以便可以管理WebView的生命周期等
-         function back(){
-            EminBridge.lastWebPage();
-         }
-
-    </script>
 </head>
 <body>
 
@@ -55,15 +37,49 @@
 <br/>
 <br/>
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+
+<input id="barcodeRtn" type="text" value="" style="width:100%" />
+<!--
+<div id="dcontent" class="dcontent">
+    <br/>
+    <ul id="history" class="dlist" style="text-align:left;">
+        <li id="nohistory" class="ditem" onclick="onempty();">无扫描记录</li>
+    </ul>
+    <br/>
+</div>
+-->
 <button type="button" onclick="back()">返回</button>
 <br/>
 <br/>
 
+
+<script type="text/javascript">
+
+        (function(){
+            var tObj = document.getElementById('barcodeRtn');
+            tObj.value = "result";
+                loadBarcodeView();
+        })();
+
+
+         function loadBarcodeView(){
+            console.log(222222);
+            var position = "0,0,320,200";
+            EminBridge.barcode.loadBarcodeView(position);
+         }
+
+
+         function barcodeResult(result){
+            console.log("barcode result:" + result);
+            var tObj = document.getElementById('barcodeRtn');
+            tObj.value = result;
+
+         }
+
+         // 测试返回上一页,使用EminBridge的方法以便可以管理WebView的生命周期等
+         function back(){
+            EminBridge.lastWebPage();
+         }
+</script>
 </body>
 </html>

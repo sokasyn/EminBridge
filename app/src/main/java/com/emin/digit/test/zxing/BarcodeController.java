@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 import com.emin.digit.mobile.android.hybrid.base.EMBaseActivity;
+import com.emin.digit.mobile.android.hybrid.base.EMHybridActivity;
+import com.emin.digit.mobile.android.hybrid.base.EMHybridWebView;
 import com.emin.digit.test.zxing.android.BeepManager;
 import com.emin.digit.test.zxing.android.CaptureActivity;
 import com.emin.digit.test.zxing.android.CaptureActivityHandler;
@@ -85,18 +87,24 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
      * @param scaleFactor
      */
     public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
-        Log.d(TAG,"handleDecode");
-        inactivityTimer.onActivity();
+        Log.d(TAG," ############ handleDecode:");
+//        inactivityTimer.onActivity();
 
         boolean fromLiveScan = barcode != null;
         //这里处理解码完成后的结果，此处将参数回传到Activity处理
         if (fromLiveScan) {
             Log.d(TAG,"fromLiveScan");
-            beepManager.playBeepSoundAndVibrate();
-            Log.d(TAG,"扫描成功");
-//
+            Log.d(TAG,"扫描成功,Value:" + rawResult.getText());
+            Toast.makeText(activity, "扫描成功", Toast.LENGTH_SHORT).show();
+
+            // 回传到WebView
+            EMHybridWebView webView = EMHybridActivity.getWebViewList().getLast();
+
+            String callBackName = "barcodeResult";
+            webView.loadUrl("javascript:" + callBackName + "('" + rawResult.getText() + "')");
+
+//            beepManager.playBeepSoundAndVibrate();
 //            Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
-//
 //            Intent intent = getIntent();
 //            intent.putExtra("codedContent", rawResult.getText());
 //            intent.putExtra("codedBitmap", barcode);

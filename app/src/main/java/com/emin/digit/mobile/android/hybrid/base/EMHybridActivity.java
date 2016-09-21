@@ -33,7 +33,7 @@ public class EMHybridActivity extends EMBaseActivity {
     private static final String sBaseWebPageUrl = "file:///android_asset/apps/test/www/html/";
 //    private static final String sBaseWebPageUrl = "file:///android_asset/apps/AppPage/www/";
 
-//    private FrameLayout rootLayout;
+    //    private FrameLayout rootLayout;
     private FrameLayout containerView;
 
     private EMHybridWebView mWebView; // 加载HTML页面的WebView
@@ -233,6 +233,9 @@ public class EMHybridActivity extends EMBaseActivity {
         }
     }
 
+    public static LinkedList<EMHybridWebView> getWebViewList() {
+        return webViewList;
+    }
 
     public FrameLayout getContainerView() {
         return containerView;
