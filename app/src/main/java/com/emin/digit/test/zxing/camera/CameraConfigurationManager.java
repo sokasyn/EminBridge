@@ -50,6 +50,7 @@ final class CameraConfigurationManager {
 	 */
 	@SuppressLint("NewApi")
 	void initFromCameraParameters(Camera camera) {
+		Log.d(TAG," &&&&&& initFromCameraParameters");
 		Camera.Parameters parameters = camera.getParameters();
 		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();

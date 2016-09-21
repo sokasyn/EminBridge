@@ -2,6 +2,7 @@ package com.emin.digit.test.zxing;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
@@ -127,6 +128,69 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         activity.addContentView(button,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
+
+    private void init(){
+        Log.d(TAG," ### Barcode init..");
+
+        // web js传入的div区域测试
+        int divHeight = 600;
+
+        // 二维码扫描的布局文件:xml
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        FrameLayout layout = (FrameLayout)inflater.inflate(R.layout.barcode_capture_2,null);
+
+        // SurfaceView(硬件摄像头的预览)
+        SurfaceView surfaceView = (SurfaceView) layout.findViewById(R.id.preview_view_2);
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+
+        // viewfinderView
+        viewfinderView = (ViewfinderView) layout.findViewById(R.id.viewfinder_view_2);
+        cameraManager = new CameraManager(activity.getApplication());
+        viewfinderView.setCameraManager(cameraManager);
+
+        handler = null;
+
+        // 主Activity的布局
+        FrameLayout actFrameLayout = (FrameLayout) activity.findViewById(R.id.idActivityHybrid);
+
+        // 用mainView装载SurfaceView和ViewfinderView整体
+        mainView = new FrameLayout(activity.getApplicationContext());
+        FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, divHeight);
+        bcLayoutParams.gravity = Gravity.LEFT|Gravity.TOP;
+        bcLayoutParams.leftMargin = 0;
+        bcLayoutParams.topMargin = 0;//200;
+        actFrameLayout.addView(mainView,bcLayoutParams);
+
+        if(surfaceView!= null && surfaceView.getParent() != null) {
+            Log.d(TAG,"surfaceView has parent");
+            layout.removeView(surfaceView);
+        }
+
+        if(viewfinderView != null && viewfinderView.getParent() != null) {
+            Log.d(TAG,"viewfinderView has parent");
+//            surfaceView.getParent()
+            layout.removeView(viewfinderView);
+        }
+
+        mainView.addView(surfaceView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        mainView.addView(viewfinderView);
+
+
+        if (hasSurface) {
+            // activity在paused时但不会stopped,因此surface仍旧存在；
+            // surfaceCreated()不会调用，因此在这里初始化camera
+            Log.d(TAG,"111 initCamera()");
+            initCamera(surfaceHolder);
+        } else {
+            // 重置callback，等待surfaceCreated()来初始化camera
+            Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
+            surfaceHolder.addCallback(this);
+        }
+    }
+
+    /* 全屏没有问题,设置了区域大小（非全屏)就会出现拉伸的问题
     private void init(){
         cameraManager = new CameraManager(activity.getApplication());
 
@@ -149,12 +213,12 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         mainView = new FrameLayout(activity.getApplicationContext());
         FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                600
-//                ViewGroup.LayoutParams.MATCH_PARENT
+//                600
+                ViewGroup.LayoutParams.MATCH_PARENT
         );
         bcLayoutParams.gravity = Gravity.LEFT|Gravity.TOP;
         bcLayoutParams.leftMargin = 0;
-        bcLayoutParams.topMargin = 200;
+        bcLayoutParams.topMargin = 0;//200;
         actFrameLayout.addView(mainView,bcLayoutParams);
 
         if(surfaceView.getParent() != null) {
@@ -185,7 +249,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
             Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
             surfaceHolder.addCallback(this);
         }
-    }
+    }*/
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
