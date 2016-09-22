@@ -39,7 +39,8 @@ public final class PluginBarcode {//implements SurfaceHolder.Callback {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                new BarcodeController().loadBarcodeView(activity);
+//                new BarcodeController().loadBarcodeView(activity);
+                BarcodeController.getInstance().loadBarcodeView(activity);
             }
         });
     }

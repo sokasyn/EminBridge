@@ -58,7 +58,7 @@
         (function(){
             var tObj = document.getElementById('barcodeRtn');
             tObj.value = "result";
-                loadBarcodeView();
+            loadBarcodeView();
         })();
 
 
@@ -69,16 +69,16 @@
          }
 
 
+         var blist = [];
          function barcodeResult(result){
             console.log("barcode result:" + result);
             var tObj = document.getElementById('barcodeRtn');
             tObj.value = result;
-
          }
 
          // 测试返回上一页,使用EminBridge的方法以便可以管理WebView的生命周期等
          function back(){
-            EminBridge.lastWebPage();
+            EminBridge.barcodeBack();
          }
 </script>
 </body>

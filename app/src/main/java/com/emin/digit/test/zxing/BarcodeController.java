@@ -2,6 +2,7 @@ package com.emin.digit.test.zxing;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.util.Log;
@@ -116,6 +117,16 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
     }
     // - - - - - - - - IBarHandler Interface End - - - - - - - -
 
+    private static BarcodeController ourInstance = new BarcodeController();
+
+    public static BarcodeController getInstance() {
+        return ourInstance;
+    }
+
+    private BarcodeController() {
+    }
+
+
     public void loadBarcodeView(EMBaseActivity act){
         Log.d(TAG,"&&&&&&& loadBarcodeView thread id:" + Thread.currentThread().getId());
         activity = act;
@@ -133,7 +144,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         Log.d(TAG," ### Barcode init..");
 
         // web js传入的div区域测试
-        int divHeight = 600;
+        int divHeight = 640;
 
         // 二维码扫描的布局文件:xml
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -155,12 +166,15 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
         // 用mainView装载SurfaceView和ViewfinderView整体
         mainView = new FrameLayout(activity.getApplicationContext());
+        mainView.setClipChildren(false);
+//        mainView.setClipBounds();
         FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, divHeight);
         bcLayoutParams.gravity = Gravity.LEFT|Gravity.TOP;
-        bcLayoutParams.leftMargin = 0;
-        bcLayoutParams.topMargin = 0;//200;
+        bcLayoutParams.leftMargin = 0;//0;
+        bcLayoutParams.topMargin = 200;//200;
         actFrameLayout.addView(mainView,bcLayoutParams);
+        mainView.setBackgroundColor(Color.BLUE);
 
         if(surfaceView!= null && surfaceView.getParent() != null) {
             Log.d(TAG,"surfaceView has parent");
@@ -173,11 +187,16 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
             layout.removeView(viewfinderView);
         }
 
-        mainView.addView(surfaceView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        // 这样摄像头就不会被拉伸,长宽的比率满足支持的比率(720*1280),但是宽度小了,surfaceView在mainView中就只有一小部分,不是满mainView的
+        // 解决办法:surfaceView还是720,但是高度定位1280,因为是加在mainView中的,所以surfaceView的垂直方向看到一部分,但是我们只关注的是二维码扫描框框的那一部分就行了
+//        mainView.addView(surfaceView,new FrameLayout.LayoutParams((720  divHeight)/1280, divHeight)); // 不拉伸
+//        float r = (1280 * divHeight)/720;
+        mainView.addView(surfaceView,new FrameLayout.LayoutParams(720,1280));
 //        mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
 //        mainView.addView(viewfinderView);
 
-
+        /*
         if (hasSurface) {
             // activity在paused时但不会stopped,因此surface仍旧存在；
             // surfaceCreated()不会调用，因此在这里初始化camera
@@ -187,7 +206,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
             // 重置callback，等待surfaceCreated()来初始化camera
             Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
             surfaceHolder.addCallback(this);
-        }
+        }*/
     }
 
     /* 全屏没有问题,设置了区域大小（非全屏)就会出现拉伸的问题
@@ -262,11 +281,32 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        Log.d(TAG,"format:" + format + " width:" + width + " height:" + height);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(TAG,"# # # # # # surfaceDestroyed ");
+    }
+
+
+    // - - - - - - Life circle - - - - - -
+    public void stop(){
+//        onDestroy();
+//        inactivityTimer.shutdown();
+
+        cameraManager.stopPreview();
+        hasSurface = false;
+        decodeFormats = null;
+        characterSet = null;
+        cameraManager.closeDriver();
+
+        FrameLayout layout = (FrameLayout)mainView.getParent();
+        layout.removeView(mainView);
+    }
+
+    protected void onDestroy() {
+        Log.d(TAG,"### onDestroy");
 
     }
 

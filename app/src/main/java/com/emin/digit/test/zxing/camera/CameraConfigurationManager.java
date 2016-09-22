@@ -52,10 +52,19 @@ final class CameraConfigurationManager {
 	void initFromCameraParameters(Camera camera) {
 		Log.d(TAG," &&&&&& initFromCameraParameters");
 		Camera.Parameters parameters = camera.getParameters();
+
+		// Modified by Samson
+        // 全屏幕
 		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
 		Point theScreenResolution = new Point(display.getWidth(), display.getHeight());
-		screenResolution = theScreenResolution;
+
+		// 自定义区域
+//        int sWidth = 640;
+//        int sHeight = 640;
+//        Point theScreenResolution = new Point(sWidth,sHeight);
+
+        screenResolution = theScreenResolution;
 		Log.i(TAG, "Screen resolution: " + screenResolution);
 
 		/************** 竖屏更改4 ******************/

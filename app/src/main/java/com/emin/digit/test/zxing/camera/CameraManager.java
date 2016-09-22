@@ -81,8 +81,7 @@ public final class CameraManager {
      * @throws IOException
      *             Indicates the camera driver failed to open.
      */
-    public synchronized void openDriver(SurfaceHolder holder)
-            throws IOException {
+    public synchronized void openDriver(SurfaceHolder holder) throws IOException {
         Camera theCamera = camera;
         if (theCamera == null) {
 
@@ -254,7 +253,8 @@ public final class CameraManager {
 //            int width = screenResolution.x * 8 / 10;
             int width = screenResolution.x * 3 / 5;
 
-            Log.d(TAG,"####### in getFramingRect scan width 1 :" + width);
+            Log.d(TAG,"####### in getFramingRect scan screenResolution :" + screenResolution);
+            Log.d(TAG,"####### in getFramingRect scan width :" + width);
 
             if (width < MIN_FRAME_WIDTH) {
                 width = MIN_FRAME_WIDTH;
@@ -275,10 +275,9 @@ public final class CameraManager {
             Log.d(TAG,"####### in getFramingRect scan width = height:" + width);
 
             int leftOffset = (screenResolution.x - width) / 2;
-//            int topOffset = (screenResolution.y - height) / 2;
+            int topOffset = (screenResolution.y - height) / 2;
 
             // Modified by Samson
-            int topOffset = (screenResolution.y - height) / 2;
             topOffset -= 300;
             Log.d(TAG,"####### in getFramingRect scan topOffset :" + topOffset);
 

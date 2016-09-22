@@ -191,13 +191,14 @@ public final class CaptureActivity extends Activity implements
 			Log.d(TAG,"fromLiveScan");
 			beepManager.playBeepSoundAndVibrate();
 
-			Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
+            String message = "扫描成功:" + rawResult.getText();
+			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
-			Intent intent = getIntent();
-			intent.putExtra("codedContent", rawResult.getText());
-			intent.putExtra("codedBitmap", barcode);
-			setResult(RESULT_OK, intent);
-			finish();
+//			Intent intent = getIntent();
+//			intent.putExtra("codedContent", rawResult.getText());
+//			intent.putExtra("codedBitmap", barcode);
+//			setResult(RESULT_OK, intent);
+//			finish();
 		}
 
 	}

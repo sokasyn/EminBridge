@@ -7,6 +7,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 import com.emin.digit.mobile.android.hybrid.plugin.PluginAlert;
+import com.emin.digit.test.zxing.BarcodeController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -182,6 +183,27 @@ public class EMBridge {
         });
 
     }
+    
+    /**
+     * 
+     * javascript的页面返回上一页事件
+     */
+    // TODO: 16/9/22 临时为二维码扫描返回
+    @JavascriptInterface
+    public void barcodeBack(){
+
+        final EMHybridActivity activity = (EMHybridActivity)mContext;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                BarcodeController.getInstance().stop();
+                activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK));
+            }
+        });
+
+    }
+
 
     // 测试需要Android context的功能,
     // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计
