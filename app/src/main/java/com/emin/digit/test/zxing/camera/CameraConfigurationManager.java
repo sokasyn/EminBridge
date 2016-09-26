@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
  */
 final class CameraConfigurationManager {
 
-	private static final String TAG = "CameraConfiguration";
+	private static final String TAG = CameraConfigurationManager.class.getSimpleName();
 
 	private final Context context;
 	private Point screenResolution;
@@ -54,12 +54,12 @@ final class CameraConfigurationManager {
 		Camera.Parameters parameters = camera.getParameters();
 
 		// Modified by Samson
-        // 全屏幕
+        // 全屏幕(origin source code)
 		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
 		Point theScreenResolution = new Point(display.getWidth(), display.getHeight());
 
-		// 自定义区域
+		// 自定义区域(modified)
 //        int sWidth = 640;
 //        int sHeight = 640;
 //        Point theScreenResolution = new Point(sWidth,sHeight);
@@ -77,46 +77,35 @@ final class CameraConfigurationManager {
 			screenResolutionForCamera.x = screenResolution.y;
 			screenResolutionForCamera.y = screenResolution.x;
 		}
-
-		cameraResolution = CameraConfigurationUtils.findBestPreviewSizeValue(
-				parameters, screenResolutionForCamera);
+		cameraResolution = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolutionForCamera);
 		Log.i(TAG, "Camera resolution: " + cameraResolution);
-
 	}
 
 	void setDesiredCameraParameters(Camera camera, boolean safeMode) {
 		Camera.Parameters parameters = camera.getParameters();
-
 		if (parameters == null) {
 			Log.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
 			return;
 		}
-
 		Log.i(TAG, "Initial camera parameters: " + parameters.flatten());
-
 		if (safeMode) {
 			Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
 		}
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
 		CameraConfigurationUtils.setFocus(parameters, prefs.getBoolean(
 				PreferencesActivity.KEY_AUTO_FOCUS, true), prefs.getBoolean(
 				PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, true),
 				safeMode);
-
 		parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
 		/****************** 竖屏更改2 *********************/
 		setDisplayOrientation(camera, 90);
 
 		Log.i(TAG, "Final camera parameters: " + parameters.flatten());
-
 		camera.setParameters(parameters);
-
 		Camera.Parameters afterParameters = camera.getParameters();
 		Camera.Size afterSize = afterParameters.getPreviewSize();
-		if (afterSize != null
-				&& (cameraResolution.x != afterSize.width || cameraResolution.y != afterSize.height)) {
+		if (afterSize != null && (cameraResolution.x != afterSize.width || cameraResolution.y != afterSize.height)) {
 			Log.w(TAG, "Camera said it supported preview size "
 					+ cameraResolution.x + 'x' + cameraResolution.y
 					+ ", but after setting it, preview size is "
@@ -127,11 +116,9 @@ final class CameraConfigurationManager {
 	}
 
 	void setDisplayOrientation(Camera camera, int angle) {
-
 		Method method;
 		try {
-			method = camera.getClass().getMethod("setDisplayOrientation",
-					new Class[] { int.class });
+			method = camera.getClass().getMethod("setDisplayOrientation", new Class[] { int.class });
 			if (method != null)
 				method.invoke(camera, new Object[] { angle });
 		} catch (Exception e1) {

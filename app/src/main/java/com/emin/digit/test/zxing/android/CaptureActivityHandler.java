@@ -67,6 +67,9 @@ public final class CaptureActivityHandler extends Handler {
 			Collection<BarcodeFormat> decodeFormats,
 			Map<DecodeHintType, ?> baseHints, String characterSet,
 			CameraManager cameraManager) {
+
+        Log.d(TAG,"$$$$ CaptureActivityHandler init....");
+
 		this.activity = activity;
 		decodeThread = new DecodeThread(activity, decodeFormats, baseHints,
 				characterSet, new ViewfinderResultPointCallback(
@@ -83,51 +86,50 @@ public final class CaptureActivityHandler extends Handler {
 
 	@Override
 	public void handleMessage(Message message) {
-
-//		Log.d(TAG,"= = = = = = = = handleMessage:" + message.what);
-
+		Log.d(TAG,"$$$$ handleMessage:" + message.what);
 		switch (message.what) {
 		case R.id.restart_preview:
+            Log.d(TAG,"$$$$ handleMessage restart_preview");
 			// 重新预览
 			restartPreviewAndDecode();
 			break;
 		case R.id.decode_succeeded:
+            Log.d(TAG,"$$$$ handleMessage decode_succeeded");
 			// 解码成功
 			state = State.SUCCESS;
 			Bundle bundle = message.getData();
 			Bitmap barcode = null;
 			float scaleFactor = 1.0f;
 			if (bundle != null) {
-				byte[] compressedBitmap = bundle
-						.getByteArray(DecodeThread.BARCODE_BITMAP);
+				byte[] compressedBitmap = bundle.getByteArray(DecodeThread.BARCODE_BITMAP);
 				if (compressedBitmap != null) {
 					barcode = BitmapFactory.decodeByteArray(compressedBitmap,
 							0, compressedBitmap.length, null);
 					// Mutable copy:
 					barcode = barcode.copy(Bitmap.Config.ARGB_8888, true);
 				}
-				scaleFactor = bundle
-						.getFloat(DecodeThread.BARCODE_SCALED_FACTOR);
+				scaleFactor = bundle.getFloat(DecodeThread.BARCODE_SCALED_FACTOR);
 			}
 			activity.handleDecode((Result) message.obj, barcode, scaleFactor);
 			break;
 		case R.id.decode_failed:
+            Log.d(TAG,"$$$$ handleMessage decode_failed");
 			// We're decoding as fast as possible, so when one decode fails,
 			// start another.
 			// 尽可能快的解码，以便可以在解码失败时，开始另一次解码
 			state = State.PREVIEW;
-			cameraManager.requestPreviewFrame(decodeThread.getHandler(),
-					R.id.decode);
+			cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 			break;
-		/*
 		case R.id.return_scan_result:
+            Log.d(TAG,"$$$$ handleMessage return_scan_result");
 			//扫描结果，返回CaptureActivity处理
-			activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
-			activity.finish();
+//			activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
+//			activity.finish();
 			break;
 		case R.id.launch_product_query:
+            Log.d(TAG,"$$$$ handleMessage launch_product_query");
 			String url = (String) message.obj;
-
+            /*
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			intent.setData(Uri.parse(url));
@@ -146,17 +148,15 @@ public final class CaptureActivityHandler extends Handler {
 					|| "com.android.chrome".equals(browserPackageName)) {
 				intent.setPackage(browserPackageName);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.putExtra(Browser.EXTRA_APPLICATION_ID,
-						browserPackageName);
+				intent.putExtra(Browser.EXTRA_APPLICATION_ID, browserPackageName);
 			}
-
 			try {
 				activity.startActivity(intent);
 			} catch (ActivityNotFoundException ignored) {
 				Log.w(TAG, "Can't find anything to handle VIEW of URI " + url);
-			}
+			}*/
 			break;
-			*/
+
 		}
 	}
 
@@ -185,8 +185,7 @@ public final class CaptureActivityHandler extends Handler {
 	public void restartPreviewAndDecode() {
 		if (state == State.SUCCESS) {
 			state = State.PREVIEW;
-			cameraManager.requestPreviewFrame(decodeThread.getHandler(),
-					R.id.decode);
+			cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 			activity.drawViewfinder();
 		}
 	}

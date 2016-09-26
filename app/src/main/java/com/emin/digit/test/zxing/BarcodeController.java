@@ -189,14 +189,14 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
         // 这样摄像头就不会被拉伸,长宽的比率满足支持的比率(720*1280),但是宽度小了,surfaceView在mainView中就只有一小部分,不是满mainView的
         // 解决办法:surfaceView还是720,但是高度定位1280,因为是加在mainView中的,所以surfaceView的垂直方向看到一部分,但是我们只关注的是二维码扫描框框的那一部分就行了
-//        mainView.addView(surfaceView,new FrameLayout.LayoutParams((720  divHeight)/1280, divHeight)); // 不拉伸
+//        mainView.addView(surfaceView,new FrameLayout.LayoutParams((720 *divHeight)/1280, divHeight)); // 不拉伸
 //        float r = (1280 * divHeight)/720;
-        mainView.addView(surfaceView,new FrameLayout.LayoutParams(720,1280));
-//        mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
+//        mainView.addView(surfaceView,new FrameLayout.LayoutParams(720,1280));
+        mainView.addView(surfaceView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        mainView.addView(viewfinderView);
 
-        /*
+
         if (hasSurface) {
             // activity在paused时但不会stopped,因此surface仍旧存在；
             // surfaceCreated()不会调用，因此在这里初始化camera
@@ -206,7 +206,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
             // 重置callback，等待surfaceCreated()来初始化camera
             Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
             surfaceHolder.addCallback(this);
-        }*/
+        }
     }
 
     /* 全屏没有问题,设置了区域大小（非全屏)就会出现拉伸的问题

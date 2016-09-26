@@ -169,8 +169,7 @@ public final class CaptureActivity extends Activity implements
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
 	}
 
@@ -183,7 +182,7 @@ public final class CaptureActivity extends Activity implements
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
 		Log.d(TAG,"handleDecode");
-		inactivityTimer.onActivity();
+//		inactivityTimer.onActivity();
 
 		boolean fromLiveScan = barcode != null;
 		//这里处理解码完成后的结果，此处将参数回传到Activity处理

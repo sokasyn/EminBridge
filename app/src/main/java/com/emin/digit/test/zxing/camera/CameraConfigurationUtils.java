@@ -140,12 +140,9 @@ public final class CameraConfigurationUtils {
 	@SuppressLint("NewApi")
 	public static void setBestPreviewFPS(Camera.Parameters parameters,
 			int minFPS, int maxFPS) {
-		List<int[]> supportedPreviewFpsRanges = parameters
-				.getSupportedPreviewFpsRange();
-		Log.i(TAG, "Supported FPS ranges: "
-				+ toString(supportedPreviewFpsRanges));
-		if (supportedPreviewFpsRanges != null
-				&& !supportedPreviewFpsRanges.isEmpty()) {
+		List<int[]> supportedPreviewFpsRanges = parameters.getSupportedPreviewFpsRange();
+		Log.i(TAG, "Supported FPS ranges: " + toString(supportedPreviewFpsRanges));
+		if (supportedPreviewFpsRanges != null && !supportedPreviewFpsRanges.isEmpty()) {
 			int[] suitableFPSRange = null;
 			for (int[] fpsRange : supportedPreviewFpsRanges) {
 				int thisMin = fpsRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX];
@@ -161,17 +158,12 @@ public final class CameraConfigurationUtils {
 				int[] currentFpsRange = new int[2];
 				parameters.getPreviewFpsRange(currentFpsRange);
 				if (Arrays.equals(currentFpsRange, suitableFPSRange)) {
-					Log.i(TAG,
-							"FPS range already set to "
-									+ Arrays.toString(suitableFPSRange));
+					Log.i(TAG, "FPS range already set to " + Arrays.toString(suitableFPSRange));
 				} else {
-					Log.i(TAG,
-							"Setting FPS range to "
-									+ Arrays.toString(suitableFPSRange));
-					parameters
-							.setPreviewFpsRange(
-									suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
-									suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
+					Log.i(TAG, "Setting FPS range to " + Arrays.toString(suitableFPSRange));
+					parameters.setPreviewFpsRange(
+							suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
+							suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
 				}
 			}
 		}
@@ -219,8 +211,7 @@ public final class CameraConfigurationUtils {
 //	}
 
 	public static void setBarcodeSceneMode(Camera.Parameters parameters) {
-		if (Camera.Parameters.SCENE_MODE_BARCODE.equals(parameters
-				.getSceneMode())) {
+		if (Camera.Parameters.SCENE_MODE_BARCODE.equals(parameters.getSceneMode())) {
 			Log.i(TAG, "Barcode scene mode already set");
 			return;
 		}
@@ -274,8 +265,7 @@ public final class CameraConfigurationUtils {
 	}
 
 	public static void setInvertColor(Camera.Parameters parameters) {
-		if (Camera.Parameters.EFFECT_NEGATIVE.equals(parameters
-				.getColorEffect())) {
+		if (Camera.Parameters.EFFECT_NEGATIVE.equals(parameters.getColorEffect())) {
 			Log.i(TAG, "Negative effect already set");
 			return;
 		}
@@ -287,18 +277,14 @@ public final class CameraConfigurationUtils {
 		}
 	}
 
-	public static Point findBestPreviewSizeValue(Camera.Parameters parameters,
-			Point screenResolution) {
+	public static Point findBestPreviewSizeValue(Camera.Parameters parameters, Point screenResolution) {
 
-		List<Camera.Size> rawSupportedSizes = parameters
-				.getSupportedPreviewSizes();
+		List<Camera.Size> rawSupportedSizes = parameters.getSupportedPreviewSizes();
 		if (rawSupportedSizes == null) {
-			Log.w(TAG,
-					"Device returned no supported preview sizes; using default");
+			Log.w(TAG, "Device returned no supported preview sizes; using default");
 			Camera.Size defaultSize = parameters.getPreviewSize();
 			if (defaultSize == null) {
-				throw new IllegalStateException(
-						"Parameters contained no preview size!");
+				throw new IllegalStateException("Parameters contained no preview size!");
 			}
 			return new Point(defaultSize.width, defaultSize.height);
 		}
@@ -329,10 +315,10 @@ public final class CameraConfigurationUtils {
 						.append(' ');
 			}
 			Log.i(TAG, "Supported preview sizes: " + previewSizesString);
+			//Supported preview sizes: 1280x720 960x720 864x480 640x640 800x480 720x480 768x432 640x480 640x360 480x360 480x320 384x288 352x288 320x240 240x160 176x144 160x120
 		}
 
-		double screenAspectRatio = (double) screenResolution.x
-				/ (double) screenResolution.y;
+		double screenAspectRatio = (double) screenResolution.x / (double) screenResolution.y;
 
 		// Remove sizes that are unsuitable
 		Iterator<Camera.Size> it = supportedPreviewSizes.iterator();
@@ -346,23 +332,18 @@ public final class CameraConfigurationUtils {
 			}
 
 			boolean isCandidatePortrait = realWidth < realHeight;
-			int maybeFlippedWidth = isCandidatePortrait ? realHeight
-					: realWidth;
-			int maybeFlippedHeight = isCandidatePortrait ? realWidth
-					: realHeight;
-			double aspectRatio = (double) maybeFlippedWidth
-					/ (double) maybeFlippedHeight;
+			int maybeFlippedWidth = isCandidatePortrait ? realHeight : realWidth;
+			int maybeFlippedHeight = isCandidatePortrait ? realWidth : realHeight;
+			double aspectRatio = (double) maybeFlippedWidth / (double) maybeFlippedHeight;
 			double distortion = Math.abs(aspectRatio - screenAspectRatio);
 			if (distortion > MAX_ASPECT_DISTORTION) {
 				it.remove();
 				continue;
 			}
 
-			if (maybeFlippedWidth == screenResolution.x
-					&& maybeFlippedHeight == screenResolution.y) {
+			if (maybeFlippedWidth == screenResolution.x && maybeFlippedHeight == screenResolution.y) {
 				Point exactPoint = new Point(realWidth, realHeight);
-				Log.i(TAG, "Found preview size exactly matching screen size: "
-						+ exactPoint);
+				Log.i(TAG, "Found preview size exactly matching screen size: " + exactPoint);
 				return exactPoint;
 			}
 		}
