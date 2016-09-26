@@ -364,20 +364,16 @@ public final class CameraConfigurationUtils {
 		// If there is nothing at all suitable, return current preview size
 		Camera.Size defaultPreview = parameters.getPreviewSize();
 		if (defaultPreview == null) {
-			throw new IllegalStateException(
-					"Parameters contained no preview size!");
+			throw new IllegalStateException("Parameters contained no preview size!");
 		}
-		Point defaultSize = new Point(defaultPreview.width,
-				defaultPreview.height);
+		Point defaultSize = new Point(defaultPreview.width, defaultPreview.height);
 		Log.i(TAG, "No suitable preview sizes, using default: " + defaultSize);
 		return defaultSize;
 	}
 
 	private static String findSettableValue(String name,
 			Collection<String> supportedValues, String... desiredValues) {
-		Log.i(TAG,
-				"Requesting " + name + " value from among: "
-						+ Arrays.toString(desiredValues));
+		Log.i(TAG, "Requesting " + name + " value from among: " + Arrays.toString(desiredValues));
 		Log.i(TAG, "Supported " + name + " values: " + supportedValues);
 		if (supportedValues != null) {
 			for (String desiredValue : desiredValues) {
@@ -442,14 +438,10 @@ public final class CameraConfigurationUtils {
 		result.append("TIME=").append(Build.TIME).append('\n');
 		result.append("TYPE=").append(Build.TYPE).append('\n');
 		result.append("USER=").append(Build.USER).append('\n');
-		result.append("VERSION.CODENAME=").append(Build.VERSION.CODENAME)
-				.append('\n');
-		result.append("VERSION.INCREMENTAL=").append(Build.VERSION.INCREMENTAL)
-				.append('\n');
-		result.append("VERSION.RELEASE=").append(Build.VERSION.RELEASE)
-				.append('\n');
-		result.append("VERSION.SDK_INT=").append(Build.VERSION.SDK_INT)
-				.append('\n');
+		result.append("VERSION.CODENAME=").append(Build.VERSION.CODENAME).append('\n');
+		result.append("VERSION.INCREMENTAL=").append(Build.VERSION.INCREMENTAL).append('\n');
+		result.append("VERSION.RELEASE=").append(Build.VERSION.RELEASE).append('\n');
+		result.append("VERSION.SDK_INT=").append(Build.VERSION.SDK_INT).append('\n');
 
 		if (flattenedParams != null) {
 			String[] params = SEMICOLON.split(flattenedParams);
