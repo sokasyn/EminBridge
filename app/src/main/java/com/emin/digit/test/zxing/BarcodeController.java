@@ -134,7 +134,6 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
     }
 
     private void test(){
-
         Button button = new Button(activity);
         activity.addContentView(button,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }

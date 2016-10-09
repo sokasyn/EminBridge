@@ -177,7 +177,7 @@ public final class CaptureActivityHandler extends Handler {
 		}
 
 		// Be absolutely sure we don't send any queued up messages
-		//确保不会发送任何队列消息
+		// 确保不会发送任何队列消息
 		removeMessages(R.id.decode_succeeded);
 		removeMessages(R.id.decode_failed);
 	}
