@@ -62,6 +62,8 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
     private FrameLayout mainView;
 
+    // TODO: 2016/10/9
+
 
     // - - - - - - - - IBarHandler Interface Start - - - - - - - -
     public ViewfinderView getViewfinderView() {
@@ -140,7 +142,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
 
     private void init(){
-        Log.d(TAG," ### Barcode init..");
+        Log.d(TAG," QQQQQQQQ Barcode init..");
 
         // web js传入的div区域测试
         int divHeight = 640;
@@ -167,12 +169,12 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         mainView = new FrameLayout(activity.getApplicationContext());
         mainView.setClipChildren(false);
 //        mainView.setClipBounds();
-        FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, divHeight);
+        FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, divHeight);
+//        FrameLayout.LayoutParams bcLayoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         bcLayoutParams.gravity = Gravity.LEFT|Gravity.TOP;
         bcLayoutParams.leftMargin = 0;//0;
-        bcLayoutParams.topMargin = 200;//200;
-        actFrameLayout.addView(mainView,bcLayoutParams);
+        bcLayoutParams.topMargin = 0;//200;
+        actFrameLayout.addView(mainView,bcLayoutParams);  // add mainView into activity
         mainView.setBackgroundColor(Color.BLUE);
 
         if(surfaceView!= null && surfaceView.getParent() != null) {
@@ -194,6 +196,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         mainView.addView(surfaceView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        mainView.addView(viewfinderView);
+
 
 
         if (hasSurface) {

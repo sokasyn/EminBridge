@@ -197,7 +197,7 @@ public class EMBridge {
             @Override
             public void run() {
 
-                BarcodeController.getInstance().stop();
+//                BarcodeController.getInstance().stop();
                 activity.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN,KeyEvent.KEYCODE_BACK));
             }
         });

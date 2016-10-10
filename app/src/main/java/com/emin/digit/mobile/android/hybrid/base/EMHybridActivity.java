@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.emin.digit.mobile.android.hybrid.EminBridge.R;
 import com.emin.digit.test.MainActivity;
+import com.emin.digit.test.zxing.BarcodeController;
 
 import java.util.LinkedList;
 import java.util.logging.Handler;
@@ -187,6 +188,9 @@ public class EMHybridActivity extends EMBaseActivity {
                 exitAppWhenDoublePressed();
             }
             */
+
+            BarcodeController.getInstance().stop();
+
             // 每个webView对应一个页面
             int count = webViewList.size();
             Log.d(TAG,"webViewList.size():" + count);
