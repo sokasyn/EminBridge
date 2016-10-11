@@ -204,9 +204,26 @@ public class EMBridge {
 
     }
 
+    // TODO: 2016/10/11 测试红点服务
+    // 无回调
+    @JavascriptInterface
+    public void reddotRegister(){
+        ReddotManager.getInstance().register(mWebView);
+    }
 
-    // 测试需要Android context的功能,
-    // TODO: 16/8/4 在使用反射调用时候,webView/context参数的设计
+    // callback为注册的回调方法名
+    @JavascriptInterface
+    public void reddotRegister(String callback){
+        ReddotManager.getInstance().register(mWebView,callback);
+    }
+
+    // 因为没有后台service推送交互，临时在界面js做个方法触发
+    @JavascriptInterface
+    public void pushMessageComing(){
+        Log.d(TAG,"3333 pushMessageComing");
+        ReddotManager.getInstance().reddotCounting();
+    }
+
     @JavascriptInterface
     public void toast(String text){
         new PluginAlert().toast(mContext,text);

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Home Page</title>
+    <script type="text/javascript" charset="utf-8" src="../js/basePlugin.js"></script>
+    <script type="text/javascript">
+
+        // 注册红点服务-todo:注册时,把回调的方法名传递过去
+        (function registerReddotService(){
+            alert("Register reddot service");
+
+            // 测试无回调
+            // EminBridge.reddotRegister();
+
+            // 测试有回调
+            var callback = "registerDone";
+            EminBridge.reddotRegister(callback);
+        }());
+
+        // 注册成功的回调
+        function registerDone(result){
+            console.log("in js 2222:" + result);
+         }
+
+         // 返回上一页
+         function back(){
+            EminBridge.lastWebPage();
+         }
+
+         // 原生层在计算好红点数量后,触发该方法。
+         function receiveReddot(){
+            console.log("receiveReddot");
+            updateReddot();
+         }
+
+         // 更新红点数量(有原生层触发该方法)-执行dbPlugin查询数据
+         function updateReddot(){
+            console.log("js:update reddot");
+            var item = document.getElementById("reddot");
+            item.innerHTML = 2;
+         }
+
+         // 模拟有消息推送过来-原生层执行消息插入数据库操作
+         function messageCome(){
+            EminBridge.pushMessageComing();
+         }
+
+         // 模拟读取新消息,原生层需要通过算法计算红点数量,包括红点所属的层级关系的数量
+         function readMessage(){
+            console.log("js readMessage");
+         }
+
+    </script>
+</head>
+<body>
+<button type="button" onclick="back()">返回</button>
+<br/>
+<br/>
+
+<button type="button" onclick="messageCome()">模拟消息已经进来</button>
+<br/>
+<br/>
+
+<button type="button" onclick="readMessage()">未读消息<span id="reddot">10</span></button>
+<button type="button" onclick="readMessage()">未读消息<span id="reddot1">10</span></button>
+<br/>
+<br/>
+
+</body>
+</html>

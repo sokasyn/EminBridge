@@ -37,7 +37,7 @@ public class EMHybridActivity extends EMBaseActivity {
     //    private FrameLayout rootLayout;
     private FrameLayout containerView;
 
-    private EMHybridWebView mWebView; // 加载HTML页面的WebView
+    private EMHybridWebView mWebView; // 加载HTML页面的WebView,当前webview
     private String mUrl;              // HTML加载页面Url
 
 
@@ -83,11 +83,7 @@ public class EMHybridActivity extends EMBaseActivity {
         webViewList.add(mWebView);
 
         //progressDialog = ProgressDialog.show(this, "标题", "加载中，请稍后……");
-
-        Log.d(TAG,"11111");
         mWebView.loadUrl(url);
-
-        Log.d(TAG,"222222");
         containerView.addView(mWebView);
 
         // 切换动画
@@ -189,7 +185,10 @@ public class EMHybridActivity extends EMBaseActivity {
             }
             */
 
-            BarcodeController.getInstance().stop();
+            // 二维码View加载方式的状态
+            if (BarcodeController.getInstance().isLoaded()){
+                BarcodeController.getInstance().stop();
+            }
 
             // 每个webView对应一个页面
             int count = webViewList.size();
@@ -213,11 +212,9 @@ public class EMHybridActivity extends EMBaseActivity {
                 translate_out.setDetachWallpaper(true);
                 mWebView.setAnimation(translate_out);
 
-
                 webViewList.removeLast();
                 mWebView = webViewList.getLast();
             }
-
             return true;
         }else{
             return super.onKeyDown(keyCode, event);
@@ -253,7 +250,6 @@ public class EMHybridActivity extends EMBaseActivity {
         this.mUrl = url;
     }
 
-
     public ProgressDialog getProgressDialog() {
         return progressDialog;
     }
@@ -263,6 +259,27 @@ public class EMHybridActivity extends EMBaseActivity {
         Log.d(TAG,"= = = = = = EMHybridActivity.this:" + EMHybridActivity.this);
         Log.d(TAG,"= = = = = = webView in Activity initialize:" + mWebView);
         Log.d(TAG,"= = = = = = WebView getContext:" + mWebView.getContext());
+    }
+
+    /**
+     * 更新红点
+     * 触发js方法,让js执行更新界面Item红点
+     *
+     */
+    public void updateReddot(){
+        Log.d(TAG,"11111 updateReddot");
+        if(mWebView.isReddotRegister()){
+            Log.d(TAG,"该webview是已经注册红点服务的");
+            mWebView.post(new Runnable() {
+                @Override
+                public void run() {
+                    String callBackName = "receiveReddot"; // js中的更新红点的方法
+                    String result = "receiveReddot 44444";
+                    mWebView.loadUrl("javascript:" + callBackName + "('" + result + "')");
+                }
+            });
+
+        }
     }
 
 }

@@ -62,8 +62,12 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
     private FrameLayout mainView;
 
-    // TODO: 2016/10/9
+    // TODO: 2016/10/9 测试
+    private boolean isLoaded;
 
+    public boolean isLoaded() {
+        return isLoaded;
+    }
 
     // - - - - - - - - IBarHandler Interface Start - - - - - - - -
     public ViewfinderView getViewfinderView() {
@@ -197,8 +201,6 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
         mainView.addView(viewfinderView,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        mainView.addView(viewfinderView);
 
-
-
         if (hasSurface) {
             // activity在paused时但不会stopped,因此surface仍旧存在；
             // surfaceCreated()不会调用，因此在这里初始化camera
@@ -209,6 +211,8 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
             Log.d(TAG,"222 重置callback，等待surfaceCreated()来初始化camera");
             surfaceHolder.addCallback(this);
         }
+
+        isLoaded = true;
     }
 
     /* 全屏没有问题,设置了区域大小（非全屏)就会出现拉伸的问题
@@ -305,6 +309,7 @@ public class BarcodeController implements SurfaceHolder.Callback,IBarHandler{
 
         FrameLayout layout = (FrameLayout)mainView.getParent();
         layout.removeView(mainView);
+        isLoaded = false;
     }
 
     protected void onDestroy() {

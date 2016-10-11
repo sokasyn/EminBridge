@@ -44,6 +44,8 @@ public class EMHybridWebView extends WebView {
     private FrameLayout mBrowserFrameLayout; // root view
     private FrameLayout mContentView;        // 内容显示区域
 
+    // 红点注册标志
+    private boolean isReddotRegister = false;
 
     // - - - - - - - - - - - 构造方法 - - - - - - - - - - -
     public EMHybridWebView(Context context, AttributeSet attrs) {
@@ -158,8 +160,17 @@ public class EMHybridWebView extends WebView {
         return mProgressBar;
     }
 
-
     public String getUrl() {
         return mUrl;
+    }
+
+    // 红点标志的获取
+    public boolean isReddotRegister() {
+        return isReddotRegister;
+    }
+
+    // 红点标志的设置
+    public void setReddotRegister(boolean reddotRegister) {
+        isReddotRegister = reddotRegister;
     }
 }

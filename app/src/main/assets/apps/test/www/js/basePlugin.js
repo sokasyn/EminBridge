@@ -10,9 +10,21 @@
     // - - - - - - - - DatabasePlugin - - - - - - - -
     var dbPluginName = "com.emin.digit.mobile.android.hybrid.plugin.PluginDatabase";
     var dbPluginObj = {
-        insert : function(sqlString){
+        initDatabase : function(tables){
+            var methodName = "initDatabase";
+            return EminBridge.execSyncPlugin(dbPluginName,methodName,[tables]);
+        },
+        insert : function(sql){
             var methodName = "insert";
-            EminBridge.execSyncPlugin(dbPluginName,methodName,[sqlString]);
+            return EminBridge.execSyncPlugin(dbPluginName,methodName,[sql]);
+        },
+        query : function(sql){
+            var methodName = "query";
+            return EminBridge.execSyncPlugin(dbPluginName,methodName,[sql]);
+        },
+        executeSql : function(sql){
+            var methodName = "query";
+            return EminBridge.execSyncPlugin(dbPluginName,methodName,[sql]);
         }
     };
     window.EminBridge.dbPlugin = dbPluginObj;

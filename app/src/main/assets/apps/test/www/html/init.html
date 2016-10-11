@@ -78,6 +78,13 @@
             EminBridge.loadWebPage(localRelativeUrl);  // 采用EminBridge封装的方法,如果用相对路劲,需要在框架中拼接完整
          }
 
+
+         // 测试红点
+         function testReddot(){
+            var url = "reddot.html";
+            EminBridge.loadWebPage(url);
+         }
+
          // = = = = = = = = = = = 辅助测试方法
          function printChildren(obj){
             if(debug){
@@ -135,6 +142,12 @@
 <button type="button" id="btnBarcode" onclick="startBarcode()">测试二维码扫描</button>
 <br/>
 <br/>
+
+
+<button type="button" id="btnReddot" onclick="testReddot()">测试红点</button>
+<br/>
+<br/>
+
 
 <button type="button" id="btnToUser" onclick="toUserPage()">用户界面</button>
 
